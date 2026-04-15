@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LSAV Powerhouse — Livewire Card Interaction · Dev Handoff</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+
+<style>
+
+/* ============================================================
+   DEV HANDOFF — LSAV POWERHOUSE LIVEWIRE
+   Card hover interaction · Desktop + Mobile
+   Prepared by: The Main Sequence LLC
+   ============================================================
+
+   OVERVIEW
+   --------
+   Each article card has two layers:
+     1. CONTENT (always visible): thumbnail + title + read time
+     2. CHROME (hover only): card background, category-color border,
+        lift transform, box-shadow, and "Explore →" CTA
+
+   On touch/mobile (@media hover:none), chrome is always visible
+   since there is no hover state. CTA is also always visible.
+
+   FONTS
+   -----
+   Poppins 600 (semibold) — article titles, CTA
+   Load via: fonts.googleapis.com/css2?family=Poppins:wght@600
+   Fallback: Arial, sans-serif
+
+   Note: Calibri (24px regular, #333333) is specified in the brand
+   guide for body copy. Use for section description paragraphs (.ph-desc)
+   in the live implementation. Calibri is a system font on Windows;
+   consider a web-safe fallback (Georgia, or a hosted alternative)
+   for cross-platform consistency.
+
+   CATEGORY ACCENT COLORS
+   ----------------------
+   Corporate Event Production   #74C044
+   AV & Technical Excellence    #F68A20
+   Tradeshow & Exhibit Strategy #00827E
+   Event Marketing & Engagement #359044
+   Emerging Event Technology    #C44728
+
+   Primary brand colors: #ffffff, #000000, #00AEEF
+
+   THUMBNAIL SPEC
+   --------------
+   Full-size: 360 × 210px (WordPress custom image size)
+   Aspect ratio: 12:7 (~1.71:1)
+   Recommend registering via add_image_size() in functions.php
+   and outputting via the_post_thumbnail() with that size slug.
+
+   READ TIME
+   ---------
+   Use a WordPress reading time plugin (e.g. "Reading Time WP"
+   or Yoast SEO's built-in estimate) to output dynamically.
+   Target format: "X min read"
+
+   MOBILE BREAKPOINT
+   -----------------
+   Use @media (hover: none) rather than a px-width breakpoint.
+   This correctly targets touch devices regardless of screen size
+   (e.g. iPad at 1024px still gets touch behavior).
+   Thumbnail scales to 100 × ~70px on mobile.
+
+   ELEMENTOR NOTES
+   ---------------
+   - Add custom CSS via Elementor > Site Settings > Custom CSS
+     or per-widget via the widget's Advanced > Custom CSS panel.
+   - The .ph-card selector maps to the post list item wrapper.
+   - The .ph-cta element can be added as a Button widget set to
+     display:none by default, then revealed via CSS on :hover of
+     the parent card wrapper.
+   - Alternatively, use Elementor's Motion Effects > Mouse Track
+     is NOT recommended here — pure CSS transitions are more
+     performant and reliable for this effect.
+
+   ============================================================ */
+
+
+/* ===================
+   RESET & BASE
+   =================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #000000;
+  padding: 3rem 2.5rem;
+  font-family: Arial, sans-serif; /* replace with Calibri stack in production */
+  min-height: 100vh;
+}
+
+
+/* ===================
+   SECTION LAYOUT
+   =================== */
+
+.ph-section {
+  margin-bottom: 3rem;
+}
+
+/* Category label — Poppins 600, category accent color */
+.ph-cat {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  /* color set per-category via .cat-* class */
+}
+
+/* Section description — spec: 24px Calibri regular #333333
+   Shown here at a scaled size for the list context. */
+.ph-desc {
+  font-size: 12px;
+  color: #555555;
+  line-height: 1.55;
+  max-width: 560px;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 0.5px solid #1a1a1a;
+}
+
+.ph-divider {
+  height: 0.5px;
+  background: #141414;
+  margin: 0 0 3rem;
+}
+
+
+/* ===================
+   CARD — BASE STATE
+   (content visible, chrome hidden)
+   =================== */
+
+.ph-card {
+  display: flex;
+  align-items: stretch;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  overflow: hidden;
+  position: relative;
+
+  /* Chrome hidden at rest */
+  border: 0.5px solid transparent;
+  background: transparent;
+
+  /* Transition all chrome properties */
+  transition:
+    border-color 0.22s ease,
+    background   0.22s ease,
+    box-shadow   0.22s ease,
+    transform    0.22s ease;
+}
+
+
+/* ===================
+   CARD — HOVER STATE
+   (chrome revealed)
+   =================== */
+
+.ph-card:hover {
+  border-color: var(--cat-color);   /* category accent */
+  background: #111111;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7);
+  transform: translateY(-2px);      /* lift */
+}
+
+
+/* ===================
+   THUMBNAIL
+   Full size: 360×210px
+   Scaled here to 160×93px (same ratio)
+   =================== */
+
+.ph-thumb {
+  width: 160px;
+  min-width: 160px;
+  height: 93px;
+  align-self: center;
+  margin: 10px 0 10px 10px;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ph-thumb-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Placeholder background — replace with featured image in WP */
+}
+
+.ph-thumb svg {
+  opacity: 0.3;
+  width: 28px;
+  height: 28px;
+}
+
+
+/* ===================
+   CARD BODY
+   =================== */
+
+.ph-body {
+  flex: 1;
+  padding: 14px 14px 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ph-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+/* Article title — Poppins 600 */
+.ph-title {
+  color: #cccccc;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  font-family: 'Poppins', Arial, sans-serif;
+  transition: color 0.2s ease;
+}
+
+.ph-card:hover .ph-title {
+  color: #f0f0f0;
+}
+
+/* Read time — Calibri regular in production */
+.ph-meta {
+  font-size: 10px;
+  color: #444444;
+  letter-spacing: 0.04em;
+  transition: color 0.2s ease;
+}
+
+.ph-card:hover .ph-meta {
+  color: #666666;
+}
+
+
+/* ===================
+   CTA — "Explore →"
+   Hidden at rest, revealed on hover
+   Slides up from 4px below
+   =================== */
+
+.ph-cta {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  font-family: 'Poppins', Arial, sans-serif;
+  color: var(--cat-color);
+
+  /* Hidden at rest */
+  opacity: 0;
+  transform: translateY(4px);
+
+  /* Slight delay so it appears after card chrome */
+  transition:
+    opacity   0.18s ease 0.06s,
+    transform 0.18s ease 0.06s;
+}
+
+.ph-card:hover .ph-cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* ===================
+   VIEW ALL LINK
+   =================== */
+
+.ph-viewall {
+  display: inline-block;
+  margin-top: 0.85rem;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #2a2a2a;
+  text-decoration: none;
+  border-bottom: 0.5px solid #1e1e1e;
+  padding-bottom: 2px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+
+/* ===================
+   CATEGORY THEMES
+   CSS custom property --cat-color drives:
+     - card border on hover
+     - CTA text color
+     - thumbnail placeholder tint
+     - section label color
+     - view all hover color
+   =================== */
+
+/* Corporate Event Production */
+.cat-corp { --cat-color: #74C044; }
+.cat-corp .ph-cat       { color: #74C044; }
+.cat-corp .ph-thumb-inner { background: linear-gradient(135deg, #0d1a08, #1a3010); }
+.cat-corp .ph-viewall:hover { color: #74C044; border-color: #74C044; }
+
+/* AV & Technical Excellence */
+.cat-av { --cat-color: #F68A20; }
+.cat-av .ph-cat         { color: #F68A20; }
+.cat-av .ph-thumb-inner { background: linear-gradient(135deg, #1a1005, #2e1d08); }
+.cat-av .ph-viewall:hover { color: #F68A20; border-color: #F68A20; }
+
+/* Tradeshow & Exhibit Strategy */
+.cat-trade { --cat-color: #00827E; }
+.cat-trade .ph-cat         { color: #00827E; }
+.cat-trade .ph-thumb-inner { background: linear-gradient(135deg, #041414, #082020); }
+.cat-trade .ph-viewall:hover { color: #00827E; border-color: #00827E; }
+
+/* Event Marketing & Engagement */
+.cat-mktg { --cat-color: #359044; }
+.cat-mktg .ph-cat         { color: #359044; }
+.cat-mktg .ph-thumb-inner { background: linear-gradient(135deg, #081408, #102010); }
+.cat-mktg .ph-viewall:hover { color: #359044; border-color: #359044; }
+
+/* Emerging Event Technology */
+.cat-tech { --cat-color: #C44728; }
+.cat-tech .ph-cat         { color: #C44728; }
+.cat-tech .ph-thumb-inner { background: linear-gradient(135deg, #1a0805, #2a1008); }
+.cat-tech .ph-viewall:hover { color: #C44728; border-color: #C44728; }
+
+
+/* ===================
+   MOBILE / TOUCH
+   @media (hover: none) targets touch devices correctly
+   regardless of screen width (covers iPads, etc.)
+   =================== */
+
+@media (hover: none), (max-width: 640px) {
+
+  /* Show card chrome at all times — no hover to trigger it */
+  .ph-card {
+    border-color: #1e1e1e;
+    background: #111111;
+  }
+
+  /* CTA always visible */
+  .ph-cta {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Suppress lift on touch — can feel laggy */
+  .ph-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Tap feedback via :active */
+  .ph-card:active {
+    opacity: 0.85;
+  }
+
+  /* Scale thumbnail down proportionally */
+  .ph-thumb {
+    width: 100px;
+    min-width: 100px;
+    height: 70px;
+    margin: 8px 0 8px 8px;
+  }
+
+  .ph-title {
+    font-size: 12px;
+  }
+
+}
+
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     SECTION: CORPORATE EVENT PRODUCTION
+     Category color: #74C044
+     ============================================================ -->
+<div class="ph-section cat-corp">
+
+  <p class="ph-cat">Corporate event production</p>
+  <p class="ph-desc">Strategy meets execution. From leadership summits to large-scale conferences, designed to align teams and deliver seamless, high-impact experiences.</p>
+
+  <!-- CARD STRUCTURE:
+       .ph-card          — anchor tag, hover target
+         .ph-thumb       — thumbnail wrapper (160×93px, ratio 12:7)
+           .ph-thumb-inner — image or placeholder bg
+         .ph-body        — right column
+           .ph-left      — stacked: title / meta / cta
+             .ph-title   — article title (Poppins 600)
+             .ph-meta    — "X min read"
+             .ph-cta     — "Explore →" (hidden until hover)
+  -->
+
+  <a class="ph-card" href="#">
+    <div class="ph-thumb">
+      <div class="ph-thumb-inner">
+        <!-- Replace with: <?php the_post_thumbnail('livewire-thumb'); ?> -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="#74C044" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/><circle cx="8" cy="14" r="1.5"/><path d="M13 14h4M13 17h2"/></svg>
+      </div>
+    </div>
+    <div class="ph-body">
+      <div class="ph-left">
+        <span class="ph-title">What Factors Should I Consider When Selecting a Venue for My Event?</span>
+        <span class="ph-meta">5 min read</span>
+        <span class="ph-cta">Explore →</span>
+      </div>
+    </div>
+  </a>
+
+  <a class="ph-card" href="#">
+    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#74C044" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/><circle cx="8" cy="14" r="1.5"/><path d="M13 14h4M13 17h2"/></svg></div></div>
+    <div class="ph-body"><div class="ph-left"><span class="ph-title">How to Select the Right Venue & Talent for a Corporate Event</span><span class="ph-meta">7 min read</span><span class="ph-cta">Explore →</span></div></div>
+  </a>
+
+  <a class="ph-card" href="#">
+    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#74C044" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/><circle cx="8" cy="14" r="1.5"/><path d="M13 14h4M13 17h2"/></svg></div></div>
+    <div class="ph-body"><div class="ph-left"><span class="ph-title">How to Make an Optimal Learning Environment for Your Next Event</span><span class="ph-meta">4 min read</span><span class="ph-cta">Explore →</span></div></div>
+  </a>
+
+  <a class="ph-card" href="#">
+    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#74C044" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/><circle cx="8" cy="14" r="1.5"/><path d="M13 14h4M13 17h2"/></svg></div></div>
+    <div class="ph-body"><div class="ph-left"><span class="ph-title">Creating Memorable Multi-Sensory Experiences at Your Meeting</span><span class="ph-meta">6 min read</span><span class="ph-cta">Explore →</span></div></div>
+  </a>
+
+  <a class="ph-viewall" href="#">View all</a>
+</div>
+
+<div class="ph-divider"></div>
+
+<!-- ============================================================
+     SECTION: AV & TECHNICAL EXCELLENCE
+     Category color: #F68A20
+     ============================================================ -->
+<div class="ph-section cat-av">
+
+  <p class="ph-cat">AV & technical excellence</p>
+  <p class="ph-desc">Precision and performance — crystal-clear audio, dynamic visuals, and lighting that creates a polished, immersive environment.</p>
+
+  <a class="ph-card" href="#">
+    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#F68A20" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M2 12h3M19 12h3M12 2v3M12 19v3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></div></div>
+    <div class="ph-body"><div class="ph-left"><span class="ph-title">How Can I Create an Engaging Stage Setup for a Corporate Conference?</span><span class="ph-meta">6 min read</span><span class="ph-cta">Explore →</span></div></div>
+  </a>
+
+  <a class="ph-card" href="#">
+    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#F68A20" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M2 12h3M19 12h3M12 2v3M12 19v3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></div></div>
+    <div class="ph-body"><div class="ph-left"><span class="ph-title">How Can I Ensure Seamless Audio Quality for a Live Performance?</span><span class="ph-meta">5 min read</span><span class="ph-cta">Explore →</span></div></div>
+  </a>
+
+  <a class="ph-card" href="#">
+    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#F68A20" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M2 12h3M19 12h3M12 2v3M12 19v3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></div></div>
+    <div class="ph-body"><div class="ph-left"><span class="ph-title">How Do I Choose the Right AV Equipment for My Event?</span><span class="ph-meta">8 min read</span><span class="ph-cta">Explore →</span></div></div>
+  </a>
+
+  <a class="ph-card" href="#">
+    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#F68A20" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M2 12h3M19 12h3M12 2v3M12 19v3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></div></div>
+    <div class="ph-body"><div class="ph-left"><span class="ph-title">How to Amp Up Your Event Experience with Digital Signage</span><span class="ph-meta">4 min read</span><span class="ph-cta">Explore →</span></div></div>
+  </a>
+
+  <a class="ph-viewall" href="#">View all</a>
+</div>
+
+<div class="ph-divider"></div>
+
+<!-- ============================================================
+     SECTION: TRADESHOW & EXHIBIT STRATEGY
+     Category color: #00827E
+     ============================================================ -->
+<div class="ph-section cat-trade">
+
+  <p class="ph-cat">Tradeshow & exhibit strategy</p>
+  <p class="ph-desc">Brand presence into experience. Strategic design and interactive environments that become powerful tools for engagement, storytelling, and measurable ROI.</p>
+
+  <a class="ph-card" href="#">
+    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#00827E" stroke-width="1.5"><path d="M3 21V8l9-5 9 5v13M9 21v-8h6v8M3 8h18"/></svg></div></div>
+    <div class="ph-body"><div class="ph-left"><span class="ph-title">Why Warehouses Are the Ultimate Canvas for Unforgettable Events</span><span class="ph-meta">5 min read</span><span class="ph-cta">Explore →</span></div></div>
+  </a>
+
+  <a class="ph-card" href="#">
+    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#00827E" stroke-width="1.5"><path d="M3 21V8l9-5 9 5v13M9 21v-8h6v8M3 8h18"/></svg></div></div>
+    <div class="ph-body"><div class="ph-left"><span class="ph-title">Rethinking the Venue: Why Non-Traditional Spaces Are Driving Modern Events</span><span class="ph-meta">7 min read</span><span class="ph-cta">Explore →</span></div></div>
+  </a>
+
+  <a class="ph-card" href="#">
+    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#00827E" stroke-width="1.5"><path d="M3 21V8l9-5 9 5v13M9 21v-8h6v8M3 8h18"/></svg></div></div>
+    <div class="ph-body"><div class="ph-left"><span class="ph-title">8 Ways to Source the Right Speakers and Talent for Your Event</span><span class="ph-meta">6 min read</span><span class="ph-cta">Explore →</span></div></div>
+  </a>
+
+  <a class="ph-card" href="#">
+    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#00827E" stroke-width="1.5"><path d="M3 21V8l9-5 9 5v13M9 21v-8h6v8M3 8h18"/></svg></div></div>
+    <div class="ph-body"><div class="ph-left"><span class="ph-title">3 Reasons to Embed Experiences Within Your Next Event</span><span class="ph-meta">3 min read</span><span class="ph-cta">Explore →</span></div></div>
+  </a>
+
+  <a class="ph-viewall" href="#">View all</a>
+</div>
+
+<div class="ph-divider"></div>
+
+<!-- ============================================================
+     SECTION: EVENT MARKETING & ENGAGEMENT
+     Category color: #359044
+     ============================================================ -->
+<div class="ph-section cat-mktg">
+
+  <p class="ph-cat">Event marketing & engagement</p>
+  <p class="ph-desc">Extending the experience beyond the stage — building anticipation, driving participation, and sustaining engagement before, during, and after.</p>
+
+  <a class="ph-card" href="#">
+    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#359044" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div></div>
+    <div class="ph-body"><div class="ph-left"><span class="ph-title">How to Engage the Next Generation of B2B Event Attendees</span><span class="ph-meta">6 min read</span><span class="ph-cta">Explore →</span></div></div>
+  </a>
+
+  <a class="ph-card" href="#">
+    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#359044" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div></div>
+    <div class="ph-body"><div class="ph-left"><span class="ph-title">Designing the Attendee Journey: How to Maximize Event Engagement Start to Finish</span><span class="ph-meta">8 min read</span><span class="ph-cta">Explore →</span></div></div>
+  </a>
+
+  <a class="ph-card" href="#">
+    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#359044" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div></div>
+    <div class="ph-body"><div class="ph-left"><span class="ph-title">How Can I Leverage Social Media to Promote My Event?</span><span class="ph-meta">5 min read</span><span class="ph-cta">Explore →</span></div></div>
+  </a>
+
+  <a class="ph-card" href="#">
+    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#359044" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div></div>
+    <div class="ph-body"><div class="ph-left"><span class="ph-title">15 Ways to Personalize Your Event for Stronger Attendee Engagement</span><span class="ph-meta">9 min read</span><span class="ph-cta">Explore →</span></div></div>
+  </a>
+
+  <a class="ph-viewall" href="#">View all</a>
+</div>
+
+<div class="ph-divider"></div>
+
+<!-- ============================================================
+     SECTION: EMERGING EVENT TECHNOLOGY
+     Category color: #C44728
+     ============================================================ -->
+<div class="ph-section cat-tech">
+
+  <p class="ph-cat">Emerging event technology</p>
+  <p class="ph-desc">Redefining how audiences connect and engage. From AI to immersive experiences, innovation enhances personalization, expands reach, and elevates the modern corporate event.</p>
+
+  <a class="ph-card" href="#">
+    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#C44728" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4M7 8h.01M12 8h.01M17 8h.01M7 12h10"/></svg></div></div>
+    <div class="ph-body"><div class="ph-left"><span class="ph-title">How AI Is Changing the Way We Design and Deliver Corporate Events</span><span class="ph-meta">7 min read</span><span class="ph-cta">Explore →</span></div></div>
+  </a>
+
+  <a class="ph-card" href="#">
+    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#C44728" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4M7 8h.01M12 8h.01M17 8h.01M7 12h10"/></svg></div></div>
+    <div class="ph-body"><div class="ph-left"><span class="ph-title">The Case for Hybrid: Blending Live and Virtual Experiences</span><span class="ph-meta">6 min read</span><span class="ph-cta">Explore →</span></div></div>
+  </a>
+
+  <a class="ph-viewall" href="#">View all</a>
+</div>
+
+</body>
+</html>
