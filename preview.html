@@ -175,10 +175,10 @@ body {
   transition: color 0.2s ease;
 }
 
-/* Read time — 24px Calibri regular, #333333 */
+/* Read time */
 .ph-meta {
   font-family: 'Calibri', Georgia, serif;
-  font-size: 24px;
+  font-size: 11px;
   font-weight: 400;
   color: #333333;
   opacity: 0.55;
@@ -193,12 +193,11 @@ body {
 
 /* ===================
    CTA — "Explore →"
-   24px Poppins semibold, #231F20 tinted to category color on hover
    Hidden at rest, revealed on hover
    =================== */
 
 .ph-cta {
-  font-size: 24px;
+  font-size: 11px;
   font-weight: 600;
   font-family: 'Poppins', Arial, sans-serif;
   color: var(--cat-color);
@@ -224,6 +223,7 @@ body {
 .ph-viewall {
   display: inline-block;
   margin-top: 1rem;
+  margin-left: 12px;
   font-family: 'Poppins', Arial, sans-serif;
   font-size: 14px;
   font-weight: 600;
@@ -236,6 +236,11 @@ body {
   transition: color 0.15s ease, border-color 0.15s ease;
 }
 
+.ph-viewall:hover {
+  color: #00AEEF;
+  border-color: #00AEEF;
+}
+
 
 /* ===================
    CATEGORY THEMES
@@ -245,31 +250,26 @@ body {
 .cat-corp { --cat-color: #74C044; }
 .cat-corp .ph-cat         { color: #74C044; }
 .cat-corp .ph-thumb-inner { background: linear-gradient(135deg, #d4edbd, #b8e09a); }
-.cat-corp .ph-viewall:hover { color: #74C044; border-color: #74C044; }
 
 /* AV & Technical Excellence */
 .cat-av { --cat-color: #F68A20; }
 .cat-av .ph-cat           { color: #F68A20; }
 .cat-av .ph-thumb-inner   { background: linear-gradient(135deg, #fde8c8, #fcd5a0); }
-.cat-av .ph-viewall:hover { color: #F68A20; border-color: #F68A20; }
 
 /* Tradeshow & Exhibit Strategy */
 .cat-trade { --cat-color: #00827E; }
 .cat-trade .ph-cat         { color: #00827E; }
 .cat-trade .ph-thumb-inner { background: linear-gradient(135deg, #b2d8d6, #85c4c2); }
-.cat-trade .ph-viewall:hover { color: #00827E; border-color: #00827E; }
 
 /* Event Marketing & Engagement */
 .cat-mktg { --cat-color: #359044; }
 .cat-mktg .ph-cat         { color: #359044; }
 .cat-mktg .ph-thumb-inner { background: linear-gradient(135deg, #c2e0c6, #a0d0a8); }
-.cat-mktg .ph-viewall:hover { color: #359044; border-color: #359044; }
 
 /* Emerging Event Technology */
 .cat-tech { --cat-color: #C44728; }
 .cat-tech .ph-cat         { color: #C44728; }
 .cat-tech .ph-thumb-inner { background: linear-gradient(135deg, #f2c4bb, #eba898); }
-.cat-tech .ph-viewall:hover { color: #C44728; border-color: #C44728; }
 
 
 /* ===================
