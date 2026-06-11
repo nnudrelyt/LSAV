@@ -3,587 +3,662 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LSAV Powerhouse — Livewire Card Interaction · Dev Handoff</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
-
+<title>Case Studies — LSAV Powerhouse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
 <style>
-
-/* ============================================================
-   DEV HANDOFF — LSAV POWERHOUSE LIVEWIRE
-   Card hover interaction · Desktop + Mobile
-   Prepared by: The Main Sequence LLC
-   ============================================================
-
-   OVERVIEW
-   --------
-   Each article card has two layers:
-     1. CONTENT (always visible): thumbnail + title + read time
-     2. CHROME (hover only): card background, category-color border,
-        lift transform, box-shadow, and "Explore →" CTA
-
-   On touch/mobile (@media hover:none), chrome is always visible
-   since there is no hover state. CTA is also always visible.
-
-   FONTS
-   -----
-   Poppins 600 (semibold) — article titles, CTA
-   Load via: fonts.googleapis.com/css2?family=Poppins:wght@600
-   Fallback: Arial, sans-serif
-
-   Note: Calibri (24px regular, #333333) is specified in the brand
-   guide for body copy. Use for section description paragraphs (.ph-desc)
-   in the live implementation. Calibri is a system font on Windows;
-   consider a web-safe fallback (Georgia, or a hosted alternative)
-   for cross-platform consistency.
-
-   CATEGORY ACCENT COLORS
-   ----------------------
-   Corporate Event Production   #74C044
-   AV & Technical Excellence    #F68A20
-   Tradeshow & Exhibit Strategy #00827E
-   Event Marketing & Engagement #359044
-   Emerging Event Technology    #C44728
-
-   Primary brand colors: #ffffff, #000000, #00AEEF
-
-   THUMBNAIL SPEC
-   --------------
-   Full-size: 360 × 210px (WordPress custom image size)
-   Aspect ratio: 12:7 (~1.71:1)
-   Recommend registering via add_image_size() in functions.php
-   and outputting via the_post_thumbnail() with that size slug.
-
-   READ TIME
-   ---------
-   Use a WordPress reading time plugin (e.g. "Reading Time WP"
-   or Yoast SEO's built-in estimate) to output dynamically.
-   Target format: "X min read"
-
-   MOBILE BREAKPOINT
-   -----------------
-   Use @media (hover: none) rather than a px-width breakpoint.
-   This correctly targets touch devices regardless of screen size
-   (e.g. iPad at 1024px still gets touch behavior).
-   Thumbnail scales to 100 × ~70px on mobile.
-
-   ELEMENTOR NOTES
-   ---------------
-   - Add custom CSS via Elementor > Site Settings > Custom CSS
-     or per-widget via the widget's Advanced > Custom CSS panel.
-   - The .ph-card selector maps to the post list item wrapper.
-   - The .ph-cta element can be added as a Button widget set to
-     display:none by default, then revealed via CSS on :hover of
-     the parent card wrapper.
-   - Alternatively, use Elementor's Motion Effects > Mouse Track
-     is NOT recommended here — pure CSS transitions are more
-     performant and reliable for this effect.
-
-   ============================================================ */
-
-
-/* ===================
-   RESET & BASE
-   =================== */
-
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  background: #000000;
-  padding: 3rem 2.5rem;
-  font-family: Arial, sans-serif; /* replace with Calibri stack in production */
-  min-height: 100vh;
-}
-
-.ph-col {
-  max-width: 988px;
-  margin: 0 auto;
-}
-
-
-/* ===================
-   SECTION LAYOUT
-   =================== */
-
-.ph-section {
-  margin-bottom: 3rem;
-}
-
-/* Category label — Poppins 600, category accent color */
-.ph-cat {
-  font-family: 'Poppins', Arial, sans-serif;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  font-weight: 600;
-  margin-bottom: 0.35rem;
-  /* color set per-category via .cat-* class */
-}
-
-/* Section description — spec: 24px Calibri regular #333333
-   Shown here at a scaled size for the list context. */
-.ph-desc {
-  font-size: 12px;
-  color: #555555;
-  line-height: 1.55;
-  max-width: 560px;
-  margin-bottom: 1.25rem;
-  padding-bottom: 1rem;
-  border-bottom: 0.5px solid #1a1a1a;
-}
-
-.ph-divider {
-  height: 0.5px;
-  background: #141414;
-  margin: 0 0 3rem;
-}
-
-
-/* ===================
-   CARD — BASE STATE
-   (content visible, chrome hidden)
-   =================== */
-
-.ph-card {
-  display: flex;
-  align-items: stretch;
-  border-radius: 6px;
-  margin-bottom: 6px;
-  cursor: pointer;
-  text-decoration: none;
-  overflow: hidden;
-  position: relative;
-
-  /* Chrome hidden at rest */
-  border: 0.5px solid transparent;
-  background: transparent;
-
-  /* Transition all chrome properties */
-  transition:
-    border-color 0.22s ease,
-    background   0.22s ease,
-    box-shadow   0.22s ease,
-    transform    0.22s ease;
-}
-
-
-/* ===================
-   CARD — HOVER STATE
-   (chrome revealed)
-   =================== */
-
-.ph-card:hover {
-  border-color: var(--cat-color);   /* category accent */
-  background: #111111;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7);
-  transform: translateY(-2px);      /* lift */
-}
-
-
-/* ===================
-   THUMBNAIL
-   Full size: 360×210px
-   Scaled here to 160×93px (same ratio)
-   =================== */
-
-.ph-thumb {
-  width: 160px;
-  min-width: 160px;
-  height: 93px;
-  align-self: center;
-  margin: 10px 0 10px 10px;
-  border-radius: 4px;
-  overflow: hidden;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ph-thumb-inner {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Placeholder background — replace with featured image in WP */
-}
-
-.ph-thumb svg {
-  opacity: 0.3;
-  width: 28px;
-  height: 28px;
-}
-
-
-/* ===================
-   CARD BODY
-   =================== */
-
-.ph-body {
-  flex: 1;
-  padding: 14px 14px 14px 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.ph-left {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
-}
-
-/* Article title — Poppins 600 */
-.ph-title {
-  color: #cccccc;
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 1.4;
-  font-family: 'Poppins', Arial, sans-serif;
-  transition: color 0.2s ease;
-}
-
-.ph-card:hover .ph-title {
-  color: #f0f0f0;
-}
-
-/* Read time — Calibri regular in production */
-.ph-meta {
-  font-size: 10px;
-  color: #444444;
-  letter-spacing: 0.04em;
-  transition: color 0.2s ease;
-}
-
-.ph-card:hover .ph-meta {
-  color: #666666;
-}
-
-
-/* ===================
-   CTA — "Explore →"
-   Hidden at rest, revealed on hover
-   Slides up from 4px below
-   =================== */
-
-.ph-cta {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  font-family: 'Poppins', Arial, sans-serif;
-  color: var(--cat-color);
-
-  /* Hidden at rest */
-  opacity: 0;
-  transform: translateY(4px);
-
-  /* Slight delay so it appears after card chrome */
-  transition:
-    opacity   0.18s ease 0.06s,
-    transform 0.18s ease 0.06s;
-}
-
-.ph-card:hover .ph-cta {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-
-/* ===================
-   VIEW ALL LINK
-   =================== */
-
-.ph-viewall {
-  display: inline-block;
-  margin-top: 0.85rem;
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #2a2a2a;
-  text-decoration: none;
-  border-bottom: 0.5px solid #1e1e1e;
-  padding-bottom: 2px;
-  transition: color 0.15s ease, border-color 0.15s ease;
-}
-
-
-/* ===================
-   CATEGORY THEMES
-   CSS custom property --cat-color drives:
-     - card border on hover
-     - CTA text color
-     - thumbnail placeholder tint
-     - section label color
-     - view all hover color
-   =================== */
-
-/* Corporate Event Production */
-.cat-corp { --cat-color: #74C044; }
-.cat-corp .ph-cat       { color: #74C044; }
-.cat-corp .ph-thumb-inner { background: linear-gradient(135deg, #0d1a08, #1a3010); }
-.cat-corp .ph-viewall:hover { color: #74C044; border-color: #74C044; }
-
-/* AV & Technical Excellence */
-.cat-av { --cat-color: #F68A20; }
-.cat-av .ph-cat         { color: #F68A20; }
-.cat-av .ph-thumb-inner { background: linear-gradient(135deg, #1a1005, #2e1d08); }
-.cat-av .ph-viewall:hover { color: #F68A20; border-color: #F68A20; }
-
-/* Tradeshow & Exhibit Strategy */
-.cat-trade { --cat-color: #00827E; }
-.cat-trade .ph-cat         { color: #00827E; }
-.cat-trade .ph-thumb-inner { background: linear-gradient(135deg, #041414, #082020); }
-.cat-trade .ph-viewall:hover { color: #00827E; border-color: #00827E; }
-
-/* Event Marketing & Engagement */
-.cat-mktg { --cat-color: #359044; }
-.cat-mktg .ph-cat         { color: #359044; }
-.cat-mktg .ph-thumb-inner { background: linear-gradient(135deg, #081408, #102010); }
-.cat-mktg .ph-viewall:hover { color: #359044; border-color: #359044; }
-
-/* Emerging Event Technology */
-.cat-tech { --cat-color: #C44728; }
-.cat-tech .ph-cat         { color: #C44728; }
-.cat-tech .ph-thumb-inner { background: linear-gradient(135deg, #1a0805, #2a1008); }
-.cat-tech .ph-viewall:hover { color: #C44728; border-color: #C44728; }
-
-
-/* ===================
-   MOBILE / TOUCH
-   @media (hover: none) targets touch devices correctly
-   regardless of screen width (covers iPads, etc.)
-   =================== */
-
-@media (hover: none), (max-width: 640px) {
-
-  /* Show card chrome at all times — no hover to trigger it */
-  .ph-card {
-    border-color: #1e1e1e;
-    background: #111111;
+  :root {
+    --dark: #231F20;
+    --near-black: #1A1718;
+    --cyan: #00AEEF;
+    --white: #FFFFFF;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: Calibri, Carlito, "Segoe UI", sans-serif;
+    background: var(--white);
+    color: #000;
+  }
+  img { display: block; }
+  a { text-decoration: none; }
+
+  .skip-link {
+    position: absolute; left: -9999px; top: 0;
+    background: var(--cyan); color: #fff; padding: 12px 24px;
+    font-family: Poppins, sans-serif; font-weight: 600; z-index: 100;
+  }
+  .skip-link:focus { left: 0; }
+
+  /* ---------- Header ---------- */
+  .site-header {
+    position: absolute; top: 0; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 23px 47px; z-index: 10;
+  }
+  .site-header .logo img { height: 34px; width: auto; max-width: 70vw; object-fit: contain; object-position: left; }
+  .site-header .menu-toggle {
+    background: none; border: 0; cursor: pointer; padding: 8px;
+  }
+  .site-header .menu-toggle img { height: 24px; width: auto; }
+
+  /* ---------- Buttons ----------
+     Recreated from lsav.tv footer (Elementor .elementor-element-bd6ab62, post-1407.css).
+     Cyan slab (::after) parked off-canvas left; on hover it floods the button,
+     the arrow flies right and the label slides left. 200ms ease-in-out. */
+  .lsav-btn, .lsav-btn::after, .lsav-btn img, .lsav-btn p { box-sizing: border-box; }
+  .lsav-btn {
+    position: relative;
+    display: block;
+    width: 230px;
+    padding: 25px 0 28px 90px;
+    border: 2px solid #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    text-decoration: none;
+    /* no base transition: hover-out snaps, so all visible motion is forward (L->R) */
+  }
+  .lsav-btn::after {
+    content: '';
+    position: absolute;
+    width: 240px;
+    height: 100%;
+    left: -180px;
+    top: 0;
+    z-index: 1;
+    background-color: #29ABE2;
+  }
+  .lsav-btn img {
+    width: 30px;
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    z-index: 2;
+  }
+  .lsav-btn p {
+    position: absolute;
+    margin: 0;
+    color: #fff;
+    font-family: Poppins, sans-serif;
+    font-weight: 400; /* Poppins Regular per design direction */
+    font-size: 20px;
+    line-height: 1px;
+    z-index: 3;
+  }
+  .lsav-btn:hover, .lsav-btn:focus-visible { padding-left: 30px; transition: all 200ms ease-in-out; }
+  .lsav-btn:hover::after, .lsav-btn:focus-visible::after { left: 0; transition: all 200ms ease-in-out; }
+  .lsav-btn:hover img, .lsav-btn:focus-visible img { left: 160px; transition: all 200ms ease-in-out; }
+  .lsav-btn:focus-visible { outline: 3px solid #29ABE2; outline-offset: 4px; }
+  .lsav-btn--on-blue::after { background-color: rgba(255, 255, 255, 0.28); }
+  /* Row variant — matches the live /case-studies/ "Case Study" buttons
+     (e.g. .elementor-element-172a703 in post-5135.css): 220px box,
+     80px label inset, Poppins 400. Hover values are shared with the base. */
+  .lsav-btn--case { width: 220px; padding-left: 80px; }
+  /* CTA-band instance per comp: narrower box for the shorter label */
+  .lsav-btn--talk { width: 190px; padding-left: 70px; }
+  .lsav-btn--talk:hover img, .lsav-btn--talk:focus-visible img { left: 130px; }
+  @media (max-width: 1024px) {
+    .lsav-btn { width: 200px; padding: 25px 0 25px 65px; }
+    .lsav-btn::after { width: 200px; left: -150px; }
+    .lsav-btn img { width: 25px; left: 13px; top: 15px; }
+    .lsav-btn:hover, .lsav-btn:focus-visible { padding-left: 25px; }
+    .lsav-btn:hover img, .lsav-btn:focus-visible img { left: 150px; }
+  }
+  @media (max-width: 767px) {
+    .lsav-btn { width: 185px; padding: 20px 20px 20px 65px; }
+    .lsav-btn::after { width: 195px; left: -140px; }
+    .lsav-btn img { width: 25px; left: 15px; top: 10px; }
+    .lsav-btn p { font-size: 18px; }
+    .lsav-btn:hover, .lsav-btn:focus-visible { padding-left: 20px; }
+    .lsav-btn:hover img, .lsav-btn:focus-visible img { left: 145px; }
   }
 
-  /* CTA always visible */
-  .ph-cta {
-    opacity: 1;
-    transform: translateY(0);
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative; min-height: 795px;
+    background: var(--dark);
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 120px 90px;
+  }
+  .hero h1 {
+    font-family: Poppins, sans-serif; font-weight: 800;
+    font-size: clamp(40px, 3.9vw, 75px); line-height: 1.12;
+    color: var(--white); margin-bottom: 32px;
+  }
+  .hero p {
+    font-size: clamp(18px, 1.4vw, 27px); line-height: 1.56;
+    color: var(--white); max-width: 1448px; margin: 0 auto;
   }
 
-  /* Suppress lift on touch — can feel laggy */
-  .ph-card:hover {
-    transform: none;
-    box-shadow: none;
+  /* ---------- Intro sections ---------- */
+  .intro {
+    max-width: 1920px; margin: 0 auto;
+    padding: 110px 87px 90px;
+    display: grid; grid-template-columns: 487px 1fr; gap: 160px;
+    border-bottom: 1px solid #EAEAEA;
+  }
+  .intro h2 {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 48px; line-height: 60px; color: #000;
+  }
+  .intro .intro-copy { max-width: 1200px; }
+  .intro .intro-copy p {
+    font-size: 27px; line-height: 42px; margin-bottom: 36px;
+  }
+  .intro .intro-copy p:last-child { margin-bottom: 0; }
+  .intro .intro-copy p strong { font-family: Poppins, sans-serif; font-weight: 600; }
+  .intro--numbered .intro-copy { display: flex; flex-direction: column; gap: 36px; padding-top: 11px; }
+  .benefit { display: flex; gap: 40px; align-items: flex-start; padding-right: 160px; }
+  .benefit-num {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 48px; line-height: 48px; color: var(--cyan); flex: none;
+  }
+  .benefit p { font-size: 27px; line-height: 42px; margin: 0; }
+
+  /* ---------- Client logo scroll ---------- */
+  .logo-scroll { overflow: hidden; padding: 72px 0; background: var(--white); }
+  .logo-track {
+    display: flex; width: max-content;
+    animation: logoScroll 36s linear infinite;
+  }
+  .logo-scroll:hover .logo-track { animation-play-state: paused; }
+  .logo-set { display: flex; align-items: center; gap: 176px; padding-right: 176px; }
+  .logo-set img { height: 34px; width: auto; }
+  .logo-set img.logo--md { height: 48px; }
+  .logo-set img.logo--tall { height: 72px; }
+  .logo-set img.logo--dnc { height: 65px; }
+  .logo-set span {
+    font-family: Poppins, sans-serif; font-weight: 600; font-size: 26px;
+    letter-spacing: 0.12em; color: #929292; white-space: nowrap;
+  }
+  @keyframes logoScroll { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .logo-track { animation: none; } }
+
+  /* ---------- Case study cards (synced from Figma comp rebuild) ---------- */
+  .cs-group {
+    max-width: 1640px; margin: 0 auto; padding: 90px 40px;
+    display: flex; flex-direction: column; gap: 60px;
+  }
+  .cs-card { display: flex; align-items: center; gap: 200px; min-height: 538px; }
+  .cs-card .cs-img {
+    width: 800px; max-width: 48vw; aspect-ratio: 800 / 538; flex: none;
+    border-radius: 64px; overflow: hidden; position: relative;
+  }
+  .cs-card .cs-img picture { display: contents; }
+  .cs-card .cs-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .cs-card .cs-copy {
+    display: flex; flex-direction: column; gap: 34px;
+    justify-content: center; align-items: flex-start; max-width: 640px;
+  }
+  .cs-card--img-right { flex-direction: row-reverse; gap: 80px; }
+  .cs-card--img-right .cs-copy { padding-left: 120px; }
+  .cs-title {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 40px; line-height: 40px; text-transform: uppercase; color: #000;
+  }
+  .cs-sub {
+    font-family: Poppins, sans-serif; font-weight: 400;
+    font-size: 18px; line-height: 40px; color: var(--dark);
+  }
+  .cs-link {
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 16px;
+    letter-spacing: 0.02em; text-transform: uppercase; color: var(--cyan);
+    padding-bottom: 8px; border-bottom: 2px solid rgba(0, 174, 239, 0.5);
+  }
+  .cs-link:hover, .cs-link:focus-visible { border-bottom-color: var(--cyan); }
+  .cs-link--white { color: #fff; border-bottom-color: rgba(255, 255, 255, 0.5); }
+  .cs-link--white:hover, .cs-link--white:focus-visible { border-bottom-color: #fff; }
+  .cs-pill {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 13px 14px; border: 2px solid #008BBF; border-radius: 120px;
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 16px;
+    letter-spacing: 0.02em; text-transform: uppercase; color: #fff; white-space: nowrap;
+  }
+  .cs-pill:hover, .cs-pill:focus-visible { border-color: var(--cyan); background: rgba(0, 139, 191, 0.25); }
+
+  /* full-bleed marquee banners */
+  .cs-banner {
+    position: relative; min-height: 807px;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; gap: 34px; padding: 80px;
+    background-color: #000; background-size: cover; background-position: center;
+  }
+  .cs-banner::before {
+    content: ""; position: absolute; inset: 0;
+    background: rgba(0, 0, 0, 0.3);   /* comp: image at 70% over black */
+  }
+  .cs-banner::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.7), rgba(0,0,0,0));
+    mix-blend-mode: multiply;
+  }
+  .cs-banner > * { position: relative; z-index: 1; }
+  .cs-banner-title {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 48px; line-height: 60px; text-transform: uppercase; color: #fff;
+  }
+  .cs-banner .cs-sub { color: #fff; }
+
+  /* ---------- CTA band ---------- */
+  .cta-band {
+    position: relative; min-height: 600px; overflow: hidden;
+    background: var(--cyan);
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 80px;
+  }
+  .cta-band::before { content: ""; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.2); }
+  /* LSAV mark watermark — static position; the central wave band of the mark
+     itself undulates on hover (JS recomputes the two inner path edges with a
+     traveling sine, radially damped to zero where they meet the outer ring). */
+  .cta-wave {
+    position: absolute; top: -541px; left: 50%; margin-left: -880px;
+    width: 1760px; height: 1683px; pointer-events: none;
+  }
+  .cta-wave svg { width: 100%; height: 100%; display: block; }
+  /* child combinator: keep band typography off the button's inner <p> */
+  .cta-band > h2 {
+    position: relative;
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 42px; line-height: 1; color: var(--white);
+    margin-bottom: 28px;
+  }
+  .cta-band > p {
+    position: relative;
+    font-size: 27px; line-height: 42px; color: var(--white);
+    max-width: 1024px; margin-bottom: 44px;
+  }
+  .cta-band > .lsav-btn { position: relative; }
+
+  /* ---------- Footer ---------- */
+  .site-footer {
+    background: var(--near-black); color: var(--white);
+    padding: 80px 87px 48px;
+  }
+  .footer-top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 48px; flex-wrap: wrap;
+  }
+  .footer-top h2 {
+    font-family: Poppins, sans-serif; font-weight: 800;
+    font-size: clamp(36px, 3.3vw, 64px); color: var(--cyan);
+    margin-bottom: 32px;
+  }
+  .footer-brand { text-align: right; }
+  .footer-brand img { height: 30px; width: auto; max-width: 100%; object-fit: contain; margin-left: auto; }
+  .social-row { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+  .social-row a {
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--white); color: var(--near-black);
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 14px;
+  }
+  .social-row a:hover { background: var(--cyan); color: var(--white); }
+  .footer-divider {
+    border: 0; border-top: 1px solid rgba(255,255,255,0.15);
+    margin: 56px 0 48px;
+  }
+  .footer-menus {
+    display: flex; justify-content: center; gap: 120px; flex-wrap: wrap;
+  }
+  .footer-menus h3 {
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 14px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.5); margin-bottom: 18px;
+  }
+  .footer-menus ul { list-style: none; }
+  .footer-menus li { margin-bottom: 12px; }
+  .footer-menus a {
+    font-family: Poppins, sans-serif; font-weight: 400; font-size: 14px;
+    color: var(--white);
+  }
+  .footer-menus a:hover { color: var(--cyan); }
+  .footer-legal {
+    margin-top: 64px; text-align: center;
+    font-family: Poppins, sans-serif; font-size: 12px;
+    color: rgba(255,255,255,0.4);
   }
 
-  /* Tap feedback via :active */
-  .ph-card:active {
-    opacity: 0.85;
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1280px) {
+    .intro { grid-template-columns: 1fr; gap: 40px; padding: 80px 48px; }
+    .intro .intro-copy p { font-size: 22px; line-height: 36px; }
   }
-
-  /* Scale thumbnail down proportionally */
-  .ph-thumb {
-    width: 100px;
-    min-width: 100px;
-    height: 70px;
-    margin: 8px 0 8px 8px;
+  @media (max-width: 1100px) {
+    .cs-card, .cs-card--img-right { flex-direction: column; align-items: flex-start; gap: 32px; min-height: 0; }
+    .cs-card .cs-img { width: 100%; max-width: none; border-radius: 32px; }
+    .cs-card--img-right .cs-copy { padding-left: 0; }
+    .cs-title { font-size: 28px; line-height: 34px; }
+    .cs-group { padding: 56px 24px; gap: 72px; }
+    .cs-banner { min-height: 560px; padding: 64px 32px; }
+    .cs-banner-title { font-size: 32px; line-height: 40px; }
   }
-
-  .ph-title {
-    font-size: 12px;
+  @media (max-width: 900px) {
+    .hero { min-height: 560px; padding: 100px 32px 64px; }
+    .intro { padding: 64px 32px; }
+    .cta-band, .cs-banner { padding: 64px 32px; }
+    .site-footer { padding: 64px 32px 40px; }
+    .footer-brand { text-align: left; }
+    .footer-brand img { margin-left: 0; }
+    .social-row { justify-content: flex-start; }
+    .footer-menus { gap: 48px; }
   }
-
-}
-
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 
-<div class="ph-col">
+<header class="site-header">
+  <a class="logo" href="https://lsav.tv" aria-label="LSAV Powerhouse home">
+    <img src="assets/logo-white.png" alt="LSAV Powerhouse">
+  </a>
+  <button class="menu-toggle" aria-label="Open menu">
+    <img src="assets/menu-white.png" alt="">
+  </button>
+</header>
 
-<!-- ============================================================
-     SECTION: CORPORATE EVENT PRODUCTION
-     Category color: #74C044
-     ============================================================ -->
-<div class="ph-section cat-corp">
+<main id="main">
 
-  <p class="ph-cat">Corporate event production</p>
-  <p class="ph-desc">Strategy meets execution. From leadership summits to large-scale conferences, designed to align teams and deliver seamless, high-impact experiences.</p>
+  <!-- Hero -->
+  <section class="hero">
+    <div>
+      <h1>The proof is in the production.</h1>
+      <p>From United’s leadership conferences to the Democratic National Convention, LSAV POWERHOUSE produces the moments major brands are judged by — keynotes, activations, broadcasts, and trade shows, delivered by one multi-disciplinary team, anywhere the audience is.</p>
+    </div>
+  </section>
 
-  <!-- CARD STRUCTURE:
-       .ph-card          — anchor tag, hover target
-         .ph-thumb       — thumbnail wrapper (160×93px, ratio 12:7)
-           .ph-thumb-inner — image or placeholder bg
-         .ph-body        — right column
-           .ph-left      — stacked: title / meta / cta
-             .ph-title   — article title (Poppins 600)
-             .ph-meta    — "X min read"
-             .ph-cta     — "Explore →" (hidden until hover)
-  -->
+  <section class="intro">
+    <h2>Built for the Big Stage</h2>
+    <div class="intro-copy">
+      <p>Corporate summits, political conventions, festival activations, global partnership launches — our work spans every format a brand can take, in a ballroom, an arena, or an aircraft hangar.</p>
+    </div>
+  </section>
 
-  <a class="ph-card" href="#">
-    <div class="ph-thumb">
-      <div class="ph-thumb-inner">
-        <!-- Replace with: <?php the_post_thumbnail('livewire-thumb'); ?> -->
-        <svg viewBox="0 0 24 24" fill="none" stroke="#74C044" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/><circle cx="8" cy="14" r="1.5"/><path d="M13 14h4M13 17h2"/></svg>
+  <!-- Client logo scroll — wordmark placeholders, swap for licensed logo assets -->
+  <section class="logo-scroll" aria-label="Selected clients">
+    <div class="logo-track">
+      <div class="logo-set">
+        <img src="assets/logos/united.svg" alt="United Airlines">
+        <img class="logo--md" src="assets/logos/emirates.svg" alt="Emirates">
+        <img src="assets/logos/morningstar.svg" alt="Morningstar">
+        <img src="assets/logos/colgate.svg" alt="Colgate-Palmolive">
+        <img class="logo--tall" src="assets/logos/sundance.svg" alt="Sundance Film Festival">
+        <img class="logo--dnc" src="assets/logos/dnc.svg" alt="2024 Democratic National Convention">
+        <img src="assets/logos/zurich.svg" alt="Zurich">
+        <span>PROMAT</span>
+      </div>
+      <div class="logo-set" aria-hidden="true">
+        <img src="assets/logos/united.svg" alt="United Airlines">
+        <img class="logo--md" src="assets/logos/emirates.svg" alt="Emirates">
+        <img src="assets/logos/morningstar.svg" alt="Morningstar">
+        <img src="assets/logos/colgate.svg" alt="Colgate-Palmolive">
+        <img class="logo--tall" src="assets/logos/sundance.svg" alt="Sundance Film Festival">
+        <img class="logo--dnc" src="assets/logos/dnc.svg" alt="2024 Democratic National Convention">
+        <img src="assets/logos/zurich.svg" alt="Zurich">
+        <span>PROMAT</span>
       </div>
     </div>
-    <div class="ph-body">
-      <div class="ph-left">
-        <span class="ph-title">What Factors Should I Consider When Selecting a Venue for My Event?</span>
-        <span class="ph-meta">5 min read</span>
-        <span class="ph-cta">Explore →</span>
+  </section>
+
+  <section class="cs-group">
+    <article class="cs-card">
+      <div class="cs-img"><picture><source type="image/webp" srcset="assets/ulc.webp"><img src="assets/ulc.jpg" alt="United Media Day event environment" loading="lazy" decoding="async"></picture></div>
+      <div class="cs-copy">
+        <h3 class="cs-title">United Media Day</h3>
+        <p class="cs-sub">A brand world built for United’s biggest media moment</p>
+        <a class="cs-link" href="https://lsav.tv/case-studies/">See the world we built</a>
+      </div>
+    </article>
+    <article class="cs-card cs-card--img-right">
+      <div class="cs-img"><picture><source type="image/webp" srcset="assets/redrock.webp"><img src="assets/redrock.jpg" alt="United Airlines stage at Red Rocks Amphitheatre" loading="lazy" decoding="async"></picture></div>
+      <div class="cs-copy">
+        <h3 class="cs-title">United at Red Rocks</h3>
+        <p class="cs-sub">Bringing Brand and Music Together in an Iconic Setting</p>
+        <a class="cs-link" href="https://lsav.tv/case-studies/united-at-red-rock/">Watch brand meet music</a>
+      </div>
+    </article>
+  </section>
+
+  <section class="cs-banner" style="background-image: url('assets/dnc.webp');">
+    <h3 class="cs-banner-title">2024 Democratic National Convention</h3>
+    <p class="cs-sub">United Airlines on politics’ biggest, most unforgiving stage</p>
+    <a class="cs-pill" href="https://lsav.tv/case-studies/democratic-national-convention-2024/">Go behind the broadcast</a>
+  </section>
+
+  <section class="intro intro--numbered">
+    <h2>Why Teams Build With Us</h2>
+    <div class="intro-copy">
+      <div class="benefit"><span class="benefit-num">01</span><p><strong>Top-Tier Talent:</strong> Designers, engineers, fabricators, and producers recruited from the top of their fields — on one roster, yours.</p></div>
+      <div class="benefit"><span class="benefit-num">02</span><p><strong>Seamless Execution:</strong> One team owns your event from first sketch to final strike. No handoffs, no seams, no surprises on show day.</p></div>
+      <div class="benefit"><span class="benefit-num">03</span><p><strong>Detail-Obsessed:</strong> The badge table gets the same scrutiny as the mainstage. Details are where premium events are won.</p></div>
+    </div>
+  </section>
+
+  <section class="cs-group">
+    <article class="cs-card cs-card--img-right">
+      <div class="cs-img"><picture><source type="image/webp" srcset="assets/ulc.webp"><img src="assets/ulc.jpg" alt="United Leadership Conference carnival-themed activation" loading="lazy" decoding="async"></picture></div>
+      <div class="cs-copy">
+        <h3 class="cs-title">United Leadership Conferences</h3>
+        <p class="cs-sub">From Napkin to Stage: The LSAV Process</p>
+        <a class="cs-link" href="https://lsav.tv/case-studies/united-leadership-conferences/">See the full process</a>
+      </div>
+    </article>
+    <article class="cs-card">
+      <div class="cs-img"><picture><source type="image/webp" srcset="assets/morningstar.webp"><img src="assets/morningstar.jpg" alt="Morningstar conference production" loading="lazy" decoding="async"></picture></div>
+      <div class="cs-copy">
+        <h3 class="cs-title">Morningstar</h3>
+        <p class="cs-sub">Elevating Financial Thought Leadership Through Seamless Production</p>
+        <a class="cs-link" href="https://lsav.tv/case-studies/morningstar-2024/">See seamless in action</a>
+      </div>
+    </article>
+  </section>
+
+  <section class="cs-banner" style="background-image: url('assets/emirates.webp');">
+    <h3 class="cs-banner-title">United and Emirates</h3>
+    <p class="cs-sub">A global partnership announcement, engineered under pressure</p>
+    <a class="cs-pill" href="https://lsav.tv/case-studies/united-and-emirates/">How we beat the clock</a>
+  </section>
+
+  <section class="cs-group">
+    <article class="cs-card cs-card--img-right">
+      <div class="cs-img"><picture><source type="image/webp" srcset="assets/colgate.webp"><img src="assets/colgate.jpg" alt="Colgate-Palmolive brand experience" loading="lazy" decoding="async"></picture></div>
+      <div class="cs-copy">
+        <h3 class="cs-title">Colgate</h3>
+        <p class="cs-sub">High-Impact Experience for Colgate-Palmolive</p>
+        <a class="cs-link" href="https://lsav.tv/case-studies/colgate/">Explore the full experience</a>
+      </div>
+    </article>
+    <article class="cs-card">
+      <div class="cs-img"><picture><source type="image/webp" srcset="assets/sundance.webp"><img src="assets/sundance.jpg" alt="Sundance Film Festival brand activation" loading="lazy" decoding="async"></picture></div>
+      <div class="cs-copy">
+        <h3 class="cs-title">Sundance Film Festival</h3>
+        <p class="cs-sub">Immersive Brand Storytelling at the Intersection of Culture and Creativity</p>
+        <a class="cs-link" href="https://lsav.tv/case-studies/sundance-film-festival/">Step into the story</a>
+      </div>
+    </article>
+  </section>
+
+  <section class="intro">
+    <h2>From Napkin to Stage</h2>
+    <div class="intro-copy">
+      <p>Every project runs the same proven arc: strategy, design, engineering, fabrication, show. Because the disciplines live under one roof, the creative never gets lost between vendors — there are none.</p>
+      <p>It’s how a two-day, 2,200-leader conference with 20 themed breakouts lands as precisely as a single keynote. The scale changes. The standard doesn’t.</p>
+    </div>
+  </section>
+
+  <section class="cs-group">
+    <article class="cs-card cs-card--img-right">
+      <div class="cs-img"><picture><source type="image/webp" srcset="assets/zurich.webp"><img src="assets/zurich.jpg" alt="Zurich Golf Classic course experience" loading="lazy" decoding="async"></picture></div>
+      <div class="cs-copy">
+        <h3 class="cs-title">Zurich Golf Classic</h3>
+        <p class="cs-sub">Zurich Golf Classic Experience in New Orleans</p>
+        <a class="cs-link" href="https://lsav.tv/case-studies/zurich-golf-classic/">See how we played through</a>
+      </div>
+    </article>
+    <article class="cs-card">
+      <div class="cs-img"><picture><source type="image/webp" srcset="assets/backstage.webp"><img src="assets/backstage.jpg" alt="United Backstage internal engagement event" loading="lazy" decoding="async"></picture></div>
+      <div class="cs-copy">
+        <h3 class="cs-title">United Backstage</h3>
+        <p class="cs-sub">Reimagining Internal Engagement for a New Era of Flight</p>
+        <a class="cs-link" href="https://lsav.tv/case-studies/united-backstage/">Get the all-access pass</a>
+      </div>
+    </article>
+    <article class="cs-card cs-card--img-right">
+      <div class="cs-img"><picture><source type="image/webp" srcset="assets/promat.webp"><img src="assets/promat.jpg" alt="ProMat trade show exhibit" loading="lazy" decoding="async"></picture></div>
+      <div class="cs-copy">
+        <h3 class="cs-title">ProMat</h3>
+        <p class="cs-sub">Powering Innovation and Presence on the Global Supply Chain Stage</p>
+        <a class="cs-link" href="https://lsav.tv/case-studies/promat/">Tour the show floor</a>
+      </div>
+    </article>
+  </section>
+
+  <!-- CTA band -->
+  <section class="cta-band">
+    <div class="cta-wave" aria-hidden="true">
+      <svg viewBox="0 0 1760 1683" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path id="lsavWavePath" d="M880.178 0C394.317 0 0 392.618 0 876.823C0 1361.38 393.961 1754 879.822 1754C1366.04 1754 1760 1361.38 1760 877.177C1760.36 392.973 1366.4 0 880.178 0ZM810.362 167.555C1168.7 135.251 1496.05 353.924 1584.75 720.272C1502.11 850.198 1397.74 965.215 1269.86 1052.19C1006.63 1231.46 716.325 290.381 483.368 521.834L175.608 827.479C182.732 461.131 473.75 197.729 810.362 167.555ZM876.26 1590C566.719 1588.58 276.77 1383.75 200.542 1077.75L465.558 820.734C500.109 787.01 546.772 773.876 587.379 780.62C622.643 786.655 651.139 818.249 680.704 855.878L1005.56 1268.73C1077.16 1359.61 1192.57 1389.43 1304.06 1307.07C1391.69 1242.11 1436.57 1134.54 1553.4 1098.34C1469.69 1402.92 1173.69 1591.42 876.26 1590.35V1590Z" fill="#FFFFFF" fill-opacity="0.1" fill-rule="evenodd"/>
+      </svg>
+    </div>
+    <h2>Be our next case study.</h2>
+    <p>Tell us what you’re imagining — a summit, a launch, a stage no one’s built before. We’ll take it from napkin to standing ovation.</p>
+    <a class="lsav-btn lsav-btn--on-blue lsav-btn--talk" href="https://lsav.tv/contact/">
+      <img src="assets/arrow.svg?v=2" alt=""><p>Let’s talk</p>
+    </a>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-top">
+    <div>
+      <h2>Push Our Buttons!</h2>
+      <a class="lsav-btn" href="https://lsav.tv/contact/">
+        <img src="assets/arrow.svg?v=2" alt=""><p>Contact Us</p>
+      </a>
+    </div>
+    <div class="footer-brand">
+      <img src="assets/logo-white.png" alt="LSAV Powerhouse">
+      <div class="social-row">
+        <a href="#" aria-label="Facebook">f</a>
+        <a href="#" aria-label="Instagram">ig</a>
+        <a href="#" aria-label="LinkedIn">in</a>
+        <a href="#" aria-label="YouTube">yt</a>
       </div>
     </div>
-  </a>
+  </div>
 
-  <a class="ph-card" href="#">
-    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#74C044" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/><circle cx="8" cy="14" r="1.5"/><path d="M13 14h4M13 17h2"/></svg></div></div>
-    <div class="ph-body"><div class="ph-left"><span class="ph-title">How to Select the Right Venue & Talent for a Corporate Event</span><span class="ph-meta">7 min read</span><span class="ph-cta">Explore →</span></div></div>
-  </a>
+  <hr class="footer-divider">
 
-  <a class="ph-card" href="#">
-    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#74C044" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/><circle cx="8" cy="14" r="1.5"/><path d="M13 14h4M13 17h2"/></svg></div></div>
-    <div class="ph-body"><div class="ph-left"><span class="ph-title">How to Make an Optimal Learning Environment for Your Next Event</span><span class="ph-meta">4 min read</span><span class="ph-cta">Explore →</span></div></div>
-  </a>
+  <nav class="footer-menus" aria-label="Footer">
+    <div>
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="https://lsav.tv/case-studies/">Case Studies</a></li>
+        <li><a href="https://lsav.tv/powerhouse-livewire/">Blog</a></li>
+        <li><a href="https://lsav.tv/contact/">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>What We Do</h3>
+      <ul>
+        <li><a href="#">Events &amp; Conferences</a></li>
+        <li><a href="#">Brand Experiences</a></li>
+        <li><a href="#">Media Production</a></li>
+        <li><a href="#">Digital Experiences</a></li>
+        <li><a href="#">Studio Broadcast</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>How It's Done</h3>
+      <ul>
+        <li><a href="#">Strategy &amp; Planning</a></li>
+        <li><a href="#">Creative &amp; Ideation</a></li>
+        <li><a href="#">AV &amp; Engineering</a></li>
+        <li><a href="#">Digital Production</a></li>
+        <li><a href="#">Custom Fabrication</a></li>
+      </ul>
+    </div>
+  </nav>
 
-  <a class="ph-card" href="#">
-    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#74C044" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/><circle cx="8" cy="14" r="1.5"/><path d="M13 14h4M13 17h2"/></svg></div></div>
-    <div class="ph-body"><div class="ph-left"><span class="ph-title">Creating Memorable Multi-Sensory Experiences at Your Meeting</span><span class="ph-meta">6 min read</span><span class="ph-cta">Explore →</span></div></div>
-  </a>
+  <p class="footer-legal">© 2026 LSAV Powerhouse. All rights reserved.</p>
+</footer>
 
-  <a class="ph-viewall" href="#">View all</a>
-</div>
 
-<div class="ph-divider"></div>
+<script>
+(function () {
+  // LSAV mark wave: the mark is [outer disc, upper hole, lower hole].
+  // The visible center band is the gap between the holes — undulate it by
+  // displacing every point of both holes with y += A * damp(r) * sin(kx - wt).
+  // damp(r) -> 0 near the ring radius, so the holes stay welded to the ring.
+  var band = document.querySelector('.cta-band');
+  var path = document.getElementById('lsavWavePath');
+  if (!band || !path) return;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var CX = 880, CY = 877;          // mark center
+  var A = 46;                      // amplitude (px in mark space)
+  var K = 2 * Math.PI / 880;       // wavelength 880px
+  var W = 2 * Math.PI / 2.8;       // period 2.8s, phase travels left -> right
 
-<!-- ============================================================
-     SECTION: AV & TECHNICAL EXCELLENCE
-     Category color: #F68A20
-     ============================================================ -->
-<div class="ph-section cat-av">
+  // parse absolute path data (M/L/C/Z) into subpaths
+  var subs = [];
+  var re = /([MLCZz])([^MLCZz]*)/g, m;
+  while ((m = re.exec(path.getAttribute('d')))) {
+    var cmd = m[1].toUpperCase();
+    var nums = (m[2].match(/-?\d*\.?\d+(?:e-?\d+)?/g) || []).map(Number);
+    if (cmd === 'M') subs.push([]);
+    var argc = cmd === 'C' ? 6 : cmd === 'Z' ? 0 : 2;
+    var cur = subs[subs.length - 1];
+    if (!cur) continue;
+    if (argc === 0) { cur.push({ c: 'Z', n: [] }); continue; }
+    for (var i = 0; i + argc <= nums.length; i += argc) {
+      cur.push({ c: cmd === 'M' && i > 0 ? 'L' : cmd, n: nums.slice(i, i + argc) });
+    }
+  }
+  var staticD = seg2d(subs[0]);    // outer disc never changes
 
-  <p class="ph-cat">AV & technical excellence</p>
-  <p class="ph-desc">Precision and performance — crystal-clear audio, dynamic visuals, and lighting that creates a polished, immersive environment.</p>
+  function seg2d(segs, t) {
+    var out = '';
+    for (var i = 0; i < segs.length; i++) {
+      var g = segs[i];
+      if (g.c === 'Z') { out += 'Z'; continue; }
+      out += g.c;
+      for (var j = 0; j < g.n.length; j += 2) {
+        var x = g.n[j], y = g.n[j + 1];
+        if (t !== undefined) {
+          var r = Math.hypot(x - CX, y - CY);
+          var damp = Math.max(0, 1 - Math.pow(r / 700, 4));
+          y = y + A * damp * Math.sin(K * x - W * t);
+        }
+        out += x.toFixed(1) + ' ' + y.toFixed(1) + (j + 2 < g.n.length ? ' ' : '');
+      }
+    }
+    return out;
+  }
 
-  <a class="ph-card" href="#">
-    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#F68A20" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M2 12h3M19 12h3M12 2v3M12 19v3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></div></div>
-    <div class="ph-body"><div class="ph-left"><span class="ph-title">How Can I Create an Engaging Stage Setup for a Corporate Conference?</span><span class="ph-meta">6 min read</span><span class="ph-cta">Explore →</span></div></div>
-  </a>
-
-  <a class="ph-card" href="#">
-    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#F68A20" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M2 12h3M19 12h3M12 2v3M12 19v3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></div></div>
-    <div class="ph-body"><div class="ph-left"><span class="ph-title">How Can I Ensure Seamless Audio Quality for a Live Performance?</span><span class="ph-meta">5 min read</span><span class="ph-cta">Explore →</span></div></div>
-  </a>
-
-  <a class="ph-card" href="#">
-    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#F68A20" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M2 12h3M19 12h3M12 2v3M12 19v3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></div></div>
-    <div class="ph-body"><div class="ph-left"><span class="ph-title">How Do I Choose the Right AV Equipment for My Event?</span><span class="ph-meta">8 min read</span><span class="ph-cta">Explore →</span></div></div>
-  </a>
-
-  <a class="ph-card" href="#">
-    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#F68A20" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M2 12h3M19 12h3M12 2v3M12 19v3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></div></div>
-    <div class="ph-body"><div class="ph-left"><span class="ph-title">How to Amp Up Your Event Experience with Digital Signage</span><span class="ph-meta">4 min read</span><span class="ph-cta">Explore →</span></div></div>
-  </a>
-
-  <a class="ph-viewall" href="#">View all</a>
-</div>
-
-<div class="ph-divider"></div>
-
-<!-- ============================================================
-     SECTION: TRADESHOW & EXHIBIT STRATEGY
-     Category color: #00827E
-     ============================================================ -->
-<div class="ph-section cat-trade">
-
-  <p class="ph-cat">Tradeshow & exhibit strategy</p>
-  <p class="ph-desc">Brand presence into experience. Strategic design and interactive environments that become powerful tools for engagement, storytelling, and measurable ROI.</p>
-
-  <a class="ph-card" href="#">
-    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#00827E" stroke-width="1.5"><path d="M3 21V8l9-5 9 5v13M9 21v-8h6v8M3 8h18"/></svg></div></div>
-    <div class="ph-body"><div class="ph-left"><span class="ph-title">Why Warehouses Are the Ultimate Canvas for Unforgettable Events</span><span class="ph-meta">5 min read</span><span class="ph-cta">Explore →</span></div></div>
-  </a>
-
-  <a class="ph-card" href="#">
-    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#00827E" stroke-width="1.5"><path d="M3 21V8l9-5 9 5v13M9 21v-8h6v8M3 8h18"/></svg></div></div>
-    <div class="ph-body"><div class="ph-left"><span class="ph-title">Rethinking the Venue: Why Non-Traditional Spaces Are Driving Modern Events</span><span class="ph-meta">7 min read</span><span class="ph-cta">Explore →</span></div></div>
-  </a>
-
-  <a class="ph-card" href="#">
-    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#00827E" stroke-width="1.5"><path d="M3 21V8l9-5 9 5v13M9 21v-8h6v8M3 8h18"/></svg></div></div>
-    <div class="ph-body"><div class="ph-left"><span class="ph-title">8 Ways to Source the Right Speakers and Talent for Your Event</span><span class="ph-meta">6 min read</span><span class="ph-cta">Explore →</span></div></div>
-  </a>
-
-  <a class="ph-card" href="#">
-    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#00827E" stroke-width="1.5"><path d="M3 21V8l9-5 9 5v13M9 21v-8h6v8M3 8h18"/></svg></div></div>
-    <div class="ph-body"><div class="ph-left"><span class="ph-title">3 Reasons to Embed Experiences Within Your Next Event</span><span class="ph-meta">3 min read</span><span class="ph-cta">Explore →</span></div></div>
-  </a>
-
-  <a class="ph-viewall" href="#">View all</a>
-</div>
-
-<div class="ph-divider"></div>
-
-<!-- ============================================================
-     SECTION: EVENT MARKETING & ENGAGEMENT
-     Category color: #359044
-     ============================================================ -->
-<div class="ph-section cat-mktg">
-
-  <p class="ph-cat">Event marketing & engagement</p>
-  <p class="ph-desc">Extending the experience beyond the stage — building anticipation, driving participation, and sustaining engagement before, during, and after.</p>
-
-  <a class="ph-card" href="#">
-    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#359044" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div></div>
-    <div class="ph-body"><div class="ph-left"><span class="ph-title">How to Engage the Next Generation of B2B Event Attendees</span><span class="ph-meta">6 min read</span><span class="ph-cta">Explore →</span></div></div>
-  </a>
-
-  <a class="ph-card" href="#">
-    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#359044" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div></div>
-    <div class="ph-body"><div class="ph-left"><span class="ph-title">Designing the Attendee Journey: How to Maximize Event Engagement Start to Finish</span><span class="ph-meta">8 min read</span><span class="ph-cta">Explore →</span></div></div>
-  </a>
-
-  <a class="ph-card" href="#">
-    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#359044" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div></div>
-    <div class="ph-body"><div class="ph-left"><span class="ph-title">How Can I Leverage Social Media to Promote My Event?</span><span class="ph-meta">5 min read</span><span class="ph-cta">Explore →</span></div></div>
-  </a>
-
-  <a class="ph-card" href="#">
-    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#359044" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div></div>
-    <div class="ph-body"><div class="ph-left"><span class="ph-title">15 Ways to Personalize Your Event for Stronger Attendee Engagement</span><span class="ph-meta">9 min read</span><span class="ph-cta">Explore →</span></div></div>
-  </a>
-
-  <a class="ph-viewall" href="#">View all</a>
-</div>
-
-<div class="ph-divider"></div>
-
-<!-- ============================================================
-     SECTION: EMERGING EVENT TECHNOLOGY
-     Category color: #C44728
-     ============================================================ -->
-<div class="ph-section cat-tech">
-
-  <p class="ph-cat">Emerging event technology</p>
-  <p class="ph-desc">Redefining how audiences connect and engage. From AI to immersive experiences, innovation enhances personalization, expands reach, and elevates the modern corporate event.</p>
-
-  <a class="ph-card" href="#">
-    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#C44728" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4M7 8h.01M12 8h.01M17 8h.01M7 12h10"/></svg></div></div>
-    <div class="ph-body"><div class="ph-left"><span class="ph-title">How AI Is Changing the Way We Design and Deliver Corporate Events</span><span class="ph-meta">7 min read</span><span class="ph-cta">Explore →</span></div></div>
-  </a>
-
-  <a class="ph-card" href="#">
-    <div class="ph-thumb"><div class="ph-thumb-inner"><svg viewBox="0 0 24 24" fill="none" stroke="#C44728" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4M7 8h.01M12 8h.01M17 8h.01M7 12h10"/></svg></div></div>
-    <div class="ph-body"><div class="ph-left"><span class="ph-title">The Case for Hybrid: Blending Live and Virtual Experiences</span><span class="ph-meta">6 min read</span><span class="ph-cta">Explore →</span></div></div>
-  </a>
-
-  <a class="ph-viewall" href="#">View all</a>
-</div>
-
-</div><!-- /.ph-col -->
+  var running = false, raf = 0, t0 = 0, acc = 0;
+  function frame(ts) {
+    if (!running) return;
+    var t = acc + (ts - t0) / 1000;
+    path.setAttribute('d', staticD + seg2d(subs[1], t) + seg2d(subs[2], t));
+    raf = requestAnimationFrame(frame);
+  }
+  function start() {
+    if (running || reduce.matches) return;
+    running = true; t0 = performance.now();
+    raf = requestAnimationFrame(frame);
+  }
+  function stop() {
+    if (!running) return;
+    acc += (performance.now() - t0) / 1000;   // freeze mid-wave, resume in phase
+    running = false; cancelAnimationFrame(raf);
+  }
+  band.addEventListener('mouseenter', start);
+  band.addEventListener('mouseleave', stop);
+  band.addEventListener('focusin', start);
+  band.addEventListener('focusout', stop);
+})();
+</script>
 </body>
 </html>
