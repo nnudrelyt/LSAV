@@ -31,6 +31,64 @@
   }
   .skip-link:focus { left: 0; }
 
+  /* ---------- Scroll reveals ----------
+     One grammar: 600ms, easeOutQuint-ish, <=24px travel, one-shot.
+     Gated on html.js (set in <head>) so content is visible without JS.
+     prefers-reduced-motion gets everything instantly. */
+  :root { --reveal-ease: cubic-bezier(0.22, 1, 0.36, 1); }
+  .js .intro h2, .js .intro .intro-copy > p, .js .benefit,
+  .js .cs-card .cs-copy,
+  .js .cs-banner-title, .js .cs-banner .cs-sub, .js .cs-banner .cs-pill,
+  .js .cta-band > h2, .js .cta-band > p, .js .cta-band > .lsav-btn {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity .6s var(--reveal-ease), transform .6s var(--reveal-ease);
+  }
+  .js .cs-card .cs-img img {
+    opacity: 0; transform: scale(1.02);
+    transition: opacity .6s var(--reveal-ease), transform .9s var(--reveal-ease);
+  }
+  .js .benefit .benefit-num {
+    opacity: 0; transform: translateX(-16px);
+    transition: opacity .6s var(--reveal-ease), transform .6s var(--reveal-ease);
+  }
+  .js .logo-scroll .logo-track { opacity: 0; transition: opacity .6s var(--reveal-ease); }
+  .js .intro::after, .js .logo-scroll::after {
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .7s var(--reveal-ease) .2s;
+  }
+  .js .cs-banner::before { transform: scale(1.05); transition: transform .9s var(--reveal-ease); }
+  /* staggers */
+  .js .intro .intro-copy > p:nth-of-type(1) { transition-delay: .12s; }
+  .js .intro .intro-copy > p:nth-of-type(2) { transition-delay: .2s; }
+  .js .benefit:nth-child(1), .js .benefit:nth-child(1) .benefit-num { transition-delay: .12s; }
+  .js .benefit:nth-child(2), .js .benefit:nth-child(2) .benefit-num { transition-delay: .21s; }
+  .js .benefit:nth-child(3), .js .benefit:nth-child(3) .benefit-num { transition-delay: .3s; }
+  .js .cs-card .cs-copy { transition-delay: .1s; }
+  .js .cs-banner .cs-sub { transition-delay: .08s; }
+  .js .cs-banner .cs-pill { transition-delay: .16s; }
+  .js .cta-band > p { transition-delay: .08s; }
+  .js .cta-band > .lsav-btn { transition-delay: .16s; }
+  /* revealed state */
+  .js .intro.in-view h2, .js .intro.in-view .intro-copy > p, .js .intro.in-view .benefit,
+  .js .intro.in-view .benefit .benefit-num,
+  .js .cs-card.in-view .cs-copy, .js .cs-card.in-view .cs-img img,
+  .js .cs-banner.in-view .cs-banner-title, .js .cs-banner.in-view .cs-sub, .js .cs-banner.in-view .cs-pill,
+  .js .cta-band.in-view > h2, .js .cta-band.in-view > p, .js .cta-band.in-view > .lsav-btn {
+    opacity: 1; transform: none;
+  }
+  .js .logo-scroll.in-view .logo-track { opacity: 1; }
+  .js .intro.in-view::after, .js .logo-scroll.in-view::after { transform: scaleX(1); }
+  .js .cs-banner.in-view::before { transform: scale(1); }
+  @media (prefers-reduced-motion: reduce) {
+    .js :is(.intro h2, .intro .intro-copy > p, .benefit, .benefit-num, .cs-card .cs-copy,
+            .cs-card .cs-img img, .cs-banner-title, .cs-banner .cs-sub, .cs-banner .cs-pill,
+            .cta-band > h2, .cta-band > p, .cta-band > .lsav-btn, .logo-track) {
+      opacity: 1 !important; transform: none !important; transition: none !important;
+    }
+    .js .intro::after, .js .logo-scroll::after { transform: scaleX(1) !important; transition: none !important; }
+    .js .cs-banner::before { transform: scale(1) !important; transition: none !important; }
+  }
+
   /* ---------- Header ---------- */
   .site-header {
     position: absolute; top: 0; left: 0; right: 0;
@@ -230,11 +288,13 @@
     position: relative; min-height: 807px;
     display: flex; flex-direction: column; justify-content: center; align-items: center;
     text-align: center; gap: 34px; padding: 80px;
-    background-color: #000; background-size: cover; background-position: center;
+    background-color: #000; overflow: hidden;
   }
   .cs-banner::before {
     content: ""; position: absolute; inset: 0;
-    background: rgba(0, 0, 0, 0.3);   /* comp: image at 70% over black */
+    /* comp: image at 70% over black */
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),
+                var(--banner-img) center / cover no-repeat #000;
   }
   .cs-banner::after {
     content: ""; position: absolute; inset: 0;
@@ -354,6 +414,7 @@
     .footer-menus { gap: 48px; }
   }
 </style>
+<script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -429,7 +490,7 @@
     </article>
   </section>
 
-  <section class="cs-banner" style="background-image: url('assets/dnc.webp');">
+  <section class="cs-banner" style="--banner-img: url(\'assets/dnc.webp\');">
     <h3 class="cs-banner-title">2024 Democratic National Convention</h3>
     <p class="cs-sub">United Airlines on politics’ biggest, most unforgiving stage</p>
     <a class="cs-pill" href="https://lsav.tv/case-studies/democratic-national-convention-2024/">Go behind the broadcast</a>
@@ -463,7 +524,7 @@
     </article>
   </section>
 
-  <section class="cs-banner" style="background-image: url('assets/emirates.webp');">
+  <section class="cs-banner" style="--banner-img: url(\'assets/emirates.webp\');">
     <h3 class="cs-banner-title">United and Emirates</h3>
     <p class="cs-sub">A global partnership announcement, engineered under pressure</p>
     <a class="cs-pill" href="https://lsav.tv/case-studies/united-and-emirates/">How we beat the clock</a>
@@ -668,6 +729,22 @@
   band.addEventListener('mouseleave', stop);
   band.addEventListener('focusin', start);
   band.addEventListener('focusout', stop);
+})();
+</script>
+
+<script>
+(function () {
+  var targets = document.querySelectorAll('.intro, .logo-scroll, .cs-card, .cs-banner, .cta-band');
+  if (!('IntersectionObserver' in window)) {
+    targets.forEach(function (el) { el.classList.add('in-view'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+  targets.forEach(function (el) { io.observe(el); });
 })();
 </script>
 </body>
