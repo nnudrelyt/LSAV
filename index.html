@@ -188,6 +188,8 @@
     color: var(--white); max-width: 1448px; margin: 0 auto;
   }
 
+  .hero-body--trim { display: none; }
+
   /* ---------- Intro sections ---------- */
   .intro {
     max-width: 1920px; margin: 0 auto;
@@ -387,30 +389,78 @@
   }
 
   /* ---------- Responsive ---------- */
-  @media (max-width: 1280px) {
+
+  /* ---------- Responsive: aligned to the live site's tiers (1440 / 1024 / 767).
+     Buttons keep their own site-spec blocks above. ---------- */
+  @media (max-width: 1440px) {
+    .intro { gap: 120px; }
+    .cs-group { padding: 72px 40px; }
+    .cs-card { gap: 120px; }
+    .cs-card--img-right { gap: 64px; }
+    .cs-card--img-right .cs-copy { padding-left: 80px; }
+  }
+  @media (max-width: 1024px) {
+    .hero { min-height: 640px; padding: 110px 48px; }
     .intro { grid-template-columns: 1fr; gap: 40px; padding: 80px 48px; }
     .intro::after, .logo-scroll::after { left: 48px; right: 48px; }
+    .intro h2 { font-size: 40px; line-height: 50px; }
     .intro .intro-copy p { font-size: 22px; line-height: 36px; }
-  }
-  @media (max-width: 1100px) {
-    .cs-card, .cs-card--img-right { flex-direction: column; align-items: flex-start; gap: 32px; min-height: 0; }
-    .cs-card .cs-img { width: 100%; max-width: none; border-radius: 32px; }
+    .benefit { gap: 28px; padding-right: 0; }
+    .benefit-num { font-size: 40px; line-height: 40px; }
+    .logo-scroll { padding: 56px 0; }
+    .logo-set { gap: 112px; padding-right: 112px; }
+    .logo-set img { height: 30px; }
+    .logo-set img.logo--md { height: 42px; }
+    .logo-set img.logo--tall { height: 60px; }
+    .logo-set img.logo--dnc { height: 54px; }
+    .logo-set span { font-size: 22px; }
+    .cs-group { padding: 64px 48px; gap: 64px; }
+    .cs-card, .cs-card--img-right { flex-direction: column; align-items: flex-start; gap: 28px; min-height: 0; }
+    .cs-card .cs-img { width: 100%; max-width: none; border-radius: 48px; }
     .cs-card--img-right .cs-copy { padding-left: 0; }
-    .cs-title { font-size: 28px; line-height: 34px; }
-    .cs-group { padding: 56px 24px; gap: 72px; }
-    .cs-banner { min-height: 560px; padding: 64px 32px; }
-    .cs-banner-title { font-size: 32px; line-height: 40px; }
+    .cs-title { font-size: 32px; line-height: 38px; }
+    .cs-sub { font-size: 16px; line-height: 30px; }
+    .cs-banner { min-height: 640px; padding: 64px 48px; }
+    .cs-banner-title { font-size: 36px; line-height: 46px; }
+    .cta-band { min-height: 520px; padding: 64px 48px; }
+    .cta-band > h2 { font-size: 34px; }
+    .site-footer { padding: 64px 48px 40px; }
+    .footer-menus { gap: 80px; }
   }
-  @media (max-width: 900px) {
-    .hero { min-height: 560px; padding: 100px 32px 64px; }
-    .intro { padding: 64px 32px; }
-    .intro::after, .logo-scroll::after { left: 32px; right: 32px; }
-    .cta-band, .cs-banner { padding: 64px 32px; }
-    .site-footer { padding: 64px 32px 40px; }
+  @media (max-width: 767px) {
+    .hero { min-height: 520px; padding: 96px 24px 56px; }
+    .hero-body--full { display: none; }
+    .hero-body--trim { display: block; }
+    .intro { padding: 56px 24px; gap: 28px; }
+    .intro::after, .logo-scroll::after { left: 24px; right: 24px; }
+    .intro h2 { font-size: 32px; line-height: 40px; }
+    .intro .intro-copy p { font-size: 19px; line-height: 30px; }
+    .intro--numbered .intro-copy { gap: 28px; }
+    .benefit { gap: 20px; }
+    .benefit-num { font-size: 32px; line-height: 32px; }
+    .logo-scroll { padding: 40px 0; }
+    .logo-set { gap: 72px; padding-right: 72px; }
+    .logo-set img { height: 24px; }
+    .logo-set img.logo--md { height: 32px; }
+    .logo-set img.logo--tall { height: 48px; }
+    .logo-set img.logo--dnc { height: 42px; }
+    .logo-set span { font-size: 18px; }
+    .cs-group { padding: 48px 24px; gap: 56px; }
+    .cs-card .cs-img { border-radius: 32px; }
+    .cs-title { font-size: 26px; line-height: 32px; }
+    .cs-sub { font-size: 15px; line-height: 26px; }
+    .cs-link, .cs-pill { font-size: 14px; }
+    .cs-banner { min-height: 480px; padding: 56px 24px; }
+    .cs-banner-title { font-size: 28px; line-height: 36px; }
+    .cs-banner .cs-sub { font-size: 15px; line-height: 26px; }
+    .cta-band { padding: 56px 24px; }
+    .cta-band > h2 { font-size: 28px; }
+    .cta-band > p { font-size: 19px; line-height: 30px; }
+    .site-footer { padding: 56px 24px 32px; }
     .footer-brand { text-align: left; }
     .footer-brand img { margin-left: 0; }
     .social-row { justify-content: flex-start; }
-    .footer-menus { gap: 48px; }
+    .footer-menus { gap: 40px; }
   }
 </style>
 <script>document.documentElement.classList.add('js');</script>
@@ -433,7 +483,8 @@
   <section class="hero">
     <div>
       <h1>The proof is in the production.</h1>
-      <p>From United’s leadership conferences to the Democratic National Convention, LSAV POWERHOUSE produces the moments major brands are judged by — keynotes, activations, broadcasts, and trade shows, delivered by one multi-disciplinary team, anywhere the audience is.</p>
+      <p class="hero-body--full">From United’s leadership conferences to the Democratic National Convention, LSAV POWERHOUSE produces the moments major brands are judged by — keynotes, activations, broadcasts, and trade shows, delivered by one multi-disciplinary team, anywhere the audience is.</p>
+      <p class="hero-body--trim">Keynotes, conventions, activations, broadcasts — produced end-to-end by one team, for clients who can’t afford a second take.</p>
     </div>
   </section>
 
