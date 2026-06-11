@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LSAV Button Component</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ==========================================================================
+     LSAV "Contact Us" button — recreated from lsav.tv footer
+     Source: Elementor custom CSS for .elementor-element-bd6ab62 (post-1407.css),
+     wrapped by container .elementor-element-692c61d (230px, overflow hidden).
+
+     Anatomy:
+       .lsav-btn        — relative box, white 2px border, radius 6, overflow hidden
+       .lsav-btn::after — cyan slab (#29ABE2), parked at left:-180px so a 60px
+                          sliver shows at rest; slides to left:0 on hover
+       .lsav-btn img    — white arrow, absolute left:15px; flies to left:160px
+       .lsav-btn p      — label, absolute, follows the animating padding-left
+     Hover = slab floods in, arrow and label swap sides. 200ms ease-in-out.
+     ========================================================================== */
+  .lsav-btn,
+  .lsav-btn::after,
+  .lsav-btn img,
+  .lsav-btn p {
+    box-sizing: border-box; /* site relies on Elementor's global border-box */
+  }
+  .lsav-btn {
+    position: relative;
+    display: block;
+    width: 230px;
+    padding: 25px 0 28px 90px;
+    border: 2px solid #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    text-decoration: none;
+    /* no base transition: hover-out snaps, so all visible motion is forward (L->R) */
+  }
+  .lsav-btn::after {
+    content: '';
+    position: absolute;
+    width: 240px;
+    height: 100%;
+    left: -180px;
+    top: 0;
+    z-index: 1;
+    background-color: #29ABE2;
+  }
+  .lsav-btn img {
+    width: 30px;
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    z-index: 2;
+  }
+  .lsav-btn p {
+    position: absolute;
+    margin: 0;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400; /* Poppins Regular per design direction */
+    font-size: 20px;
+    line-height: 1px;
+    z-index: 3;
+  }
+  .lsav-btn:hover,
+  .lsav-btn:focus-visible,
+  .lsav-btn.is-hover { padding-left: 30px; transition: all 200ms ease-in-out; }
+  .lsav-btn:hover::after,
+  .lsav-btn:focus-visible::after,
+  .lsav-btn.is-hover::after { left: 0; transition: all 200ms ease-in-out; }
+  .lsav-btn:hover img,
+  .lsav-btn:focus-visible img,
+  .lsav-btn.is-hover img { left: 160px; transition: all 200ms ease-in-out; }
+  .lsav-btn:focus-visible { outline: 3px solid #29ABE2; outline-offset: 4px; }
+
+  /* Variant for cyan backgrounds (CTA band) — slab reads as a white wash */
+  .lsav-btn--on-blue::after { background-color: rgba(255, 255, 255, 0.28); }
+
+  /* Row variant — the "Case Study" buttons on lsav.tv/case-studies/
+     (.elementor-element-172a703 et al., post-5135.css). Differs from the
+     footer button only in: width 220, label inset 80, font-weight 400. */
+  .lsav-btn--case { width: 220px; padding-left: 80px; }
+
+  /* Tablet (≤1024px) — values from the site's tablet block */
+  @media (max-width: 1024px) {
+    .lsav-btn { width: 200px; padding: 25px 0 25px 65px; }
+    .lsav-btn::after { width: 200px; left: -150px; }
+    .lsav-btn img { width: 25px; left: 13px; top: 15px; }
+    .lsav-btn:hover, .lsav-btn:focus-visible, .lsav-btn.is-hover { padding-left: 25px; }
+    .lsav-btn:hover img, .lsav-btn:focus-visible img, .lsav-btn.is-hover img { left: 150px; }
+  }
+  /* Mobile (≤767px) — values from the site's mobile block */
+  @media (max-width: 767px) {
+    .lsav-btn { width: 185px; padding: 20px 20px 20px 65px; }
+    .lsav-btn::after { width: 195px; left: -140px; }
+    .lsav-btn img { width: 25px; left: 15px; top: 10px; }
+    .lsav-btn p { font-size: 18px; }
+    .lsav-btn:hover, .lsav-btn:focus-visible, .lsav-btn.is-hover { padding-left: 20px; }
+    .lsav-btn:hover img, .lsav-btn:focus-visible img, .lsav-btn.is-hover img { left: 145px; }
+  }
+
+  /* ---------- demo page chrome (not part of the component) ---------- */
+  body { margin: 0; font-family: Poppins, sans-serif; background: #fff; }
+  .specimen { padding: 56px 64px; }
+  .specimen--dark { background: #1A1718; }
+  .specimen--cyan { background: #1E9CD7; }
+  .specimen h2 { color: rgba(255,255,255,0.55); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin: 0 0 24px; }
+  .specimen-row { display: flex; gap: 48px; flex-wrap: wrap; align-items: center; }
+</style>
+</head>
+<body>
+
+  <section class="specimen specimen--dark">
+    <h2>Footer context — rest / hover (hover me) / forced hover</h2>
+    <div class="specimen-row">
+      <a class="lsav-btn" href="https://lsav.tv/contact/">
+        <img src="assets/arrow.svg?v=2" alt=""><p>Contact Us</p>
+      </a>
+      <a class="lsav-btn is-hover" href="https://lsav.tv/contact/" tabindex="-1" aria-hidden="true">
+        <img src="assets/arrow.svg?v=2" alt=""><p>Contact Us</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="specimen specimen--dark">
+    <h2>Case-study row variant — rest / forced hover (Poppins 400, 220px)</h2>
+    <div class="specimen-row">
+      <a class="lsav-btn lsav-btn--case" href="https://lsav.tv/case-studies/united-at-red-rock/">
+        <img src="assets/arrow.svg?v=2" alt=""><p>Case Study</p>
+      </a>
+      <a class="lsav-btn lsav-btn--case is-hover" href="https://lsav.tv/case-studies/united-at-red-rock/" tabindex="-1" aria-hidden="true">
+        <img src="assets/arrow.svg?v=2" alt=""><p>Case Study</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="specimen specimen--cyan">
+    <h2>On-blue variant (CTA band) — rest / forced hover</h2>
+    <div class="specimen-row">
+      <a class="lsav-btn lsav-btn--on-blue" href="https://lsav.tv/contact/">
+        <img src="assets/arrow.svg?v=2" alt=""><p>Contact Us</p>
+      </a>
+      <a class="lsav-btn lsav-btn--on-blue is-hover" href="https://lsav.tv/contact/" tabindex="-1" aria-hidden="true">
+        <img src="assets/arrow.svg?v=2" alt=""><p>Contact Us</p>
+      </a>
+    </div>
+  </section>
+
+</body>
+</html>
