@@ -178,6 +178,23 @@
     display: flex; align-items: center; justify-content: center;
     text-align: center; padding: 120px 90px;
   }
+  .hero { overflow: hidden; }
+  .hero-video { position: absolute; inset: 0; pointer-events: none; }
+  .hero-video iframe {
+    position: absolute; top: 50%; left: 50%;
+    width: 100vw; height: 56.25vw;            /* 16:9 */
+    min-height: 100%; min-width: 177.78vh;    /* cover when viewport is tall */
+    transform: translate(-50%, -50%);
+    border: 0;
+  }
+  .hero-video::after {                         /* scrim for copy legibility */
+    content: ""; position: absolute; inset: 0;
+    background: rgba(35, 31, 32, 0.55);
+  }
+  .hero-copy { position: relative; z-index: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-video { display: none; }             /* falls back to the solid dark hero */
+  }
   .hero h1 {
     font-family: Poppins, sans-serif; font-weight: 800;
     font-size: clamp(40px, 3.9vw, 75px); line-height: 1.12;
@@ -481,7 +498,10 @@
 
   <!-- Hero -->
   <section class="hero">
-    <div>
+    <div class="hero-video" aria-hidden="true">
+      <iframe src="https://player.vimeo.com/video/1088149469?background=1&autopause=0" allow="autoplay" title="" loading="eager"></iframe>
+    </div>
+    <div class="hero-copy">
       <h1>The proof is in the production.</h1>
       <p class="hero-body--full">From United’s leadership conferences to the Democratic National Convention, LSAV POWERHOUSE produces the moments major brands are judged by — keynotes, activations, broadcasts, and trade shows, delivered by one multi-disciplinary team, anywhere the audience is.</p>
       <p class="hero-body--trim">Keynotes, conventions, activations, broadcasts — produced end-to-end by one team, for clients who can’t afford a second take.</p>
