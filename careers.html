@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Careers — LSAV Powerhouse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dark: #231F20;
+    --near-black: #1A1718;
+    --cyan: #00AEEF;
+    --white: #FFFFFF;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: Calibri, Carlito, "Segoe UI", sans-serif;
+    background: var(--white);
+    color: #000;
+  }
+  img { display: block; }
+  a { text-decoration: none; }
+
+  .skip-link {
+    position: absolute; left: -9999px; top: 0;
+    background: var(--cyan); color: #fff; padding: 12px 24px;
+    font-family: Poppins, sans-serif; font-weight: 600; z-index: 100;
+  }
+  .skip-link:focus { left: 0; }
+
+  /* ---------- Scroll reveals ----------
+     One grammar: 600ms, easeOutQuint-ish, <=24px travel, one-shot.
+     Gated on html.js (set in <head>) so content is visible without JS.
+     prefers-reduced-motion gets everything instantly. */
+  :root { --reveal-ease: cubic-bezier(0.22, 1, 0.36, 1); }
+  .js .intro h2, .js .intro .intro-copy > p, .js .benefit,
+  .js .disciplines .disc-item,
+  .js .role,
+  .js .cta-band > h2, .js .cta-band > p, .js .cta-band > .lsav-btn {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 1.05s var(--reveal-ease), transform 1.05s var(--reveal-ease);
+  }
+  .js .benefit .benefit-num {
+    opacity: 0; transform: translateX(-16px);
+    transition: opacity 1.05s var(--reveal-ease), transform 1.05s var(--reveal-ease);
+  }
+  .js .logo-scroll .logo-track { opacity: 0; transition: opacity 1.05s var(--reveal-ease); will-change: transform, opacity; }
+  .js .intro::after, .js .logo-scroll::after {
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 1.2s var(--reveal-ease) .3s;
+  }
+  /* staggers */
+  .js .intro .intro-copy > p:nth-of-type(1) { transition-delay: .2s; }
+  .js .intro .intro-copy > p:nth-of-type(2) { transition-delay: .34s; }
+  .js .benefit:nth-child(1), .js .benefit:nth-child(1) .benefit-num { transition-delay: .2s; }
+  .js .benefit:nth-child(2), .js .benefit:nth-child(2) .benefit-num { transition-delay: .36s; }
+  .js .benefit:nth-child(3), .js .benefit:nth-child(3) .benefit-num { transition-delay: .5s; }
+  .js .disciplines .disc-item:nth-child(3n+1) { transition-delay: .12s; }
+  .js .disciplines .disc-item:nth-child(3n+2) { transition-delay: .22s; }
+  .js .disciplines .disc-item:nth-child(3n+3) { transition-delay: .32s; }
+  .js .role:nth-child(odd) { transition-delay: .12s; }
+  .js .role:nth-child(even) { transition-delay: .24s; }
+  .js .cta-band > p { transition-delay: .13s; }
+  .js .cta-band > .lsav-btn { transition-delay: .26s; }
+  /* revealed state */
+  .js .intro.in-view h2, .js .intro.in-view .intro-copy > p, .js .intro.in-view .benefit,
+  .js .intro.in-view .benefit .benefit-num,
+  .js .disciplines.in-view .disc-item,
+  .js .role.in-view,
+  .js .cta-band.in-view > h2, .js .cta-band.in-view > p, .js .cta-band.in-view > .lsav-btn {
+    opacity: 1; transform: none;
+  }
+  .js .logo-scroll.in-view .logo-track { opacity: 1; }
+  .js .intro.in-view::after, .js .logo-scroll.in-view::after { transform: scaleX(1); }
+  @media (prefers-reduced-motion: reduce) {
+    .js :is(.intro h2, .intro .intro-copy > p, .benefit, .benefit-num,
+            .disciplines .disc-item, .role,
+            .cta-band > h2, .cta-band > p, .cta-band > .lsav-btn, .logo-track) {
+      opacity: 1 !important; transform: none !important; transition: none !important;
+    }
+    .js .intro::after, .js .logo-scroll::after { transform: scaleX(1) !important; transition: none !important; }
+  }
+
+  /* ---------- Header ---------- */
+  .site-header {
+    position: absolute; top: 0; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 23px 47px; z-index: 10;
+  }
+  .site-header .logo img { height: 34px; width: auto; max-width: 70vw; object-fit: contain; object-position: left; }
+  .site-header .menu-toggle {
+    background: none; border: 0; cursor: pointer; padding: 8px;
+  }
+  .site-header .menu-toggle img { height: 24px; width: auto; }
+
+  /* ---------- Buttons ----------
+     Recreated from lsav.tv footer (Elementor .elementor-element-bd6ab62, post-1407.css).
+     Cyan slab (::after) parked off-canvas left; on hover it floods the button,
+     the arrow flies right and the label slides left. 200ms ease-in-out. */
+  .lsav-btn, .lsav-btn::after, .lsav-btn img, .lsav-btn p { box-sizing: border-box; }
+  .lsav-btn {
+    position: relative;
+    display: block;
+    width: 230px;
+    padding: 25px 0 28px 90px;
+    border: 2px solid #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    text-decoration: none;
+  }
+  .lsav-btn::after {
+    content: '';
+    position: absolute;
+    width: 240px;
+    height: 100%;
+    left: -180px;
+    top: 0;
+    z-index: 1;
+    background-color: #29ABE2;
+  }
+  .lsav-btn img {
+    width: 30px;
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    z-index: 2;
+  }
+  .lsav-btn p {
+    position: absolute;
+    margin: 0;
+    color: #fff;
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1px;
+    z-index: 3;
+  }
+  .lsav-btn:hover, .lsav-btn:focus-visible { padding-left: 30px; transition: all 200ms ease-in-out; }
+  .lsav-btn:hover::after, .lsav-btn:focus-visible::after { left: 0; transition: all 200ms ease-in-out; }
+  .lsav-btn:hover img, .lsav-btn:focus-visible img { left: 160px; transition: all 200ms ease-in-out; }
+  .lsav-btn:focus-visible { outline: 3px solid #29ABE2; outline-offset: 4px; }
+  .lsav-btn--on-blue::after { background-color: rgba(255, 255, 255, 0.28); }
+  /* Dark-on-light variant: cyan border + cyan fill for use on white sections */
+  .lsav-btn--dark { border-color: var(--cyan); }
+  .lsav-btn--talk { width: 190px; padding-left: 70px; }
+  .lsav-btn--talk:hover img, .lsav-btn--talk:focus-visible img { left: 130px; }
+  /* Wider box for the longer "Submit resume" label */
+  .lsav-btn--submit { width: 248px; padding-left: 64px; }
+  .lsav-btn--submit:hover img, .lsav-btn--submit:focus-visible img { left: 188px; }
+  /* Apply: solid cyan primary for light sections (base button is built for dark bg).
+     Slab darkens to #008BBF on hover instead of flooding from transparent. */
+  .lsav-btn--apply { width: 200px; padding: 18px 0 18px 64px; background-color: var(--cyan); border-color: var(--cyan); }
+  .lsav-btn--apply::after { background-color: #008BBF; }
+  .lsav-btn--apply img { width: 24px; top: 14px; left: 16px; }
+  .lsav-btn--apply p { font-size: 18px; }
+  .lsav-btn--apply:hover img, .lsav-btn--apply:focus-visible img { left: 138px; }
+  @media (max-width: 1024px) {
+    .lsav-btn { width: 200px; padding: 25px 0 25px 65px; }
+    .lsav-btn::after { width: 200px; left: -150px; }
+    .lsav-btn img { width: 25px; left: 13px; top: 15px; }
+    .lsav-btn:hover, .lsav-btn:focus-visible { padding-left: 25px; }
+    .lsav-btn:hover img, .lsav-btn:focus-visible img { left: 150px; }
+  }
+  @media (max-width: 767px) {
+    .lsav-btn { width: 185px; padding: 20px 20px 20px 65px; }
+    .lsav-btn::after { width: 195px; left: -140px; }
+    .lsav-btn img { width: 25px; left: 15px; top: 10px; }
+    .lsav-btn p { font-size: 18px; }
+    .lsav-btn:hover, .lsav-btn:focus-visible { padding-left: 20px; }
+    .lsav-btn:hover img, .lsav-btn:focus-visible img { left: 145px; }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative; min-height: 720px;
+    background: var(--dark);
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 120px 90px;
+    overflow: hidden;
+  }
+  .hero-video { position: absolute; inset: 0; pointer-events: none; }
+  .hero-video iframe {
+    position: absolute; top: 50%; left: 50%;
+    width: 100vw; height: 56.25vw;
+    min-height: 100%; min-width: 177.78vh;
+    transform: translate(-50%, -50%);
+    border: 0;
+  }
+  .hero-video::after {
+    content: ""; position: absolute; inset: 0;
+    background: rgba(0, 0, 0, 0.32);
+  }
+  .hero-copy { position: relative; z-index: 1; max-width: 1320px; }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-video { display: none; }
+  }
+  .hero .eyebrow {
+    display: inline-block;
+    font-family: Poppins, sans-serif; font-weight: 700;
+    font-size: 16px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--cyan); margin-bottom: 22px;
+  }
+  .hero h1 {
+    font-family: Poppins, sans-serif; font-weight: 800;
+    font-size: clamp(40px, 3.9vw, 75px); line-height: 1.12;
+    color: var(--white); margin-bottom: 32px;
+  }
+  .hero p {
+    font-size: clamp(18px, 1.4vw, 27px); line-height: 1.56;
+    color: var(--white); max-width: 1100px; margin: 0 auto;
+  }
+  .hero-body--trim { display: none; }
+
+  /* ---------- Intro sections ---------- */
+  .intro {
+    max-width: 1920px; margin: 0 auto;
+    padding: 110px 87px 90px;
+    display: grid; grid-template-columns: 487px 1fr; gap: 160px;
+    position: relative;
+  }
+  .intro::after {
+    content: ""; position: absolute; left: 87px; right: 87px; bottom: 0;
+    height: 1px; background: #EAEAEA;
+  }
+  .intro h2 {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 48px; line-height: 60px; color: #000;
+  }
+  .intro .intro-copy { max-width: 1200px; }
+  .intro .intro-copy p {
+    font-size: 27px; line-height: 42px; margin-bottom: 36px;
+  }
+  .intro .intro-copy p:last-child { margin-bottom: 0; }
+  .intro .intro-copy p strong { font-family: Poppins, sans-serif; font-weight: 600; }
+  .intro--numbered .intro-copy { display: flex; flex-direction: column; gap: 36px; padding-top: 11px; }
+  .benefit { display: flex; gap: 40px; align-items: flex-start; padding-right: 160px; }
+  .benefit-num {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 48px; line-height: 48px; color: var(--cyan); flex: none;
+  }
+  .benefit p { font-size: 27px; line-height: 42px; margin: 0; }
+
+  /* ---------- Who We Hire — disciplines grid (intro grammar + chip list) ---------- */
+  .disciplines .intro-copy { display: flex; flex-direction: column; gap: 40px; padding-top: 4px; }
+  .disciplines .disc-lead { font-size: 27px; line-height: 42px; margin: 0; }
+  .disc-grid {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px 48px;
+  }
+  .disc-item {
+    display: flex; align-items: flex-start; gap: 16px;
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 21px; line-height: 28px; color: var(--dark);
+    padding-bottom: 18px; border-bottom: 1px solid #EAEAEA;
+  }
+  .disc-item::before {
+    content: ""; flex: none; margin-top: 9px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--cyan);
+  }
+  .disc-foot { font-size: 22px; line-height: 36px; margin: 0; color: #444; }
+
+  /* ---------- Open roles — accordion (native <details>) ---------- */
+  .roles {
+    max-width: 1640px; margin: 0 auto; padding: 110px 87px 100px;
+  }
+  .roles-head { margin-bottom: 56px; max-width: 1100px; }
+  .roles-head .eyebrow {
+    display: inline-block;
+    font-family: Poppins, sans-serif; font-weight: 700;
+    font-size: 16px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--cyan); margin-bottom: 18px;
+  }
+  .roles-head h2 {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 48px; line-height: 60px; color: #000;
+  }
+  .role {
+    border-top: 1px solid #E2E2E2;
+  }
+  .role:last-of-type { border-bottom: 1px solid #E2E2E2; }
+  .role > summary {
+    list-style: none; cursor: pointer;
+    display: flex; align-items: center; gap: 40px;
+    padding: 40px 8px;
+    position: relative;
+  }
+  .role > summary::-webkit-details-marker { display: none; }
+  .role > summary:focus-visible {
+    outline: 3px solid var(--cyan); outline-offset: 4px; border-radius: 4px;
+  }
+  .role-headline { flex: 1 1 auto; min-width: 0; }
+  .role-title {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 32px; line-height: 1.18; color: #000;
+    transition: color 200ms ease;
+  }
+  .role:hover .role-title, .role[open] .role-title { color: var(--cyan); }
+  .role-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+  .role-tag {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--dark);
+    padding: 7px 14px; border: 1.5px solid #D7D7D7; border-radius: 120px;
+  }
+  .role-tag--accent { color: var(--cyan); border-color: rgba(0,174,239,0.45); }
+  .role-toggle {
+    flex: none; position: relative; width: 34px; height: 34px;
+  }
+  .role-toggle::before, .role-toggle::after {
+    content: ""; position: absolute; background: var(--cyan);
+    transition: transform 240ms var(--reveal-ease), opacity 240ms var(--reveal-ease);
+  }
+  .role-toggle::before { left: 0; top: 16px; width: 34px; height: 2px; }     /* horizontal */
+  .role-toggle::after  { left: 16px; top: 0; width: 2px; height: 34px; }     /* vertical   */
+  .role[open] .role-toggle::after { transform: scaleY(0); }
+  .role-body {
+    padding: 4px 8px 52px;
+    display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 64px;
+    align-items: start;
+  }
+  .role-summary {
+    font-size: 22px; line-height: 36px; color: #2A2A2A; margin-bottom: 38px;
+  }
+  .role-section { margin-bottom: 32px; }
+  .role-section:last-child { margin-bottom: 0; }
+  .role-section h4 {
+    font-family: Poppins, sans-serif; font-weight: 700;
+    font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: #000; margin-bottom: 16px;
+  }
+  .role-section ul { list-style: none; margin: 0; padding: 0; }
+  .role-section li {
+    position: relative; padding-left: 28px; margin-bottom: 13px;
+    font-size: 18px; line-height: 29px; color: #2A2A2A;
+  }
+  .role-section li::before {
+    content: ""; position: absolute; left: 0; top: 11px;
+    width: 8px; height: 8px; border-radius: 50%; background: var(--cyan);
+  }
+  .role-aside {
+    position: sticky; top: 32px;
+    background: #F6F6F6; border-radius: 24px; padding: 36px 34px;
+  }
+  .role-aside h4 {
+    font-family: Poppins, sans-serif; font-weight: 700;
+    font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: #000; margin-bottom: 14px;
+  }
+  .role-aside > p { font-size: 17px; line-height: 27px; color: #444; margin-bottom: 26px; }
+  /* details open animation (skipped under reduced-motion) */
+  @media (prefers-reduced-motion: no-preference) {
+    .role[open] .role-body > * { animation: roleIn 600ms var(--reveal-ease) both; }
+    @keyframes roleIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  }
+
+  /* ---------- Client logo scroll ---------- */
+  .logo-scroll { overflow: hidden; padding: 72px 0; background: var(--white); position: relative; }
+  .logo-scroll::after {
+    content: ""; position: absolute; left: 87px; right: 87px; bottom: 0;
+    height: 1px; background: #EAEAEA;
+  }
+  .logo-track {
+    display: flex; width: max-content;
+    animation: logoScroll 39.6s linear infinite;
+    will-change: transform;
+  }
+  .logo-scroll:hover .logo-track { animation-play-state: paused; }
+  .logo-set { display: flex; align-items: center; gap: 176px; padding-right: 176px; }
+  .logo-set img { height: 34px; width: auto; }
+  .logo-set img.logo--md { height: 48px; }
+  .logo-set img.logo--tall { height: 72px; }
+  .logo-set img.logo--dnc { height: 65px; }
+  .logo-set img.logo--lockup { height: 52px; }
+  .logo-set img.logo--wide { height: 27px; }
+  @keyframes logoScroll { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .logo-track { animation: none; } }
+
+  /* ---------- CTA band ---------- */
+  .cta-band {
+    position: relative; min-height: 600px; overflow: hidden;
+    background: var(--cyan);
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 80px;
+  }
+  .cta-band::before { content: ""; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.2); }
+  .cta-wave {
+    position: absolute; top: -541px; left: 50%; margin-left: -880px;
+    width: 1760px; height: 1683px; pointer-events: none;
+  }
+  .cta-wave svg { width: 100%; height: 100%; display: block; }
+  .cta-band > h2 {
+    position: relative;
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 42px; line-height: 1; color: var(--white);
+    margin-bottom: 28px;
+  }
+  .cta-band > p {
+    position: relative;
+    font-size: 27px; line-height: 42px; color: var(--white);
+    max-width: 1024px; margin-bottom: 44px;
+  }
+  .cta-band > .lsav-btn { position: relative; }
+
+  /* ---------- Footer ---------- */
+  .site-footer {
+    background: var(--near-black); color: var(--white);
+    padding: 80px 87px 48px;
+  }
+  .footer-top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 48px; flex-wrap: wrap;
+  }
+  .footer-top h2 {
+    font-family: Poppins, sans-serif; font-weight: 800;
+    font-size: clamp(36px, 3.3vw, 64px); color: var(--cyan);
+    margin-bottom: 32px;
+  }
+  .footer-brand { text-align: right; }
+  .footer-brand img { height: 30px; width: auto; max-width: 100%; object-fit: contain; margin-left: auto; }
+  .social-row { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+  .social-row a {
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--white); color: var(--near-black);
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 14px;
+  }
+  .social-row a:hover { background: var(--cyan); color: var(--white); }
+  .footer-divider {
+    border: 0; border-top: 1px solid rgba(255,255,255,0.15);
+    margin: 56px 0 48px;
+  }
+  .footer-menus {
+    display: flex; justify-content: center; gap: 120px; flex-wrap: wrap;
+  }
+  .footer-menus h3 {
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 14px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.5); margin-bottom: 18px;
+  }
+  .footer-menus ul { list-style: none; }
+  .footer-menus li { margin-bottom: 12px; }
+  .footer-menus a {
+    font-family: Poppins, sans-serif; font-weight: 400; font-size: 14px;
+    color: var(--white);
+  }
+  .footer-menus a:hover { color: var(--cyan); }
+  .footer-legal {
+    margin-top: 64px; text-align: center;
+    font-family: Poppins, sans-serif; font-size: 12px;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1440px) {
+    .intro { gap: 120px; }
+    .roles { padding: 90px 64px 90px; }
+    .role-body { grid-template-columns: minmax(0, 1fr) 300px; gap: 48px; }
+  }
+  @media (max-width: 1024px) {
+    .hero { min-height: 600px; padding: 110px 48px; }
+    .intro { grid-template-columns: 1fr; gap: 40px; padding: 80px 48px; }
+    .intro::after, .logo-scroll::after { left: 48px; right: 48px; }
+    .intro h2 { font-size: 40px; line-height: 50px; }
+    .intro .intro-copy p { font-size: 22px; line-height: 36px; }
+    .benefit { gap: 28px; padding-right: 0; }
+    .benefit-num { font-size: 40px; line-height: 40px; }
+    .disciplines .disc-lead { font-size: 22px; line-height: 36px; }
+    .disc-grid { gap: 14px 32px; }
+    .disc-item { font-size: 19px; }
+    .roles { padding: 72px 48px; }
+    .roles-head { margin-bottom: 40px; }
+    .roles-head h2 { font-size: 40px; line-height: 50px; }
+    .role > summary { gap: 24px; padding: 32px 4px; }
+    .role-title { font-size: 26px; }
+    .role-body { grid-template-columns: 1fr; gap: 32px; padding-bottom: 44px; }
+    .role-aside { position: static; }
+    .logo-scroll { padding: 56px 0; }
+    .logo-set { gap: 112px; padding-right: 112px; }
+    .logo-set img { height: 30px; }
+    .logo-set img.logo--md { height: 42px; }
+    .logo-set img.logo--tall { height: 60px; }
+    .logo-set img.logo--dnc { height: 54px; }
+    .logo-set img.logo--lockup { height: 46px; }
+    .logo-set img.logo--wide { height: 23px; }
+    .cta-band { min-height: 520px; padding: 64px 48px; }
+    .cta-band > h2 { font-size: 34px; }
+    .site-footer { padding: 64px 48px 40px; }
+    .footer-menus { gap: 80px; }
+  }
+  @media (max-width: 767px) {
+    .hero { min-height: 520px; padding: 96px 24px 56px; }
+    .hero-body--full { display: none; }
+    .hero-body--trim { display: block; }
+    .intro { padding: 56px 24px; gap: 28px; }
+    .intro::after, .logo-scroll::after { left: 24px; right: 24px; }
+    .intro h2 { font-size: 32px; line-height: 40px; }
+    .intro .intro-copy p { font-size: 19px; line-height: 30px; }
+    .intro--numbered .intro-copy { gap: 28px; }
+    .benefit { gap: 20px; }
+    .benefit-num { font-size: 32px; line-height: 32px; }
+    .disciplines .disc-lead { font-size: 19px; line-height: 30px; }
+    .disc-grid { grid-template-columns: 1fr; gap: 0; }
+    .disc-item { font-size: 18px; padding-bottom: 14px; margin-bottom: 0; }
+    .disc-foot { font-size: 18px; line-height: 30px; }
+    .roles { padding: 56px 24px; }
+    .roles-head h2 { font-size: 32px; line-height: 40px; }
+    .role > summary { padding: 26px 2px; gap: 18px; }
+    .role-title { font-size: 22px; }
+    .role-meta { gap: 8px; margin-top: 12px; }
+    .role-tag { font-size: 12px; padding: 6px 11px; }
+    .role-toggle { width: 26px; height: 26px; }
+    .role-toggle::before { top: 12px; width: 26px; }
+    .role-toggle::after { left: 12px; height: 26px; }
+    .role-summary { font-size: 19px; line-height: 30px; }
+    .role-section li { font-size: 16px; line-height: 26px; }
+    .role-aside { padding: 28px 24px; }
+    .logo-scroll { padding: 40px 0; }
+    .logo-set { gap: 72px; padding-right: 72px; }
+    .logo-set img { height: 24px; }
+    .logo-set img.logo--md { height: 32px; }
+    .logo-set img.logo--tall { height: 48px; }
+    .logo-set img.logo--dnc { height: 42px; }
+    .logo-set img.logo--lockup { height: 38px; }
+    .logo-set img.logo--wide { height: 19px; }
+    .cta-band { padding: 56px 24px; }
+    .cta-band > h2 { font-size: 28px; }
+    .cta-band > p { font-size: 19px; line-height: 30px; }
+    .site-footer { padding: 56px 24px 32px; }
+    .footer-brand { text-align: left; }
+    .footer-brand img { margin-left: 0; }
+    .social-row { justify-content: flex-start; }
+    .footer-menus { gap: 40px; }
+  }
+</style>
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <a class="logo" href="https://lsav.tv" aria-label="LSAV Powerhouse home">
+    <img src="assets/logo-white.png" alt="LSAV Powerhouse">
+  </a>
+  <button class="menu-toggle" aria-label="Open menu">
+    <img src="assets/menu-white.png" alt="">
+  </button>
+</header>
+
+<main id="main">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-video" aria-hidden="true">
+      <iframe src="https://player.vimeo.com/video/1088149469?background=1&autopause=0" allow="autoplay" title="" loading="eager"></iframe>
+    </div>
+    <div class="hero-copy">
+      <span class="eyebrow">Careers at LSAV</span>
+      <h1>Create experiences that move people.</h1>
+      <p class="hero-body--full">At LSAV, we don&rsquo;t just produce events &mdash; we create moments that inspire, connect, and leave lasting impressions. From global conferences and brand activations to live broadcasts and immersive experiences, our team brings creativity, technology, and flawless execution together to make the impossible happen.</p>
+      <p class="hero-body--trim">Global conferences, brand activations, live broadcasts &mdash; built by one team that brings creativity, technology, and flawless execution together to make the impossible happen.</p>
+    </div>
+  </section>
+
+  <!-- Intro: the work -->
+  <section class="intro">
+    <h2>Build the Moments Brands Are Judged By</h2>
+    <div class="intro-copy">
+      <p>We&rsquo;re always looking for talented people who are passionate about innovation, collaboration, and delivering extraordinary experiences.</p>
+      <p>Whether you&rsquo;re a producer, engineer, designer, technician, strategist, fabricator, or creative thinker, you&rsquo;ll find opportunities to grow your career while helping shape some of the industry&rsquo;s most exciting projects.</p>
+    </div>
+  </section>
+
+  <!-- Client logo scroll -->
+  <section class="logo-scroll" aria-label="Selected clients">
+    <div class="logo-track">
+      <div class="logo-set">
+        <img src="assets/logos/united.svg" alt="United Airlines">
+        <img class="logo--md" src="assets/logos/emirates.svg" alt="Emirates">
+        <img src="assets/logos/morningstar.svg" alt="Morningstar">
+        <img src="assets/logos/colgate.svg" alt="Colgate-Palmolive">
+        <img class="logo--tall" src="assets/logos/sundance.svg" alt="Sundance Film Festival">
+        <img class="logo--dnc" src="assets/logos/dnc.svg" alt="2024 Democratic National Convention">
+        <img src="assets/logos/zurich.svg" alt="Zurich">
+        <img class="logo--lockup" src="assets/logos/americanfamily.png" alt="American Family Insurance">
+        <img src="assets/logos/gallagher.png" alt="Gallagher">
+        <img class="logo--wide" src="assets/logos/kirkland.png" alt="Kirkland & Ellis">
+        <img class="logo--lockup" src="assets/logos/usw.png" alt="United Steelworkers">
+        <img src="assets/logos/promat.png" alt="ProMat 2023">
+      </div>
+      <div class="logo-set" aria-hidden="true">
+        <img src="assets/logos/united.svg" alt="United Airlines">
+        <img class="logo--md" src="assets/logos/emirates.svg" alt="Emirates">
+        <img src="assets/logos/morningstar.svg" alt="Morningstar">
+        <img src="assets/logos/colgate.svg" alt="Colgate-Palmolive">
+        <img class="logo--tall" src="assets/logos/sundance.svg" alt="Sundance Film Festival">
+        <img class="logo--dnc" src="assets/logos/dnc.svg" alt="2024 Democratic National Convention">
+        <img src="assets/logos/zurich.svg" alt="Zurich">
+        <img class="logo--lockup" src="assets/logos/americanfamily.png" alt="American Family Insurance">
+        <img src="assets/logos/gallagher.png" alt="Gallagher">
+        <img class="logo--wide" src="assets/logos/kirkland.png" alt="Kirkland & Ellis">
+        <img class="logo--lockup" src="assets/logos/usw.png" alt="United Steelworkers">
+        <img src="assets/logos/promat.png" alt="ProMat 2023">
+      </div>
+    </div>
+  </section>
+
+  <!-- Who We Hire -->
+  <section class="intro disciplines">
+    <h2>Who We Hire</h2>
+    <div class="intro-copy">
+      <p class="disc-lead">We&rsquo;re always interested in connecting with talented professionals across a variety of disciplines, including:</p>
+      <ul class="disc-grid">
+        <li class="disc-item">Event Production</li>
+        <li class="disc-item">Technical Direction</li>
+        <li class="disc-item">Audio, Video &amp; Lighting</li>
+        <li class="disc-item">Show Operations</li>
+        <li class="disc-item">Scenic &amp; Fabrication</li>
+        <li class="disc-item">Digital &amp; Media Production</li>
+        <li class="disc-item">Creative Services</li>
+        <li class="disc-item">Project Management</li>
+        <li class="disc-item">Logistics &amp; Warehouse Operations</li>
+        <li class="disc-item">Business Development &amp; Sales</li>
+        <li class="disc-item">Corporate Support Functions</li>
+      </ul>
+      <p class="disc-foot">Whether you&rsquo;re an experienced industry veteran or an emerging professional eager to learn, we&rsquo;d love to hear from you.</p>
+    </div>
+  </section>
+
+  <!-- Our Culture -->
+  <section class="intro intro--numbered">
+    <h2>Our Culture</h2>
+    <div class="intro-copy">
+      <div class="benefit"><span class="benefit-num">01</span><p><strong>People at the center:</strong> We value curiosity, accountability, creativity, and a willingness to go above and beyond for our clients and teammates.</p></div>
+      <div class="benefit"><span class="benefit-num">02</span><p><strong>Better together:</strong> The best ideas come from diverse perspectives and collaborative problem-solving &mdash; not from working in silos.</p></div>
+      <div class="benefit"><span class="benefit-num">03</span><p><strong>Built for the pressure:</strong> If you&rsquo;re energized by fast-paced environments, thrive under pressure, and love bringing ambitious visions to life, you&rsquo;ll fit right in.</p></div>
+    </div>
+  </section>
+
+  <!-- Open Positions -->
+  <section class="roles" id="open-positions" aria-label="Open positions">
+    <div class="roles-head">
+      <span class="eyebrow">Open Positions</span>
+      <h2>Your next great opportunity starts here.</h2>
+    </div>
+
+    <!-- Role 1 -->
+    <details class="role">
+      <summary>
+        <div class="role-headline">
+          <div class="role-title">Executive Producer &mdash; Live Events</div>
+          <div class="role-meta">
+            <span class="role-tag role-tag--accent">Event Production</span>
+            <span class="role-tag">Full-Time</span>
+            <span class="role-tag">Travel ~5&ndash;7 days/mo</span>
+            <span class="role-tag">Senior</span>
+          </div>
+        </div>
+        <span class="role-toggle" aria-hidden="true"></span>
+      </summary>
+      <div class="role-body">
+        <div class="role-detail">
+          <p class="role-summary">The Executive Producer (in-person, live events) owns pre-show planning and the implementation of production services to ensure a successful client experience. You&rsquo;ll lead a team of creative and technical thinkers while managing client expectations through the planning, onsite, and post-event phases &mdash; working closely with our Account, Creative, Technical, Digital Services, and Operations teams to deliver flawless, on-budget programs including in-person, hybrid events, and studio broadcasts.</p>
+          <div class="role-section">
+            <h4>Successful candidates will</h4>
+            <ul>
+              <li>Manage client communication and the production planning process for an assigned project, including the development of necessary assets (production timelines, show flow and scripts, room diagrams, project deliverables, etc.)</li>
+              <li>Manage the implementation and/or onsite execution of all elements for the project</li>
+              <li>Manage the post-project follow-up and reporting process</li>
+              <li>Be a strategic thinker</li>
+              <li>Deliver exceptional customer service in a fast-paced, client-focused environment</li>
+            </ul>
+          </div>
+          <div class="role-section">
+            <h4>Additional qualifications</h4>
+            <ul>
+              <li>This is not a meeting-planning position</li>
+              <li>Bachelor&rsquo;s degree in Business, Media/Video Production, Stage/Event Management, Theatre/Technical Direction, or equivalent work experience</li>
+              <li>Seven to ten years in a production setting &mdash; agency, event/broadcast, or AV environment</li>
+              <li>Strong team management skills; highly organized with the ability to multi-task</li>
+              <li>Excellent written and oral communication skills</li>
+              <li>Proficiency in office software (Microsoft Office, Apple iWork, etc.)</li>
+              <li>Knowledge of Adobe, AutoCAD/Vectorworks, and similar design applications a plus</li>
+              <li>Travel required &mdash; approximately 5&ndash;7 days a month</li>
+            </ul>
+          </div>
+        </div>
+        <aside class="role-aside">
+          <h4>Apply</h4>
+          <p>Submit a cover letter and resume. We review every application personally.</p>
+          <a class="lsav-btn lsav-btn--dark lsav-btn--apply" href="mailto:careers@lsav.tv?subject=Executive%20Producer%20%E2%80%94%20Live%20Events">
+            <img src="assets/arrow.svg?v=2" alt=""><p>Apply now</p>
+          </a>
+        </aside>
+      </div>
+    </details>
+
+    <!-- Role 2 -->
+    <details class="role">
+      <summary>
+        <div class="role-headline">
+          <div class="role-title">Live Event Technical Director / Project Manager</div>
+          <div class="role-meta">
+            <span class="role-tag role-tag--accent">Technical Direction</span>
+            <span class="role-tag">Chicago</span>
+            <span class="role-tag">Full-Time</span>
+            <span class="role-tag">Senior</span>
+          </div>
+        </div>
+        <span class="role-toggle" aria-hidden="true"></span>
+      </summary>
+      <div class="role-body">
+        <div class="role-detail">
+          <p class="role-summary">We&rsquo;re looking for a Technical Director/Project Manager to coordinate the technical and production elements of live, virtual, and hybrid corporate meetings and events &mdash; ensuring the right technology solutions, suppliers, and resources are allocated for flawless execution. The ideal candidate has a strong background in live-event technical direction and a genuine desire to ideate and contribute to the look, feel, and design of the project. This is a senior-level position with salary commensurate with experience.</p>
+          <div class="role-section">
+            <h4>Essential job functions</h4>
+            <ul>
+              <li>Manage all aspects of in-person and hybrid event production</li>
+              <li>Provide expert knowledge and recommendations to support project objectives, design, technological solutions, and quality standards</li>
+              <li>Manage or attend client input and planning sessions; maintain dialogue with stakeholders to support ongoing project needs</li>
+              <li>Manage internal teams, create the project plan, and facilitate project and team processes</li>
+              <li>Conduct site inspections of venues; research local vendor and labor support</li>
+              <li>Create show flows, manage rehearsals, and call show when needed</li>
+              <li>Acquire presentation content, run tech rehearsals, and prepare for live delivery</li>
+              <li>Troubleshoot with the technical team to find solutions for technical issues</li>
+              <li>Create and share post-production reports and feedback</li>
+              <li>Attend industry events to learn new methodologies and technologies and recommend/incorporate them into future events</li>
+              <li>Manage multiple projects/events with many variables, tight deadlines, and conflicting priorities</li>
+              <li>Build positive relationships with high-level clients and provide first-class support</li>
+            </ul>
+          </div>
+          <div class="role-section">
+            <h4>Key skills &amp; talents</h4>
+            <ul>
+              <li>Technical direction and show-calling experience</li>
+              <li>Creative mind capable of generating or interpreting concept design ideas</li>
+              <li>Strong knowledge of event technologies</li>
+              <li>Proficiency in Microsoft Office; proficient in Vectorworks, AutoCAD, or similar room-layout software</li>
+              <li>Excellent written and verbal communication skills</li>
+              <li>High level of accuracy and attention to detail</li>
+              <li>Decisive, successful problem-solving skills; results through teamwork and collaboration</li>
+              <li>Produces results in a fast-paced, high-pressure, deadline-driven environment</li>
+              <li>Ability to think strategically, understand business needs, and apply creative solutions</li>
+              <li>Travel will be required</li>
+            </ul>
+          </div>
+        </div>
+        <aside class="role-aside">
+          <h4>Apply</h4>
+          <p>Submit a cover letter and resume. We review every application personally.</p>
+          <a class="lsav-btn lsav-btn--dark lsav-btn--apply" href="mailto:careers@lsav.tv?subject=Technical%20Director%20%2F%20Project%20Manager%20(Chicago)">
+            <img src="assets/arrow.svg?v=2" alt=""><p>Apply now</p>
+          </a>
+        </aside>
+      </div>
+    </details>
+
+    <!-- Role 3 -->
+    <details class="role">
+      <summary>
+        <div class="role-headline">
+          <div class="role-title">Account Executive &mdash; Live Event &amp; AV Sales</div>
+          <div class="role-meta">
+            <span class="role-tag role-tag--accent">Business Development</span>
+            <span class="role-tag">US-Based</span>
+            <span class="role-tag">Full-Time</span>
+            <span class="role-tag">Salary + Commission</span>
+          </div>
+        </div>
+        <span class="role-toggle" aria-hidden="true"></span>
+      </summary>
+      <div class="role-body">
+        <div class="role-detail">
+          <p class="role-summary">LSAV POWERHOUSE is looking for a Live Event &amp; Audio-Visual Industry Account Executive to generate company sales of event production elements &mdash; AV technology, event production, creative, and custom scenic services &mdash; for live, virtual, and hybrid corporate meetings and events. The ideal candidate has a strong background in live-event industry sales, an active client base, and a genuine desire to ideate and contribute to the overall success of each project. This is a senior-level position with salary and commission commensurate with experience.</p>
+          <div class="role-section">
+            <h4>Who you are</h4>
+            <ul>
+              <li>Passionate about business development, cultivating sales relationships, and searching for new business</li>
+              <li>Successful selling audiovisual and production support services</li>
+              <li>Have an active client base</li>
+              <li>Comfortable communicating with all levels and functions of an organization, particularly in the live-events industry</li>
+              <li>Self-motivated with a competitive attitude</li>
+            </ul>
+          </div>
+          <div class="role-section">
+            <h4>You&rsquo;ll be responsible for</h4>
+            <ul>
+              <li>Generating new prospects and following up on warm leads</li>
+              <li>Networking at industry meetings and conferences</li>
+              <li>Ensuring the highest level of client satisfaction, overseeing all events from inception to post-show measurement</li>
+              <li>Managing the full sales process from prospecting to established business</li>
+              <li>Presenting full event services: audio, video, scenic, lighting, technical direction, stage management, creative options, transportation, and venue logistics</li>
+              <li>Creating timely sales reports and demonstrating accountability for monthly sales goals and performance</li>
+            </ul>
+          </div>
+          <div class="role-section">
+            <h4>Desired skills &amp; experience</h4>
+            <ul>
+              <li>5+ years of sales experience in corporate meetings, trade shows, event management, or a similar industry</li>
+              <li>Ability to develop and manage RFP and proposal processes, tight project timelines, vendors, and budgets for complex large-scale events</li>
+              <li>Proven track record of pipeline management and closing sales</li>
+              <li>Selling event staging or production, with a clear understanding of video, audio, lighting, rigging, scenic, and AV technology and their applications</li>
+              <li>A book of business that can be readily converted to sales within the first 12 months</li>
+              <li>Proficiency in Word, Excel, and CRM software</li>
+            </ul>
+          </div>
+        </div>
+        <aside class="role-aside">
+          <h4>Apply</h4>
+          <p>Submit a cover letter and resume. We review every application personally.</p>
+          <a class="lsav-btn lsav-btn--dark lsav-btn--apply" href="mailto:careers@lsav.tv?subject=Account%20Executive%20%E2%80%94%20Live%20Event%20%26%20AV%20Sales">
+            <img src="assets/arrow.svg?v=2" alt=""><p>Apply now</p>
+          </a>
+        </aside>
+      </div>
+    </details>
+
+    <!-- Role 4 -->
+    <details class="role">
+      <summary>
+        <div class="role-headline">
+          <div class="role-title">Driver / Warehouse Assist</div>
+          <div class="role-meta">
+            <span class="role-tag role-tag--accent">Logistics &amp; Warehouse</span>
+            <span class="role-tag">Chicago</span>
+            <span class="role-tag">Full-Time 40+ hrs</span>
+          </div>
+        </div>
+        <span class="role-toggle" aria-hidden="true"></span>
+      </summary>
+      <div class="role-body">
+        <div class="role-detail">
+          <p class="role-summary">This is a full-time licensed truck driver position. Additional tasks include assisting in the quality control of the company&rsquo;s audiovisual and scenic inventory in LSAV&rsquo;s Chicago warehouse. This position reports directly to the Warehouse Manager and is a full-time, 40+ hour-a-week role.</p>
+          <div class="role-section">
+            <h4>Who you are</h4>
+            <ul>
+              <li>Organized and forward-focused with a desire for advancement</li>
+              <li>Team-oriented with the ability to work well with others</li>
+              <li>Physically able to lift upward of 70 pounds unaided</li>
+              <li>Willing to learn new skills</li>
+            </ul>
+          </div>
+          <div class="role-section">
+            <h4>Job duties</h4>
+            <ul>
+              <li>Function as a driver for the delivery and pickup of equipment</li>
+              <li>Truck loading and unloading</li>
+              <li>Assist in the quality control of our audio, video, lighting, and scenic departments</li>
+            </ul>
+          </div>
+          <div class="role-section">
+            <h4>Experience</h4>
+            <ul>
+              <li>Minimum 2 years of experience within the live-events industry</li>
+              <li>Minimum 5 years of commercial driving experience with a clean driving record</li>
+            </ul>
+          </div>
+          <div class="role-section">
+            <h4>Skills, abilities &amp; requirements</h4>
+            <ul>
+              <li>Ability to operate a 24&ndash;26&rsquo; truck</li>
+              <li>Well-developed problem-solving, planning, organizing, and communication skills</li>
+              <li>Valid Class C Non-CDL driver&rsquo;s license; willing to obtain a Class B commercial driver&rsquo;s license</li>
+              <li>Willing to submit to regular drug and alcohol testing</li>
+              <li>Willing to submit to a criminal background check</li>
+              <li>Knowledge of the Chicagoland area</li>
+              <li>Able to work nights and weekends</li>
+            </ul>
+          </div>
+        </div>
+        <aside class="role-aside">
+          <h4>Apply</h4>
+          <p>Submit a cover letter and resume. We review every application personally.</p>
+          <a class="lsav-btn lsav-btn--dark lsav-btn--apply" href="mailto:careers@lsav.tv?subject=Driver%20%2F%20Warehouse%20Assist%20(Chicago)">
+            <img src="assets/arrow.svg?v=2" alt=""><p>Apply now</p>
+          </a>
+        </aside>
+      </div>
+    </details>
+  </section>
+
+  <!-- CTA band -->
+  <section class="cta-band">
+    <div class="cta-wave" aria-hidden="true">
+      <svg viewBox="0 0 1760 1683" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path id="lsavWavePath" d="M880.178 0C394.317 0 0 392.618 0 876.823C0 1361.38 393.961 1754 879.822 1754C1366.04 1754 1760 1361.38 1760 877.177C1760.36 392.973 1366.4 0 880.178 0ZM810.362 167.555C1168.7 135.251 1496.05 353.924 1584.75 720.272C1502.11 850.198 1397.74 965.215 1269.86 1052.19C1006.63 1231.46 716.325 290.381 483.368 521.834L175.608 827.479C182.732 461.131 473.75 197.729 810.362 167.555ZM876.26 1590C566.719 1588.58 276.77 1383.75 200.542 1077.75L465.558 820.734C500.109 787.01 546.772 773.876 587.379 780.62C622.643 786.655 651.139 818.249 680.704 855.878L1005.56 1268.73C1077.16 1359.61 1192.57 1389.43 1304.06 1307.07C1391.69 1242.11 1436.57 1134.54 1553.4 1098.34C1469.69 1402.92 1173.69 1591.42 876.26 1590.35V1590Z" fill="#FFFFFF" fill-opacity="0.1" fill-rule="evenodd"/>
+      </svg>
+    </div>
+    <h2>Don&rsquo;t see the right role today?</h2>
+    <p>We&rsquo;re continually growing and would still love to hear from you. Send us your resume and tell us how you&rsquo;d like to contribute to the future of live, hybrid, and experiential events at LSAV.</p>
+    <a class="lsav-btn lsav-btn--on-blue lsav-btn--submit" href="https://lsav.tv/contact/">
+      <img src="assets/arrow.svg?v=2" alt=""><p>Submit resume</p>
+    </a>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-top">
+    <div>
+      <h2>Let&rsquo;s run the show.</h2>
+      <a class="lsav-btn" href="https://lsav.tv/contact/">
+        <img src="assets/arrow.svg?v=2" alt=""><p>Contact Us</p>
+      </a>
+    </div>
+    <div class="footer-brand">
+      <img src="assets/logo-white.png" alt="LSAV Powerhouse">
+      <div class="social-row">
+        <a href="#" aria-label="Facebook">f</a>
+        <a href="#" aria-label="Instagram">ig</a>
+        <a href="#" aria-label="LinkedIn">in</a>
+        <a href="#" aria-label="YouTube">yt</a>
+      </div>
+    </div>
+  </div>
+
+  <hr class="footer-divider">
+
+  <nav class="footer-menus" aria-label="Footer">
+    <div>
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="https://lsav.tv/case-studies/">Case Studies</a></li>
+        <li><a href="https://lsav.tv/powerhouse-livewire/">Blog</a></li>
+        <li><a href="https://lsav.tv/contact/">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>What We Do</h3>
+      <ul>
+        <li><a href="#">Events &amp; Conferences</a></li>
+        <li><a href="#">Brand Experiences</a></li>
+        <li><a href="#">Media Production</a></li>
+        <li><a href="#">Digital Experiences</a></li>
+        <li><a href="#">Studio Broadcast</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>How It's Done</h3>
+      <ul>
+        <li><a href="#">Strategy &amp; Planning</a></li>
+        <li><a href="#">Creative &amp; Ideation</a></li>
+        <li><a href="#">AV &amp; Engineering</a></li>
+        <li><a href="#">Digital Production</a></li>
+        <li><a href="#">Custom Fabrication</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <p class="footer-legal">© 2026 LSAV Powerhouse. All rights reserved.</p>
+</footer>
+
+<script>
+(function () {
+  // LSAV mark wave (shared with index.html): undulate the center band of the
+  // mark on hover by displacing both inner holes with a radially-damped sine.
+  var band = document.querySelector('.cta-band');
+  var path = document.getElementById('lsavWavePath');
+  if (!band || !path) return;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var CX = 880, CY = 877;
+  var A = 46;
+  var K = 2 * Math.PI / 880;
+  var W = 2 * Math.PI / 2.8;
+
+  var subs = [];
+  var re = /([MLCZz])([^MLCZz]*)/g, m;
+  while ((m = re.exec(path.getAttribute('d')))) {
+    var cmd = m[1].toUpperCase();
+    var nums = (m[2].match(/-?\d*\.?\d+(?:e-?\d+)?/g) || []).map(Number);
+    if (cmd === 'M') subs.push([]);
+    var argc = cmd === 'C' ? 6 : cmd === 'Z' ? 0 : 2;
+    var cur = subs[subs.length - 1];
+    if (!cur) continue;
+    if (argc === 0) { cur.push({ c: 'Z', n: [] }); continue; }
+    for (var i = 0; i + argc <= nums.length; i += argc) {
+      cur.push({ c: cmd === 'M' && i > 0 ? 'L' : cmd, n: nums.slice(i, i + argc) });
+    }
+  }
+  var staticD = seg2d(subs[0]);
+
+  function seg2d(segs, t) {
+    var out = '';
+    for (var i = 0; i < segs.length; i++) {
+      var g = segs[i];
+      if (g.c === 'Z') { out += 'Z'; continue; }
+      out += g.c;
+      for (var j = 0; j < g.n.length; j += 2) {
+        var x = g.n[j], y = g.n[j + 1];
+        if (t !== undefined) {
+          var r = Math.hypot(x - CX, y - CY);
+          var damp = Math.max(0, 1 - Math.pow(r / 700, 4));
+          y = y + A * damp * Math.sin(K * x - W * t);
+        }
+        out += x.toFixed(1) + ' ' + y.toFixed(1) + (j + 2 < g.n.length ? ' ' : '');
+      }
+    }
+    return out;
+  }
+
+  var running = false, raf = 0, t0 = 0, acc = 0;
+  function frame(ts) {
+    if (!running) return;
+    var t = acc + (ts - t0) / 1000;
+    path.setAttribute('d', staticD + seg2d(subs[1], t) + seg2d(subs[2], t));
+    raf = requestAnimationFrame(frame);
+  }
+  function start() {
+    if (running || reduce.matches) return;
+    running = true; t0 = performance.now();
+    raf = requestAnimationFrame(frame);
+  }
+  function stop() {
+    if (!running) return;
+    acc += (performance.now() - t0) / 1000;
+    running = false; cancelAnimationFrame(raf);
+  }
+  band.addEventListener('mouseenter', start);
+  band.addEventListener('mouseleave', stop);
+  band.addEventListener('focusin', start);
+  band.addEventListener('focusout', stop);
+})();
+</script>
+
+<script>
+(function () {
+  var targets = document.querySelectorAll('.intro, .logo-scroll, .disciplines, .role, .cta-band');
+  if (!('IntersectionObserver' in window)) {
+    targets.forEach(function (el) { el.classList.add('in-view'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -2% 0px' });
+  targets.forEach(function (el) { io.observe(el); });
+})();
+
+// Single-open accordion: opening one role collapses the others.
+(function () {
+  var roles = document.querySelectorAll('.role');
+  roles.forEach(function (d) {
+    d.addEventListener('toggle', function () {
+      if (!d.open) return;
+      roles.forEach(function (o) { if (o !== d) o.open = false; });
+    });
+  });
+})();
+</script>
+</body>
+</html>
