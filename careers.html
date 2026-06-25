@@ -36,7 +36,7 @@
      prefers-reduced-motion gets everything instantly. */
   :root { --reveal-ease: cubic-bezier(0.22, 1, 0.36, 1); }
   .js .intro h2, .js .intro .intro-copy > p, .js .benefit,
-  .js .disciplines .disc-item,
+  .js .disciplines .disc-flow, .js .disciplines .disc-foot,
   .js .role,
   .js .cta-band > h2, .js .cta-band > p, .js .cta-band > .lsav-btn {
     opacity: 0; transform: translateY(24px);
@@ -46,8 +46,7 @@
     opacity: 0; transform: translateX(-16px);
     transition: opacity 1.05s var(--reveal-ease), transform 1.05s var(--reveal-ease);
   }
-  .js .logo-scroll .logo-track { opacity: 0; transition: opacity 1.05s var(--reveal-ease); will-change: transform, opacity; }
-  .js .intro::after, .js .logo-scroll::after {
+  .js .intro::after {
     transform: scaleX(0); transform-origin: left;
     transition: transform 1.2s var(--reveal-ease) .3s;
   }
@@ -57,9 +56,7 @@
   .js .benefit:nth-child(1), .js .benefit:nth-child(1) .benefit-num { transition-delay: .2s; }
   .js .benefit:nth-child(2), .js .benefit:nth-child(2) .benefit-num { transition-delay: .36s; }
   .js .benefit:nth-child(3), .js .benefit:nth-child(3) .benefit-num { transition-delay: .5s; }
-  .js .disciplines .disc-item:nth-child(3n+1) { transition-delay: .12s; }
-  .js .disciplines .disc-item:nth-child(3n+2) { transition-delay: .22s; }
-  .js .disciplines .disc-item:nth-child(3n+3) { transition-delay: .32s; }
+  .js .disciplines .disc-foot { transition-delay: .14s; }
   .js .role:nth-child(odd) { transition-delay: .12s; }
   .js .role:nth-child(even) { transition-delay: .24s; }
   .js .cta-band > p { transition-delay: .13s; }
@@ -67,20 +64,19 @@
   /* revealed state */
   .js .intro.in-view h2, .js .intro.in-view .intro-copy > p, .js .intro.in-view .benefit,
   .js .intro.in-view .benefit .benefit-num,
-  .js .disciplines.in-view .disc-item,
+  .js .disciplines.in-view .disc-flow, .js .disciplines.in-view .disc-foot,
   .js .role.in-view,
   .js .cta-band.in-view > h2, .js .cta-band.in-view > p, .js .cta-band.in-view > .lsav-btn {
     opacity: 1; transform: none;
   }
-  .js .logo-scroll.in-view .logo-track { opacity: 1; }
-  .js .intro.in-view::after, .js .logo-scroll.in-view::after { transform: scaleX(1); }
+  .js .intro.in-view::after { transform: scaleX(1); }
   @media (prefers-reduced-motion: reduce) {
     .js :is(.intro h2, .intro .intro-copy > p, .benefit, .benefit-num,
-            .disciplines .disc-item, .role,
-            .cta-band > h2, .cta-band > p, .cta-band > .lsav-btn, .logo-track) {
+            .disciplines .disc-flow, .disciplines .disc-foot, .role,
+            .cta-band > h2, .cta-band > p, .cta-band > .lsav-btn) {
       opacity: 1 !important; transform: none !important; transition: none !important;
     }
-    .js .intro::after, .js .logo-scroll::after { transform: scaleX(1) !important; transition: none !important; }
+    .js .intro::after { transform: scaleX(1) !important; transition: none !important; }
   }
 
   /* ---------- Header ---------- */
@@ -242,25 +238,14 @@
   }
   .benefit p { font-size: 27px; line-height: 42px; margin: 0; }
 
-  /* ---------- Who We Hire — disciplines grid (intro grammar + chip list) ---------- */
+  /* ---------- Who We Hire — editorial statement (flowing list, cyan separators) ---------- */
   .disciplines .intro-copy { display: flex; flex-direction: column; gap: 40px; padding-top: 4px; }
-  .disciplines .disc-lead { font-size: 27px; line-height: 42px; margin: 0; }
-  .disc-grid {
-    list-style: none; margin: 0; padding: 0;
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px 48px;
-  }
-  .disc-item {
-    display: flex; align-items: flex-start; gap: 16px;
+  .disciplines .intro-copy .disc-flow {
     font-family: Poppins, sans-serif; font-weight: 600;
-    font-size: 21px; line-height: 28px; color: var(--dark);
-    padding-bottom: 18px; border-bottom: 1px solid #EAEAEA;
+    font-size: 32px; line-height: 1.7; color: var(--dark); margin: 0;
   }
-  .disc-item::before {
-    content: ""; flex: none; margin-top: 9px;
-    width: 10px; height: 10px; border-radius: 50%;
-    background: var(--cyan);
-  }
-  .disc-foot { font-size: 22px; line-height: 36px; margin: 0; color: #444; }
+  .disc-flow .disc-sep { color: var(--cyan); font-weight: 700; margin: 0 12px; }
+  .disciplines .intro-copy .disc-foot { font-size: 22px; line-height: 36px; margin: 0; color: #444; }
 
   /* ---------- Open roles — accordion (native <details>) ---------- */
   .roles {
@@ -277,20 +262,45 @@
     font-family: Poppins, sans-serif; font-weight: 600;
     font-size: 48px; line-height: 60px; color: #000;
   }
+  /* Card treatment ported from the Powerhouse Livewire blog loop cards:
+     rest = clean bordered card; hover = lift -3px, soft shadow, cyan border
+     fades in (0.4s), and the "View role" CTA fades up (0.5s). */
   .role {
-    border-top: 1px solid #E2E2E2;
+    background: #fff;
+    border: 1px solid #E8E8E8;
+    border-radius: 20px;
+    margin-bottom: 18px;
+    transition: transform .4s ease, box-shadow .4s ease, border-color .4s ease;
   }
-  .role:last-of-type { border-bottom: 1px solid #E2E2E2; }
+  .role:last-of-type { margin-bottom: 0; }
+  .role:hover {
+    transform: translateY(-3px);
+    box-shadow: 8px 8px 25px 0 rgba(0, 0, 0, 0.1);
+    border-color: var(--cyan);
+  }
+  .role[open] {
+    border-color: var(--cyan);
+    box-shadow: 8px 8px 25px 0 rgba(0, 0, 0, 0.07);
+  }
   .role > summary {
     list-style: none; cursor: pointer;
-    display: flex; align-items: center; gap: 40px;
-    padding: 40px 8px;
-    position: relative;
+    display: flex; align-items: center; gap: 28px;
+    padding: 34px 40px;
+    position: relative; border-radius: 20px;
   }
   .role > summary::-webkit-details-marker { display: none; }
   .role > summary:focus-visible {
-    outline: 3px solid var(--cyan); outline-offset: 4px; border-radius: 4px;
+    outline: 3px solid var(--cyan); outline-offset: -3px; border-radius: 20px;
   }
+  /* "View role" CTA — hidden at rest, fades up on hover (blog .post-cta) */
+  .role-cta {
+    flex: none; opacity: 0; transform: translateY(4px);
+    font-family: Poppins, sans-serif; font-weight: 600; font-size: 14px;
+    letter-spacing: 0.04em; text-transform: uppercase; color: var(--cyan);
+    white-space: nowrap; transition: opacity .5s ease, transform .5s ease;
+  }
+  .role:hover .role-cta, .role:focus-within .role-cta { opacity: 1; transform: translateY(-2px); }
+  .role[open] .role-cta { opacity: 0; }
   .role-headline { flex: 1 1 auto; min-width: 0; }
   .role-title {
     font-family: Poppins, sans-serif; font-weight: 600;
@@ -317,7 +327,7 @@
   .role-toggle::after  { left: 16px; top: 0; width: 2px; height: 34px; }     /* vertical   */
   .role[open] .role-toggle::after { transform: scaleY(0); }
   .role-body {
-    padding: 4px 8px 52px;
+    padding: 4px 40px 44px;
     display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 64px;
     align-items: start;
   }
@@ -355,28 +365,6 @@
     .role[open] .role-body > * { animation: roleIn 600ms var(--reveal-ease) both; }
     @keyframes roleIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
   }
-
-  /* ---------- Client logo scroll ---------- */
-  .logo-scroll { overflow: hidden; padding: 72px 0; background: var(--white); position: relative; }
-  .logo-scroll::after {
-    content: ""; position: absolute; left: 87px; right: 87px; bottom: 0;
-    height: 1px; background: #EAEAEA;
-  }
-  .logo-track {
-    display: flex; width: max-content;
-    animation: logoScroll 39.6s linear infinite;
-    will-change: transform;
-  }
-  .logo-scroll:hover .logo-track { animation-play-state: paused; }
-  .logo-set { display: flex; align-items: center; gap: 176px; padding-right: 176px; }
-  .logo-set img { height: 34px; width: auto; }
-  .logo-set img.logo--md { height: 48px; }
-  .logo-set img.logo--tall { height: 72px; }
-  .logo-set img.logo--dnc { height: 65px; }
-  .logo-set img.logo--lockup { height: 52px; }
-  .logo-set img.logo--wide { height: 27px; }
-  @keyframes logoScroll { to { transform: translateX(-50%); } }
-  @media (prefers-reduced-motion: reduce) { .logo-track { animation: none; } }
 
   /* ---------- CTA band ---------- */
   .cta-band {
@@ -462,29 +450,20 @@
   @media (max-width: 1024px) {
     .hero { min-height: 600px; padding: 110px 48px; }
     .intro { grid-template-columns: 1fr; gap: 40px; padding: 80px 48px; }
-    .intro::after, .logo-scroll::after { left: 48px; right: 48px; }
+    .intro::after { left: 48px; right: 48px; }
     .intro h2 { font-size: 40px; line-height: 50px; }
     .intro .intro-copy p { font-size: 22px; line-height: 36px; }
     .benefit { gap: 28px; padding-right: 0; }
     .benefit-num { font-size: 40px; line-height: 40px; }
-    .disciplines .disc-lead { font-size: 22px; line-height: 36px; }
-    .disc-grid { gap: 14px 32px; }
-    .disc-item { font-size: 19px; }
+    .disciplines .intro-copy .disc-flow { font-size: 26px; }
+    .disc-flow .disc-sep { margin: 0 8px; }
     .roles { padding: 72px 48px; }
     .roles-head { margin-bottom: 40px; }
     .roles-head h2 { font-size: 40px; line-height: 50px; }
-    .role > summary { gap: 24px; padding: 32px 4px; }
+    .role > summary { gap: 24px; padding: 30px 28px; }
     .role-title { font-size: 26px; }
-    .role-body { grid-template-columns: 1fr; gap: 32px; padding-bottom: 44px; }
+    .role-body { grid-template-columns: 1fr; gap: 32px; padding: 4px 28px 36px; }
     .role-aside { position: static; }
-    .logo-scroll { padding: 56px 0; }
-    .logo-set { gap: 112px; padding-right: 112px; }
-    .logo-set img { height: 30px; }
-    .logo-set img.logo--md { height: 42px; }
-    .logo-set img.logo--tall { height: 60px; }
-    .logo-set img.logo--dnc { height: 54px; }
-    .logo-set img.logo--lockup { height: 46px; }
-    .logo-set img.logo--wide { height: 23px; }
     .cta-band { min-height: 520px; padding: 64px 48px; }
     .cta-band > h2 { font-size: 34px; }
     .site-footer { padding: 64px 48px 40px; }
@@ -495,36 +474,28 @@
     .hero-body--full { display: none; }
     .hero-body--trim { display: block; }
     .intro { padding: 56px 24px; gap: 28px; }
-    .intro::after, .logo-scroll::after { left: 24px; right: 24px; }
+    .intro::after { left: 24px; right: 24px; }
     .intro h2 { font-size: 32px; line-height: 40px; }
     .intro .intro-copy p { font-size: 19px; line-height: 30px; }
     .intro--numbered .intro-copy { gap: 28px; }
     .benefit { gap: 20px; }
     .benefit-num { font-size: 32px; line-height: 32px; }
-    .disciplines .disc-lead { font-size: 19px; line-height: 30px; }
-    .disc-grid { grid-template-columns: 1fr; gap: 0; }
-    .disc-item { font-size: 18px; padding-bottom: 14px; margin-bottom: 0; }
-    .disc-foot { font-size: 18px; line-height: 30px; }
+    .disciplines .intro-copy .disc-flow { font-size: 21px; line-height: 1.65; }
+    .disciplines .intro-copy .disc-foot { font-size: 18px; line-height: 30px; }
     .roles { padding: 56px 24px; }
     .roles-head h2 { font-size: 32px; line-height: 40px; }
-    .role > summary { padding: 26px 2px; gap: 18px; }
+    .role > summary { padding: 24px 22px; gap: 16px; }
     .role-title { font-size: 22px; }
     .role-meta { gap: 8px; margin-top: 12px; }
     .role-tag { font-size: 12px; padding: 6px 11px; }
+    .role-cta { display: none; }
     .role-toggle { width: 26px; height: 26px; }
     .role-toggle::before { top: 12px; width: 26px; }
     .role-toggle::after { left: 12px; height: 26px; }
+    .role-body { padding: 0 22px 32px; }
     .role-summary { font-size: 19px; line-height: 30px; }
     .role-section li { font-size: 16px; line-height: 26px; }
     .role-aside { padding: 28px 24px; }
-    .logo-scroll { padding: 40px 0; }
-    .logo-set { gap: 72px; padding-right: 72px; }
-    .logo-set img { height: 24px; }
-    .logo-set img.logo--md { height: 32px; }
-    .logo-set img.logo--tall { height: 48px; }
-    .logo-set img.logo--dnc { height: 42px; }
-    .logo-set img.logo--lockup { height: 38px; }
-    .logo-set img.logo--wide { height: 19px; }
     .cta-band { padding: 56px 24px; }
     .cta-band > h2 { font-size: 28px; }
     .cta-band > p { font-size: 19px; line-height: 30px; }
@@ -573,58 +544,11 @@
     </div>
   </section>
 
-  <!-- Client logo scroll -->
-  <section class="logo-scroll" aria-label="Selected clients">
-    <div class="logo-track">
-      <div class="logo-set">
-        <img src="assets/logos/united.svg" alt="United Airlines">
-        <img class="logo--md" src="assets/logos/emirates.svg" alt="Emirates">
-        <img src="assets/logos/morningstar.svg" alt="Morningstar">
-        <img src="assets/logos/colgate.svg" alt="Colgate-Palmolive">
-        <img class="logo--tall" src="assets/logos/sundance.svg" alt="Sundance Film Festival">
-        <img class="logo--dnc" src="assets/logos/dnc.svg" alt="2024 Democratic National Convention">
-        <img src="assets/logos/zurich.svg" alt="Zurich">
-        <img class="logo--lockup" src="assets/logos/americanfamily.png" alt="American Family Insurance">
-        <img src="assets/logos/gallagher.png" alt="Gallagher">
-        <img class="logo--wide" src="assets/logos/kirkland.png" alt="Kirkland & Ellis">
-        <img class="logo--lockup" src="assets/logos/usw.png" alt="United Steelworkers">
-        <img src="assets/logos/promat.png" alt="ProMat 2023">
-      </div>
-      <div class="logo-set" aria-hidden="true">
-        <img src="assets/logos/united.svg" alt="United Airlines">
-        <img class="logo--md" src="assets/logos/emirates.svg" alt="Emirates">
-        <img src="assets/logos/morningstar.svg" alt="Morningstar">
-        <img src="assets/logos/colgate.svg" alt="Colgate-Palmolive">
-        <img class="logo--tall" src="assets/logos/sundance.svg" alt="Sundance Film Festival">
-        <img class="logo--dnc" src="assets/logos/dnc.svg" alt="2024 Democratic National Convention">
-        <img src="assets/logos/zurich.svg" alt="Zurich">
-        <img class="logo--lockup" src="assets/logos/americanfamily.png" alt="American Family Insurance">
-        <img src="assets/logos/gallagher.png" alt="Gallagher">
-        <img class="logo--wide" src="assets/logos/kirkland.png" alt="Kirkland & Ellis">
-        <img class="logo--lockup" src="assets/logos/usw.png" alt="United Steelworkers">
-        <img src="assets/logos/promat.png" alt="ProMat 2023">
-      </div>
-    </div>
-  </section>
-
   <!-- Who We Hire -->
   <section class="intro disciplines">
     <h2>Who We Hire</h2>
     <div class="intro-copy">
-      <p class="disc-lead">We&rsquo;re always interested in connecting with talented professionals across a variety of disciplines, including:</p>
-      <ul class="disc-grid">
-        <li class="disc-item">Event Production</li>
-        <li class="disc-item">Technical Direction</li>
-        <li class="disc-item">Audio, Video &amp; Lighting</li>
-        <li class="disc-item">Show Operations</li>
-        <li class="disc-item">Scenic &amp; Fabrication</li>
-        <li class="disc-item">Digital &amp; Media Production</li>
-        <li class="disc-item">Creative Services</li>
-        <li class="disc-item">Project Management</li>
-        <li class="disc-item">Logistics &amp; Warehouse Operations</li>
-        <li class="disc-item">Business Development &amp; Sales</li>
-        <li class="disc-item">Corporate Support Functions</li>
-      </ul>
+      <p class="disc-flow">Event Production<span class="disc-sep">/</span>Technical Direction<span class="disc-sep">/</span>Audio, Video &amp; Lighting<span class="disc-sep">/</span>Show Operations<span class="disc-sep">/</span>Scenic &amp; Fabrication<span class="disc-sep">/</span>Digital &amp; Media Production<span class="disc-sep">/</span>Creative Services<span class="disc-sep">/</span>Project Management<span class="disc-sep">/</span>Logistics &amp; Warehouse Operations<span class="disc-sep">/</span>Business Development &amp; Sales<span class="disc-sep">/</span>Corporate Support Functions</p>
       <p class="disc-foot">Whether you&rsquo;re an experienced industry veteran or an emerging professional eager to learn, we&rsquo;d love to hear from you.</p>
     </div>
   </section>
@@ -658,6 +582,7 @@
             <span class="role-tag">Senior</span>
           </div>
         </div>
+        <span class="role-cta">View role</span>
         <span class="role-toggle" aria-hidden="true"></span>
       </summary>
       <div class="role-body">
@@ -709,6 +634,7 @@
             <span class="role-tag">Senior</span>
           </div>
         </div>
+        <span class="role-cta">View role</span>
         <span class="role-toggle" aria-hidden="true"></span>
       </summary>
       <div class="role-body">
@@ -769,6 +695,7 @@
             <span class="role-tag">Salary + Commission</span>
           </div>
         </div>
+        <span class="role-cta">View role</span>
         <span class="role-toggle" aria-hidden="true"></span>
       </summary>
       <div class="role-body">
@@ -828,6 +755,7 @@
             <span class="role-tag">Full-Time 40+ hrs</span>
           </div>
         </div>
+        <span class="role-cta">View role</span>
         <span class="role-toggle" aria-hidden="true"></span>
       </summary>
       <div class="role-body">
@@ -1027,7 +955,7 @@
 
 <script>
 (function () {
-  var targets = document.querySelectorAll('.intro, .logo-scroll, .disciplines, .role, .cta-band');
+  var targets = document.querySelectorAll('.intro, .disciplines, .role, .cta-band');
   if (!('IntersectionObserver' in window)) {
     targets.forEach(function (el) { el.classList.add('in-view'); });
     return;
