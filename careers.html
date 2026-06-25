@@ -143,15 +143,21 @@
   .lsav-btn--talk { width: 190px; padding-left: 70px; }
   .lsav-btn--talk:hover img, .lsav-btn--talk:focus-visible img { left: 130px; }
   /* Wider box for the longer "Submit resume" label */
-  .lsav-btn--submit { width: 248px; padding-left: 64px; }
-  .lsav-btn--submit:hover img, .lsav-btn--submit:focus-visible img { left: 188px; }
-  /* Apply: solid cyan primary for light sections (base button is built for dark bg).
-     Slab darkens to #008BBF on hover instead of flooding from transparent. */
-  .lsav-btn--apply { width: 200px; padding: 18px 0 18px 64px; background-color: var(--cyan); border-color: var(--cyan); }
-  .lsav-btn--apply::after { background-color: #008BBF; }
-  .lsav-btn--apply img { width: 24px; top: 14px; left: 16px; }
-  .lsav-btn--apply p { font-size: 18px; }
-  .lsav-btn--apply:hover img, .lsav-btn--apply:focus-visible img { left: 138px; }
+  /* Variant rules use a doubled .lsav-btn class so they outrank the base
+     responsive .lsav-btn rules at every breakpoint (equal specificity
+     otherwise -> media-query source order was clobbering them below 1024). */
+  .lsav-btn.lsav-btn--submit { width: 248px; padding-left: 64px; }
+  .lsav-btn.lsav-btn--submit:hover img, .lsav-btn.lsav-btn--submit:focus-visible img { left: 188px; }
+  /* Apply: solid cyan primary for light sections (base button is built for
+     dark bg). Drop the inherited hover slab (it poked ~60px in and read
+     two-tone on a solid fill); darken the whole button on hover instead.
+     Arrow + label are both vertically centered. */
+  .lsav-btn.lsav-btn--apply { width: 200px; padding: 18px 0 18px 56px; background-color: var(--cyan); border-color: var(--cyan); }
+  .lsav-btn.lsav-btn--apply::after { display: none; }
+  .lsav-btn.lsav-btn--apply:hover, .lsav-btn.lsav-btn--apply:focus-visible { background-color: #008BBF; padding-left: 30px; }
+  .lsav-btn.lsav-btn--apply img { width: 24px; top: 50%; left: 18px; transform: translateY(-50%); }
+  .lsav-btn.lsav-btn--apply p { font-size: 18px; font-weight: 600; top: 50%; line-height: 1; transform: translateY(-50%); }
+  .lsav-btn.lsav-btn--apply:hover img, .lsav-btn.lsav-btn--apply:focus-visible img { left: 140px; transform: translateY(-50%); }
   @media (max-width: 1024px) {
     .lsav-btn { width: 200px; padding: 25px 0 25px 65px; }
     .lsav-btn::after { width: 200px; left: -150px; }
@@ -609,7 +615,7 @@
           <h4>Apply</h4>
           <p>Submit a cover letter and resume. We review every application personally.</p>
           <a class="lsav-btn lsav-btn--dark lsav-btn--apply" href="mailto:careers@lsav.tv?subject=Executive%20Producer%20%E2%80%94%20Live%20Events">
-            <img src="assets/arrow.svg?v=2" alt=""><p>Apply now</p>
+            <img src="assets/arrow.svg?v=2" alt=""><p>Apply Now</p>
           </a>
         </aside>
       </div>
@@ -670,7 +676,7 @@
           <h4>Apply</h4>
           <p>Submit a cover letter and resume. We review every application personally.</p>
           <a class="lsav-btn lsav-btn--dark lsav-btn--apply" href="mailto:careers@lsav.tv?subject=Technical%20Director%20%2F%20Project%20Manager%20(Chicago)">
-            <img src="assets/arrow.svg?v=2" alt=""><p>Apply now</p>
+            <img src="assets/arrow.svg?v=2" alt=""><p>Apply Now</p>
           </a>
         </aside>
       </div>
@@ -731,7 +737,7 @@
           <h4>Apply</h4>
           <p>Submit a cover letter and resume. We review every application personally.</p>
           <a class="lsav-btn lsav-btn--dark lsav-btn--apply" href="mailto:careers@lsav.tv?subject=Account%20Executive%20%E2%80%94%20Live%20Event%20%26%20AV%20Sales">
-            <img src="assets/arrow.svg?v=2" alt=""><p>Apply now</p>
+            <img src="assets/arrow.svg?v=2" alt=""><p>Apply Now</p>
           </a>
         </aside>
       </div>
@@ -795,7 +801,7 @@
           <h4>Apply</h4>
           <p>Submit a cover letter and resume. We review every application personally.</p>
           <a class="lsav-btn lsav-btn--dark lsav-btn--apply" href="mailto:careers@lsav.tv?subject=Driver%20%2F%20Warehouse%20Assist%20(Chicago)">
-            <img src="assets/arrow.svg?v=2" alt=""><p>Apply now</p>
+            <img src="assets/arrow.svg?v=2" alt=""><p>Apply Now</p>
           </a>
         </aside>
       </div>
@@ -812,7 +818,7 @@
     <h2>Don&rsquo;t see the right role today?</h2>
     <p>We&rsquo;re continually growing and would still love to hear from you. Send us your resume and tell us how you&rsquo;d like to contribute to the future of live, hybrid, and experiential events at LSAV.</p>
     <a class="lsav-btn lsav-btn--on-blue lsav-btn--submit" href="https://lsav.tv/contact/">
-      <img src="assets/arrow.svg?v=2" alt=""><p>Submit resume</p>
+      <img src="assets/arrow.svg?v=2" alt=""><p>Submit Resume</p>
     </a>
   </section>
 
