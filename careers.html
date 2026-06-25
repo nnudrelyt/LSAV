@@ -151,14 +151,14 @@
      Variant rules use a doubled .lsav-btn class so they outrank the base
      responsive .lsav-btn rules at every breakpoint (equal specificity
      otherwise -> media-query source order was clobbering them below 1024). */
-  .lsav-btn.lsav-btn--submit { width: 248px; padding-left: 64px; }
+  .lsav-btn.lsav-btn--submit { width: 308px; padding-left: 64px; }
   /* park the white hover slab fully off-canvas at rest so it doesn't poke
      ~60px in and read two-tone on the blue band; on hover it floods the
      button and the label slides left as the arrow flies right */
-  .lsav-btn.lsav-btn--submit::after { left: -260px; width: 260px; }
+  .lsav-btn.lsav-btn--submit::after { left: -322px; width: 322px; }
   .lsav-btn.lsav-btn--submit:hover::after, .lsav-btn.lsav-btn--submit:focus-visible::after { left: 0; }
   .lsav-btn.lsav-btn--submit:hover, .lsav-btn.lsav-btn--submit:focus-visible { padding-left: 30px; }
-  .lsav-btn.lsav-btn--submit:hover img, .lsav-btn.lsav-btn--submit:focus-visible img { left: 188px; }
+  .lsav-btn.lsav-btn--submit:hover img, .lsav-btn.lsav-btn--submit:focus-visible img { left: 250px; }
   /* Apply: solid cyan primary for light sections (base button is built for
      dark bg). Drop the inherited hover slab (it poked ~60px in and read
      two-tone on a solid fill); darken the whole button on hover instead.
@@ -617,7 +617,7 @@
 
   <!-- Intro: the work -->
   <section class="intro">
-    <h2>Build the Moments Brands Are Judged By</h2>
+    <h2>Create the Experiences Brands Are Known For</h2>
     <div class="intro-copy">
       <p>We&rsquo;re always looking for talented people who are passionate about innovation, collaboration, and delivering extraordinary experiences.</p>
       <p>Whether you&rsquo;re a producer, engineer, designer, technician, strategist, fabricator, or creative thinker, you&rsquo;ll find opportunities to grow your career while helping shape some of the industry&rsquo;s most exciting projects.</p>
@@ -906,7 +906,7 @@
     <h2>Don&rsquo;t see the right role today?</h2>
     <p>We&rsquo;re continually growing and would still love to hear from you. Send us your resume and tell us how you&rsquo;d like to contribute to the future of live, hybrid, and experiential events at LSAV.</p>
     <a class="lsav-btn lsav-btn--on-blue lsav-btn--submit" href="https://lsav.tv/contact/">
-      <img src="assets/arrow.svg?v=2" alt=""><p>Submit Resume</p>
+      <img src="assets/arrow.svg?v=2" alt=""><p>Submit Your Resume</p>
     </a>
   </section>
 
