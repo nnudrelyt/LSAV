@@ -142,11 +142,17 @@
   .lsav-btn--dark { border-color: var(--cyan); }
   .lsav-btn--talk { width: 190px; padding-left: 70px; }
   .lsav-btn--talk:hover img, .lsav-btn--talk:focus-visible img { left: 130px; }
-  /* Wider box for the longer "Submit resume" label */
-  /* Variant rules use a doubled .lsav-btn class so they outrank the base
+  /* Wider box for the longer "Submit Resume" label.
+     Variant rules use a doubled .lsav-btn class so they outrank the base
      responsive .lsav-btn rules at every breakpoint (equal specificity
      otherwise -> media-query source order was clobbering them below 1024). */
   .lsav-btn.lsav-btn--submit { width: 248px; padding-left: 64px; }
+  /* park the white hover slab fully off-canvas at rest so it doesn't poke
+     ~60px in and read two-tone on the blue band; on hover it floods the
+     button and the label slides left as the arrow flies right */
+  .lsav-btn.lsav-btn--submit::after { left: -260px; width: 260px; }
+  .lsav-btn.lsav-btn--submit:hover::after, .lsav-btn.lsav-btn--submit:focus-visible::after { left: 0; }
+  .lsav-btn.lsav-btn--submit:hover, .lsav-btn.lsav-btn--submit:focus-visible { padding-left: 30px; }
   .lsav-btn.lsav-btn--submit:hover img, .lsav-btn.lsav-btn--submit:focus-visible img { left: 188px; }
   /* Apply: solid cyan primary for light sections (base button is built for
      dark bg). Drop the inherited hover slab (it poked ~60px in and read
