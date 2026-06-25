@@ -47,7 +47,6 @@
     opacity: 0; transform: translateX(-16px);
     transition: opacity 1.05s var(--reveal-ease), transform 1.05s var(--reveal-ease);
   }
-  .js .cs-banner::before { transform: scale(1.05); transition: transform 1.6s var(--reveal-ease); will-change: transform; }
   .js .intro::after {
     transform: scaleX(0); transform-origin: left;
     transition: transform 1.2s var(--reveal-ease) .3s;
@@ -75,7 +74,6 @@
     opacity: 1; transform: none;
   }
   .js .intro.in-view::after { transform: scaleX(1); }
-  .js .cs-banner.in-view::before { transform: scale(1); }
   @media (prefers-reduced-motion: reduce) {
     .js :is(.intro h2, .intro .intro-copy > p, .benefit, .benefit-num,
             .disciplines .disc-flow, .disciplines .disc-foot, .role,
@@ -84,7 +82,6 @@
       opacity: 1 !important; transform: none !important; transition: none !important;
     }
     .js .intro::after { transform: scaleX(1) !important; transition: none !important; }
-    .js .cs-banner::before { transform: scale(1) !important; transition: none !important; }
   }
 
   /* ---------- Header ---------- */
@@ -384,14 +381,17 @@
     position: relative; min-height: 720px;
     display: flex; flex-direction: column; justify-content: center; align-items: center;
     text-align: center; gap: 34px; padding: 80px;
-    background-color: #000; overflow: hidden;
-  }
-  .cs-banner::before {
-    content: ""; position: absolute; inset: 0;
-    /* 0.5 scrim (heavier than the case-studies 0.3) so centered white text
-       stays legible over this brighter stage image */
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-                var(--banner-img) center / cover no-repeat #000;
+    overflow: hidden;
+    /* Photo is fixed to the viewport so the section scrolls over it (parallax,
+       matching the Powerhouse Livewire page). The 0.5 scrim layers on top and
+       stays element-bound. Fixed-attachment is swapped for scroll on
+       touch/mobile below (it janks on iOS/Android). */
+    background-color: #000;
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), var(--banner-img);
+    background-position: center center, center center;
+    background-size: cover, cover;
+    background-repeat: no-repeat, no-repeat;
+    background-attachment: scroll, fixed;
   }
   .cs-banner::after {
     content: ""; position: absolute; inset: 0;
@@ -408,14 +408,34 @@
     font-size: 22px; line-height: 36px; color: #fff; max-width: 760px;
   }
   .cs-pill {
+    position: relative; overflow: hidden;
     display: inline-flex; align-items: center; justify-content: center;
-    padding: 16px 28px; border: 2px solid #008BBF; border-radius: 120px;
+    padding: 16px 30px; border: 2px solid #008BBF; border-radius: 120px;
     font-family: Poppins, sans-serif; font-weight: 700; font-size: 16px;
     letter-spacing: 0.02em; text-transform: uppercase; color: #fff; white-space: nowrap;
-    transition: border-color 200ms ease, background-color 200ms ease;
+    transition: border-color .35s ease, box-shadow .35s ease, letter-spacing .35s ease;
   }
-  .cs-pill:hover, .cs-pill:focus-visible { border-color: var(--cyan); background: rgba(0, 139, 191, 0.25); }
+  /* cyan fill wipes in left->right behind the label (matches the site's
+     L->R button motion); pill also gains a cyan glow + slight tracking */
+  .cs-pill::after {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background: var(--cyan); transform: scaleX(0); transform-origin: left;
+    transition: transform .45s var(--reveal-ease);
+  }
+  .cs-pill:hover, .cs-pill:focus-visible {
+    border-color: var(--cyan);
+    box-shadow: 0 10px 32px rgba(0, 174, 239, 0.45);
+    letter-spacing: 0.08em;
+  }
+  .cs-pill:hover::after, .cs-pill:focus-visible::after { transform: scaleX(1); }
   .cs-pill:focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; }
+  /* Match the reveal selector's specificity (0,3,0) so this transition list —
+     which adds the hover props to the fade-up transition — wins by source order
+     and the hover changes animate instead of snapping. */
+  .js .cs-banner .cs-pill {
+    transition: opacity 1.05s var(--reveal-ease), transform 1.05s var(--reveal-ease),
+                border-color .35s ease, box-shadow .35s ease, letter-spacing .35s ease;
+  }
 
   /* ---------- CTA band ---------- */
   .cta-band {
@@ -515,7 +535,8 @@
     .role-title { font-size: 26px; }
     .role-body { grid-template-columns: 1fr; gap: 32px; padding: 4px 28px 36px; }
     .role-aside { position: static; }
-    .cs-banner { min-height: 560px; padding: 64px 48px; }
+    /* fixed-attachment janks on touch devices — let the photo scroll normally */
+    .cs-banner { min-height: 560px; padding: 64px 48px; background-attachment: scroll, scroll; }
     .cs-banner-title { font-size: 36px; line-height: 46px; }
     .cs-banner .cs-sub { font-size: 18px; line-height: 30px; }
     .cta-band { min-height: 520px; padding: 64px 48px; }
@@ -610,7 +631,7 @@
   </section>
 
   <!-- Full-bleed feature banner -->
-  <section class="cs-banner" style="--banner-img: url('assets/redrock.webp');" aria-label="Join the team">
+  <section class="cs-banner" style="--banner-img: url('assets/ulc.webp');" aria-label="Join the team">
     <h2 class="cs-banner-title">Your next stage is waiting</h2>
     <p class="cs-sub">Join the team behind the keynotes, activations, and broadcasts the world&rsquo;s biggest brands are judged by.</p>
     <a class="cs-pill" href="#open-positions">See open roles</a>
