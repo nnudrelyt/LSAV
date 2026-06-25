@@ -38,6 +38,7 @@
   .js .intro h2, .js .intro .intro-copy > p, .js .benefit,
   .js .disciplines .disc-flow, .js .disciplines .disc-foot,
   .js .role,
+  .js .cs-banner-title, .js .cs-banner .cs-sub, .js .cs-banner .cs-pill,
   .js .cta-band > h2, .js .cta-band > p, .js .cta-band > .lsav-btn {
     opacity: 0; transform: translateY(24px);
     transition: opacity 1.05s var(--reveal-ease), transform 1.05s var(--reveal-ease);
@@ -46,6 +47,7 @@
     opacity: 0; transform: translateX(-16px);
     transition: opacity 1.05s var(--reveal-ease), transform 1.05s var(--reveal-ease);
   }
+  .js .cs-banner::before { transform: scale(1.05); transition: transform 1.6s var(--reveal-ease); will-change: transform; }
   .js .intro::after {
     transform: scaleX(0); transform-origin: left;
     transition: transform 1.2s var(--reveal-ease) .3s;
@@ -59,6 +61,8 @@
   .js .disciplines .disc-foot { transition-delay: .14s; }
   .js .role:nth-child(odd) { transition-delay: .12s; }
   .js .role:nth-child(even) { transition-delay: .24s; }
+  .js .cs-banner .cs-sub { transition-delay: .13s; }
+  .js .cs-banner .cs-pill { transition-delay: .26s; }
   .js .cta-band > p { transition-delay: .13s; }
   .js .cta-band > .lsav-btn { transition-delay: .26s; }
   /* revealed state */
@@ -66,17 +70,21 @@
   .js .intro.in-view .benefit .benefit-num,
   .js .disciplines.in-view .disc-flow, .js .disciplines.in-view .disc-foot,
   .js .role.in-view,
+  .js .cs-banner.in-view .cs-banner-title, .js .cs-banner.in-view .cs-sub, .js .cs-banner.in-view .cs-pill,
   .js .cta-band.in-view > h2, .js .cta-band.in-view > p, .js .cta-band.in-view > .lsav-btn {
     opacity: 1; transform: none;
   }
   .js .intro.in-view::after { transform: scaleX(1); }
+  .js .cs-banner.in-view::before { transform: scale(1); }
   @media (prefers-reduced-motion: reduce) {
     .js :is(.intro h2, .intro .intro-copy > p, .benefit, .benefit-num,
             .disciplines .disc-flow, .disciplines .disc-foot, .role,
+            .cs-banner-title, .cs-banner .cs-sub, .cs-banner .cs-pill,
             .cta-band > h2, .cta-band > p, .cta-band > .lsav-btn) {
       opacity: 1 !important; transform: none !important; transition: none !important;
     }
     .js .intro::after { transform: scaleX(1) !important; transition: none !important; }
+    .js .cs-banner::before { transform: scale(1) !important; transition: none !important; }
   }
 
   /* ---------- Header ---------- */
@@ -372,6 +380,44 @@
     @keyframes roleIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
   }
 
+  /* ---------- Full-bleed feature banner (ported from the case-studies page) ---------- */
+  .cs-banner {
+    position: relative; min-height: 720px;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; gap: 34px; padding: 80px;
+    background-color: #000; overflow: hidden;
+  }
+  .cs-banner::before {
+    content: ""; position: absolute; inset: 0;
+    /* 0.5 scrim (heavier than the case-studies 0.3) so centered white text
+       stays legible over this brighter stage image */
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                var(--banner-img) center / cover no-repeat #000;
+  }
+  .cs-banner::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.7), rgba(0,0,0,0));
+  }
+  .cs-banner > * { position: relative; z-index: 1; }
+  .cs-banner-title {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 48px; line-height: 60px; text-transform: uppercase; color: #fff;
+    max-width: 1100px;
+  }
+  .cs-banner .cs-sub {
+    font-family: Poppins, sans-serif; font-weight: 400;
+    font-size: 22px; line-height: 36px; color: #fff; max-width: 760px;
+  }
+  .cs-pill {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 16px 28px; border: 2px solid #008BBF; border-radius: 120px;
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 16px;
+    letter-spacing: 0.02em; text-transform: uppercase; color: #fff; white-space: nowrap;
+    transition: border-color 200ms ease, background-color 200ms ease;
+  }
+  .cs-pill:hover, .cs-pill:focus-visible { border-color: var(--cyan); background: rgba(0, 139, 191, 0.25); }
+  .cs-pill:focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; }
+
   /* ---------- CTA band ---------- */
   .cta-band {
     position: relative; min-height: 600px; overflow: hidden;
@@ -470,6 +516,9 @@
     .role-title { font-size: 26px; }
     .role-body { grid-template-columns: 1fr; gap: 32px; padding: 4px 28px 36px; }
     .role-aside { position: static; }
+    .cs-banner { min-height: 560px; padding: 64px 48px; }
+    .cs-banner-title { font-size: 36px; line-height: 46px; }
+    .cs-banner .cs-sub { font-size: 18px; line-height: 30px; }
     .cta-band { min-height: 520px; padding: 64px 48px; }
     .cta-band > h2 { font-size: 34px; }
     .site-footer { padding: 64px 48px 40px; }
@@ -502,6 +551,9 @@
     .role-summary { font-size: 19px; line-height: 30px; }
     .role-section li { font-size: 16px; line-height: 26px; }
     .role-aside { padding: 28px 24px; }
+    .cs-banner { min-height: 460px; padding: 56px 24px; }
+    .cs-banner-title { font-size: 28px; line-height: 36px; }
+    .cs-banner .cs-sub { font-size: 16px; line-height: 27px; }
     .cta-band { padding: 56px 24px; }
     .cta-band > h2 { font-size: 28px; }
     .cta-band > p { font-size: 19px; line-height: 30px; }
@@ -556,6 +608,13 @@
       <p class="disc-flow">Event Production<span class="disc-sep">/</span>Technical Direction<span class="disc-sep">/</span>Audio, Video &amp; Lighting<span class="disc-sep">/</span>Show Operations<span class="disc-sep">/</span>Scenic &amp; Fabrication<span class="disc-sep">/</span>Digital &amp; Media Production<span class="disc-sep">/</span>Creative Services<span class="disc-sep">/</span>Project Management<span class="disc-sep">/</span>Logistics &amp; Warehouse Operations<span class="disc-sep">/</span>Business Development &amp; Sales<span class="disc-sep">/</span>Corporate Support Functions</p>
       <p class="disc-foot">Whether you&rsquo;re an experienced industry veteran or an emerging professional eager to learn, we&rsquo;d love to hear from you.</p>
     </div>
+  </section>
+
+  <!-- Full-bleed feature banner -->
+  <section class="cs-banner" style="--banner-img: url('assets/redrock.webp');" aria-label="Join the team">
+    <h2 class="cs-banner-title">Your next stage is waiting</h2>
+    <p class="cs-sub">Join the team behind the keynotes, activations, and broadcasts the world&rsquo;s biggest brands are judged by.</p>
+    <a class="cs-pill" href="#open-positions">See open roles</a>
   </section>
 
   <!-- Our Culture -->
@@ -960,7 +1019,7 @@
 
 <script>
 (function () {
-  var targets = document.querySelectorAll('.intro, .disciplines, .role, .cta-band');
+  var targets = document.querySelectorAll('.intro, .disciplines, .role, .cs-banner, .cta-band');
   if (!('IntersectionObserver' in window)) {
     targets.forEach(function (el) { el.classList.add('in-view'); });
     return;
