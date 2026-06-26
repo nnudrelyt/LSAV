@@ -22,45 +22,68 @@
   .site-header .menu-toggle { background:none; border:0; cursor:pointer; padding:8px; }
   .site-header .menu-toggle img { height:24px; width:auto; }
 
-  /* hero */
+  /* hero — lighter scrim so the photo reads, still legible for white type */
   .hero { position:relative; min-height:540px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:160px 90px 90px; overflow:hidden; background:var(--dark); }
-  .hero::before { content:""; position:absolute; inset:0; background:linear-gradient(rgba(35,31,32,.55),rgba(35,31,32,.7)), var(--hero-img) center/cover no-repeat; }
+  .hero::before { content:""; position:absolute; inset:0; background:linear-gradient(rgba(26,23,24,.30),rgba(26,23,24,.52)), var(--hero-img) center/cover no-repeat; }
   .hero > * { position:relative; z-index:1; }
-  .hero h1 { font-family:Poppins,sans-serif; font-weight:800; font-size:clamp(40px,3.9vw,75px); line-height:1.12; color:var(--white); }
-  .hero p { font-family:Poppins,sans-serif; font-weight:400; font-size:clamp(16px,1.4vw,20px); color:rgba(255,255,255,.85); margin-top:18px; letter-spacing:.01em; }
+  .hero h1 { font-family:Poppins,sans-serif; font-weight:800; font-size:clamp(40px,3.9vw,75px); line-height:1.12; color:var(--white); text-shadow:0 2px 24px rgba(0,0,0,.35); }
+  .hero p { font-family:Poppins,sans-serif; font-weight:400; font-size:clamp(16px,1.4vw,20px); color:rgba(255,255,255,.9); margin-top:18px; letter-spacing:.01em; text-shadow:0 1px 16px rgba(0,0,0,.4); }
 
-  /* filter bar */
-  .filter-bar { display:flex; flex-wrap:wrap; gap:16px; justify-content:center; max-width:1747px; margin:0 auto; padding:56px 87px 8px; }
-  .chip { font-family:Poppins,sans-serif; font-weight:600; font-size:14px; letter-spacing:.04em; text-transform:uppercase; color:var(--dark); background:var(--white); border:1.5px solid var(--dark); border-radius:2px; padding:14px 28px; cursor:pointer; transition:background .2s var(--reveal-ease), color .2s var(--reveal-ease); }
-  .chip:hover { background:rgba(35,31,32,.06); }
-  .chip.is-active { background:var(--dark); color:var(--white); }
+  /* filter bar — brand pills, single line (horizontal scroll if it can't fit) */
+  .filter-bar { padding:56px 56px 8px; overflow-x:auto; -ms-overflow-style:none; scrollbar-width:none; }
+  .filter-bar::-webkit-scrollbar { display:none; }
+  .filter-track { display:flex; flex-wrap:nowrap; gap:10px; width:max-content; margin:0 auto; }
+  .chip { flex:0 0 auto; white-space:nowrap; font-family:Poppins,sans-serif; font-weight:600; font-size:12px; letter-spacing:.02em; text-transform:uppercase; color:var(--dark); background:var(--white); border:1.5px solid #D7D7D7; border-radius:120px; padding:11px 18px; cursor:pointer; transition:color .25s ease, background .25s ease, border-color .25s ease; }
+  .chip:hover { border-color:var(--cyan); color:var(--cyan); }
+  .chip.is-active { background:var(--dark); color:var(--white); border-color:var(--dark); }
   .chip:focus-visible { outline:3px solid var(--cyan); outline-offset:3px; }
 
   /* grid */
-  .grid { max-width:1747px; margin:0 auto; padding:48px 87px 110px; display:grid; grid-template-columns:repeat(3,1fr); gap:72px 32px; }
-  .card { display:flex; flex-direction:column; gap:14px; }
-  .card.is-hidden { display:none; }
-  .card-img { aspect-ratio:561/316; border-radius:6px; overflow:hidden; background:#eee; }
-  .card-img picture { display:contents; }
-  .card-img img { width:100%; height:100%; object-fit:cover; }
-  .card-cat { font-family:Poppins,sans-serif; font-weight:600; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--cyan); }
-  .card-title { font-family:Poppins,sans-serif; font-weight:600; font-size:24px; line-height:32px; color:#000; }
-  .card-meta { font-family:Carlito,sans-serif; font-size:16px; color:rgba(0,0,0,.55); }
-  .card-link { font-family:Poppins,sans-serif; font-weight:700; font-size:16px; letter-spacing:.02em; color:var(--cyan); }
-  .card-link:hover { text-decoration:underline; }
+  .grid { max-width:1747px; margin:0 auto; padding:48px 87px 110px; display:grid; grid-template-columns:repeat(3,1fr); gap:48px 32px; }
   .grid-empty { grid-column:1/-1; text-align:center; padding:80px 0; font-family:Poppins,sans-serif; color:rgba(0,0,0,.45); display:none; }
 
-  /* reveal */
-  .js .card { opacity:0; transform:translateY(20px); transition:opacity .7s var(--reveal-ease), transform .7s var(--reveal-ease); }
-  .js .card.in-view { opacity:1; transform:none; }
-  @media (prefers-reduced-motion:reduce) { .js .card { opacity:1!important; transform:none!important; transition:none!important; } .chip { transition:none; } }
+  /* card — rollover ported from the blog / careers cards:
+     rest = clean bordered card; hover = lift -3px, soft shadow, cyan border,
+     image zoom, title -> cyan, and the "Full article" arrow slides right. */
+  .card { display:flex; flex-direction:column; background:#fff; border:1px solid #E8E8E8; border-radius:16px; overflow:hidden; transition:transform .4s ease, box-shadow .4s ease, border-color .4s ease; }
+  .card.is-hidden { display:none; }
+  .card:hover { transform:translateY(-3px); box-shadow:8px 8px 25px 0 rgba(0,0,0,.1); border-color:var(--cyan); }
+  .card:focus-visible { outline:3px solid var(--cyan); outline-offset:3px; }
+  .card-img { aspect-ratio:561/316; overflow:hidden; background:#eee; }
+  .card-img picture { display:contents; }
+  .card-img img { width:100%; height:100%; object-fit:cover; transition:transform .6s var(--reveal-ease); }
+  .card:hover .card-img img { transform:scale(1.05); }
+  .card-body { display:flex; flex-direction:column; gap:12px; padding:26px 28px 30px; }
+  .card-cat { font-family:Poppins,sans-serif; font-weight:600; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--cyan); }
+  .card-title { font-family:Poppins,sans-serif; font-weight:600; font-size:24px; line-height:32px; color:#000; transition:color .25s ease; }
+  .card:hover .card-title { color:var(--cyan); }
+  .card-meta { font-family:Carlito,sans-serif; font-size:16px; color:rgba(0,0,0,.55); }
+  .card-cta { display:inline-flex; align-items:center; gap:9px; margin-top:6px; font-family:Poppins,sans-serif; font-weight:700; font-size:16px; letter-spacing:.02em; color:var(--cyan); }
+  .card-arrow { display:inline-block; transition:transform .3s var(--reveal-ease); }
+  .card:hover .card-arrow { transform:translateX(6px); }
 
-  /* CTA band */
+  /* reveal */
+  .js .card { opacity:0; transform:translateY(20px); transition:opacity .7s var(--reveal-ease), transform .7s var(--reveal-ease), box-shadow .4s ease, border-color .4s ease; }
+  .js .card.in-view { opacity:1; transform:none; }
+  .js .card.in-view:hover { transform:translateY(-3px); }
+  .js .cta-band > h2, .js .cta-band > p, .js .cta-band > .lsav-btn { opacity:0; transform:translateY(24px); transition:opacity 1.05s var(--reveal-ease), transform 1.05s var(--reveal-ease); }
+  .js .cta-band > p { transition-delay:.13s; }
+  .js .cta-band > .lsav-btn { transition-delay:.26s; }
+  .js .cta-band.in-view > h2, .js .cta-band.in-view > p, .js .cta-band.in-view > .lsav-btn { opacity:1; transform:none; }
+  @media (prefers-reduced-motion:reduce) {
+    .js :is(.card, .cta-band > h2, .cta-band > p, .cta-band > .lsav-btn) { opacity:1!important; transform:none!important; transition:none!important; }
+    .card-img img, .card-arrow, .chip { transition:none; }
+  }
+
+  /* CTA band — ported from careers: cyan field, LSAV ring mark in the
+     background that undulates on hover, copy + button fade up on scroll. */
   .cta-band { position:relative; min-height:600px; overflow:hidden; background:var(--cyan); display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:80px; }
   .cta-band::before { content:""; position:absolute; inset:0; background:rgba(0,0,0,.2); }
-  .cta-band > * { position:relative; z-index:1; }
-  .cta-band h2 { font-family:Poppins,sans-serif; font-weight:600; font-size:42px; line-height:1; color:var(--white); margin-bottom:28px; }
-  .cta-band > p { font-size:27px; line-height:42px; color:var(--white); max-width:1024px; margin-bottom:44px; }
+  .cta-wave { position:absolute; top:-541px; left:50%; margin-left:-880px; width:1760px; height:1683px; pointer-events:none; }
+  .cta-wave svg { width:100%; height:100%; display:block; }
+  .cta-band > h2 { position:relative; font-family:Poppins,sans-serif; font-weight:600; font-size:42px; line-height:1; color:var(--white); margin-bottom:28px; }
+  .cta-band > p { position:relative; font-size:27px; line-height:42px; color:var(--white); max-width:1024px; margin-bottom:44px; }
+  .cta-band > .lsav-btn { position:relative; }
 
   /* button */
   .lsav-btn, .lsav-btn::after, .lsav-btn img, .lsav-btn p { box-sizing:border-box; }
@@ -94,16 +117,16 @@
   @media (max-width:1024px) {
     .hero { min-height:440px; padding:130px 48px 70px; }
     .filter-bar { padding:48px 48px 8px; }
-    .grid { grid-template-columns:repeat(2,1fr); gap:56px 28px; padding:40px 48px 80px; }
-    .cta-band { min-height:520px; padding:64px 48px; } .cta-band h2 { font-size:34px; }
+    .grid { grid-template-columns:repeat(2,1fr); gap:40px 28px; padding:40px 48px 80px; }
+    .cta-band { min-height:520px; padding:64px 48px; } .cta-band > h2 { font-size:34px; }
     .site-footer { padding:64px 48px 40px; } .footer-menus { gap:80px; }
   }
   @media (max-width:767px) {
     .hero { min-height:380px; padding:110px 24px 56px; }
-    .filter-bar { gap:10px; padding:36px 24px 8px; } .chip { font-size:12px; padding:11px 18px; }
-    .grid { grid-template-columns:1fr; gap:48px; padding:36px 24px 64px; }
-    .card-title { font-size:21px; line-height:28px; }
-    .cta-band { padding:56px 24px; } .cta-band h2 { font-size:28px; } .cta-band > p { font-size:19px; line-height:30px; }
+    .filter-bar { padding:36px 20px 8px; } .filter-track { margin:0; gap:10px; } .chip { font-size:12px; padding:11px 18px; }
+    .grid { grid-template-columns:1fr; gap:36px; padding:36px 24px 64px; }
+    .card-body { padding:22px 22px 26px; } .card-title { font-size:21px; line-height:28px; }
+    .cta-band { padding:56px 24px; } .cta-band > h2 { font-size:28px; } .cta-band > p { font-size:19px; line-height:30px; }
     .site-footer { padding:56px 24px 32px; } .footer-brand { text-align:left; } .footer-brand img { margin-left:0; } .social-row { justify-content:flex-start; } .footer-menus { gap:40px; }
   }
 </style>
@@ -121,159 +144,206 @@
   </section>
 
   <nav class="filter-bar" aria-label="Filter articles by category">
-      <button class="chip is-active" data-filter="all">All</button>
-      <button class="chip" data-filter="corporate-event-production">Corporate Event Production</button>
-      <button class="chip" data-filter="av-technical-excellence">AV &amp; Technical Excellence</button>
-      <button class="chip" data-filter="tradeshow-exhibit-strategy">Tradeshow &amp; Exhibit Strategy</button>
-      <button class="chip" data-filter="event-marketing-engagement">Event Marketing &amp; Engagement</button>
-      <button class="chip" data-filter="emerging-event-technology">Emerging Event Technology</button>
+    <div class="filter-track">
+        <button class="chip is-active" data-filter="all">All</button>
+        <button class="chip" data-filter="corporate-event-production">Corporate Event Production</button>
+        <button class="chip" data-filter="av-technical-excellence">AV &amp; Technical Excellence</button>
+        <button class="chip" data-filter="tradeshow-exhibit-strategy">Tradeshow &amp; Exhibit Strategy</button>
+        <button class="chip" data-filter="event-marketing-engagement">Event Marketing &amp; Engagement</button>
+        <button class="chip" data-filter="emerging-event-technology">Emerging Event Technology</button>
+    </div>
   </nav>
 
   <section class="grid" id="grid">
-      <article class="card" data-cat="corporate-event-production">
+      <a class="card" data-cat="corporate-event-production" href="#">
         <div class="card-img"><picture><source type="image/webp" srcset="assets/articles/art1.webp"><img src="assets/articles/art1.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-        <p class="card-cat">Corporate Event Production</p>
-        <h3 class="card-title">What factors should I consider when selecting a venue for my event?</h3>
-        <p class="card-meta">4 min read</p>
-        <a class="card-link" href="#">Full article&nbsp;&nbsp;&rarr;</a>
-      </article>
-      <article class="card" data-cat="corporate-event-production">
+        <div class="card-body">
+          <p class="card-cat">Corporate Event Production</p>
+          <h3 class="card-title">What factors should I consider when selecting a venue for my event?</h3>
+          <p class="card-meta">4 min read</p>
+          <span class="card-cta">Full article<span class="card-arrow">&rarr;</span></span>
+        </div>
+      </a>
+      <a class="card" data-cat="corporate-event-production" href="#">
         <div class="card-img"><picture><source type="image/webp" srcset="assets/articles/art2.webp"><img src="assets/articles/art2.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-        <p class="card-cat">Corporate Event Production</p>
-        <h3 class="card-title">How to select the right venue &amp; talent for a corporate event</h3>
-        <p class="card-meta">6 min read</p>
-        <a class="card-link" href="#">Full article&nbsp;&nbsp;&rarr;</a>
-      </article>
-      <article class="card" data-cat="corporate-event-production">
+        <div class="card-body">
+          <p class="card-cat">Corporate Event Production</p>
+          <h3 class="card-title">How to select the right venue &amp; talent for a corporate event</h3>
+          <p class="card-meta">6 min read</p>
+          <span class="card-cta">Full article<span class="card-arrow">&rarr;</span></span>
+        </div>
+      </a>
+      <a class="card" data-cat="corporate-event-production" href="#">
         <div class="card-img"><picture><source type="image/webp" srcset="assets/articles/art3.webp"><img src="assets/articles/art3.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-        <p class="card-cat">Corporate Event Production</p>
-        <h3 class="card-title">How to make an optimal learning environment for your next event</h3>
-        <p class="card-meta">5 min read</p>
-        <a class="card-link" href="#">Full article&nbsp;&nbsp;&rarr;</a>
-      </article>
-      <article class="card" data-cat="corporate-event-production">
+        <div class="card-body">
+          <p class="card-cat">Corporate Event Production</p>
+          <h3 class="card-title">How to make an optimal learning environment for your next event</h3>
+          <p class="card-meta">5 min read</p>
+          <span class="card-cta">Full article<span class="card-arrow">&rarr;</span></span>
+        </div>
+      </a>
+      <a class="card" data-cat="corporate-event-production" href="#">
         <div class="card-img"><picture><source type="image/webp" srcset="assets/articles/art4.webp"><img src="assets/articles/art4.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-        <p class="card-cat">Corporate Event Production</p>
-        <h3 class="card-title">Creating memorable multi-sensory experience at your meeting</h3>
-        <p class="card-meta">7 min read</p>
-        <a class="card-link" href="#">Full article&nbsp;&nbsp;&rarr;</a>
-      </article>
-      <article class="card" data-cat="av-technical-excellence">
+        <div class="card-body">
+          <p class="card-cat">Corporate Event Production</p>
+          <h3 class="card-title">Creating memorable multi-sensory experience at your meeting</h3>
+          <p class="card-meta">7 min read</p>
+          <span class="card-cta">Full article<span class="card-arrow">&rarr;</span></span>
+        </div>
+      </a>
+      <a class="card" data-cat="av-technical-excellence" href="#">
         <div class="card-img"><picture><source type="image/webp" srcset="assets/articles/art5.webp"><img src="assets/articles/art5.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-        <p class="card-cat">AV &amp; Technical Excellence</p>
-        <h3 class="card-title">How can I create an engaging stage setup for a corporate conference?</h3>
-        <p class="card-meta">3 min read</p>
-        <a class="card-link" href="#">Full article&nbsp;&nbsp;&rarr;</a>
-      </article>
-      <article class="card" data-cat="av-technical-excellence">
+        <div class="card-body">
+          <p class="card-cat">AV &amp; Technical Excellence</p>
+          <h3 class="card-title">How can I create an engaging stage setup for a corporate conference?</h3>
+          <p class="card-meta">3 min read</p>
+          <span class="card-cta">Full article<span class="card-arrow">&rarr;</span></span>
+        </div>
+      </a>
+      <a class="card" data-cat="av-technical-excellence" href="#">
         <div class="card-img"><picture><source type="image/webp" srcset="assets/articles/art6.webp"><img src="assets/articles/art6.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-        <p class="card-cat">AV &amp; Technical Excellence</p>
-        <h3 class="card-title">How can I ensure seamless audio quality for a live performance?</h3>
-        <p class="card-meta">4 min read</p>
-        <a class="card-link" href="#">Full article&nbsp;&nbsp;&rarr;</a>
-      </article>
-      <article class="card" data-cat="av-technical-excellence">
+        <div class="card-body">
+          <p class="card-cat">AV &amp; Technical Excellence</p>
+          <h3 class="card-title">How can I ensure seamless audio quality for a live performance?</h3>
+          <p class="card-meta">4 min read</p>
+          <span class="card-cta">Full article<span class="card-arrow">&rarr;</span></span>
+        </div>
+      </a>
+      <a class="card" data-cat="av-technical-excellence" href="#">
         <div class="card-img"><picture><source type="image/webp" srcset="assets/articles/art7.webp"><img src="assets/articles/art7.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-        <p class="card-cat">AV &amp; Technical Excellence</p>
-        <h3 class="card-title">How do I choose the right AV equipment for my event?</h3>
-        <p class="card-meta">6 min read</p>
-        <a class="card-link" href="#">Full article&nbsp;&nbsp;&rarr;</a>
-      </article>
-      <article class="card" data-cat="av-technical-excellence">
+        <div class="card-body">
+          <p class="card-cat">AV &amp; Technical Excellence</p>
+          <h3 class="card-title">How do I choose the right AV equipment for my event?</h3>
+          <p class="card-meta">6 min read</p>
+          <span class="card-cta">Full article<span class="card-arrow">&rarr;</span></span>
+        </div>
+      </a>
+      <a class="card" data-cat="av-technical-excellence" href="#">
         <div class="card-img"><picture><source type="image/webp" srcset="assets/articles/art8.webp"><img src="assets/articles/art8.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-        <p class="card-cat">AV &amp; Technical Excellence</p>
-        <h3 class="card-title">How to amp your event experience with digital signage</h3>
-        <p class="card-meta">5 min read</p>
-        <a class="card-link" href="#">Full article&nbsp;&nbsp;&rarr;</a>
-      </article>
-      <article class="card" data-cat="tradeshow-exhibit-strategy">
+        <div class="card-body">
+          <p class="card-cat">AV &amp; Technical Excellence</p>
+          <h3 class="card-title">How to amp your event experience with digital signage</h3>
+          <p class="card-meta">5 min read</p>
+          <span class="card-cta">Full article<span class="card-arrow">&rarr;</span></span>
+        </div>
+      </a>
+      <a class="card" data-cat="tradeshow-exhibit-strategy" href="#">
         <div class="card-img"><picture><source type="image/webp" srcset="assets/articles/art9.webp"><img src="assets/articles/art9.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-        <p class="card-cat">Tradeshow &amp; Exhibit Strategy</p>
-        <h3 class="card-title">Why warehouses are the ultimate canvas for unforgettable events</h3>
-        <p class="card-meta">7 min read</p>
-        <a class="card-link" href="#">Full article&nbsp;&nbsp;&rarr;</a>
-      </article>
-      <article class="card" data-cat="tradeshow-exhibit-strategy">
+        <div class="card-body">
+          <p class="card-cat">Tradeshow &amp; Exhibit Strategy</p>
+          <h3 class="card-title">Why warehouses are the ultimate canvas for unforgettable events</h3>
+          <p class="card-meta">7 min read</p>
+          <span class="card-cta">Full article<span class="card-arrow">&rarr;</span></span>
+        </div>
+      </a>
+      <a class="card" data-cat="tradeshow-exhibit-strategy" href="#">
         <div class="card-img"><picture><source type="image/webp" srcset="assets/articles/art10.webp"><img src="assets/articles/art10.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-        <p class="card-cat">Tradeshow &amp; Exhibit Strategy</p>
-        <h3 class="card-title">Rethinking the venue: Why non-traditional spaces are driving modern events</h3>
-        <p class="card-meta">3 min read</p>
-        <a class="card-link" href="#">Full article&nbsp;&nbsp;&rarr;</a>
-      </article>
-      <article class="card" data-cat="tradeshow-exhibit-strategy">
+        <div class="card-body">
+          <p class="card-cat">Tradeshow &amp; Exhibit Strategy</p>
+          <h3 class="card-title">Rethinking the venue: Why non-traditional spaces are driving modern events</h3>
+          <p class="card-meta">3 min read</p>
+          <span class="card-cta">Full article<span class="card-arrow">&rarr;</span></span>
+        </div>
+      </a>
+      <a class="card" data-cat="tradeshow-exhibit-strategy" href="#">
         <div class="card-img"><picture><source type="image/webp" srcset="assets/articles/art11.webp"><img src="assets/articles/art11.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-        <p class="card-cat">Tradeshow &amp; Exhibit Strategy</p>
-        <h3 class="card-title">8 ways to source the right speakers and talent for your event</h3>
-        <p class="card-meta">5 min read</p>
-        <a class="card-link" href="#">Full article&nbsp;&nbsp;&rarr;</a>
-      </article>
-      <article class="card" data-cat="tradeshow-exhibit-strategy">
+        <div class="card-body">
+          <p class="card-cat">Tradeshow &amp; Exhibit Strategy</p>
+          <h3 class="card-title">8 ways to source the right speakers and talent for your event</h3>
+          <p class="card-meta">5 min read</p>
+          <span class="card-cta">Full article<span class="card-arrow">&rarr;</span></span>
+        </div>
+      </a>
+      <a class="card" data-cat="tradeshow-exhibit-strategy" href="#">
         <div class="card-img"><picture><source type="image/webp" srcset="assets/articles/art12.webp"><img src="assets/articles/art12.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-        <p class="card-cat">Tradeshow &amp; Exhibit Strategy</p>
-        <h3 class="card-title">3 reasons to embed experiences within your next event</h3>
-        <p class="card-meta">4 min read</p>
-        <a class="card-link" href="#">Full article&nbsp;&nbsp;&rarr;</a>
-      </article>
-      <article class="card" data-cat="event-marketing-engagement">
+        <div class="card-body">
+          <p class="card-cat">Tradeshow &amp; Exhibit Strategy</p>
+          <h3 class="card-title">3 reasons to embed experiences within your next event</h3>
+          <p class="card-meta">4 min read</p>
+          <span class="card-cta">Full article<span class="card-arrow">&rarr;</span></span>
+        </div>
+      </a>
+      <a class="card" data-cat="event-marketing-engagement" href="#">
         <div class="card-img"><picture><source type="image/webp" srcset="assets/articles/art13.webp"><img src="assets/articles/art13.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-        <p class="card-cat">Event Marketing &amp; Engagement</p>
-        <h3 class="card-title">How to engage the next generation of B2B event attendees</h3>
-        <p class="card-meta">6 min read</p>
-        <a class="card-link" href="#">Full article&nbsp;&nbsp;&rarr;</a>
-      </article>
-      <article class="card" data-cat="event-marketing-engagement">
+        <div class="card-body">
+          <p class="card-cat">Event Marketing &amp; Engagement</p>
+          <h3 class="card-title">How to engage the next generation of B2B event attendees</h3>
+          <p class="card-meta">6 min read</p>
+          <span class="card-cta">Full article<span class="card-arrow">&rarr;</span></span>
+        </div>
+      </a>
+      <a class="card" data-cat="event-marketing-engagement" href="#">
         <div class="card-img"><picture><source type="image/webp" srcset="assets/articles/art6.webp"><img src="assets/articles/art6.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-        <p class="card-cat">Event Marketing &amp; Engagement</p>
-        <h3 class="card-title">Designing the attendee journey: How to maximize event engagement from start to finish</h3>
-        <p class="card-meta">7 min read</p>
-        <a class="card-link" href="#">Full article&nbsp;&nbsp;&rarr;</a>
-      </article>
-      <article class="card" data-cat="event-marketing-engagement">
+        <div class="card-body">
+          <p class="card-cat">Event Marketing &amp; Engagement</p>
+          <h3 class="card-title">Designing the attendee journey: How to maximize event engagement from start to finish</h3>
+          <p class="card-meta">7 min read</p>
+          <span class="card-cta">Full article<span class="card-arrow">&rarr;</span></span>
+        </div>
+      </a>
+      <a class="card" data-cat="event-marketing-engagement" href="#">
         <div class="card-img"><picture><source type="image/webp" srcset="assets/articles/art14.webp"><img src="assets/articles/art14.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-        <p class="card-cat">Event Marketing &amp; Engagement</p>
-        <h3 class="card-title">How can I leverage social media to promote my event?</h3>
-        <p class="card-meta">4 min read</p>
-        <a class="card-link" href="#">Full article&nbsp;&nbsp;&rarr;</a>
-      </article>
-      <article class="card" data-cat="event-marketing-engagement">
+        <div class="card-body">
+          <p class="card-cat">Event Marketing &amp; Engagement</p>
+          <h3 class="card-title">How can I leverage social media to promote my event?</h3>
+          <p class="card-meta">4 min read</p>
+          <span class="card-cta">Full article<span class="card-arrow">&rarr;</span></span>
+        </div>
+      </a>
+      <a class="card" data-cat="event-marketing-engagement" href="#">
         <div class="card-img"><picture><source type="image/webp" srcset="assets/articles/art15.webp"><img src="assets/articles/art15.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-        <p class="card-cat">Event Marketing &amp; Engagement</p>
-        <h3 class="card-title">15 ways to personalize your event for stronger attendee engagement</h3>
-        <p class="card-meta">5 min read</p>
-        <a class="card-link" href="#">Full article&nbsp;&nbsp;&rarr;</a>
-      </article>
-      <article class="card" data-cat="emerging-event-technology">
+        <div class="card-body">
+          <p class="card-cat">Event Marketing &amp; Engagement</p>
+          <h3 class="card-title">15 ways to personalize your event for stronger attendee engagement</h3>
+          <p class="card-meta">5 min read</p>
+          <span class="card-cta">Full article<span class="card-arrow">&rarr;</span></span>
+        </div>
+      </a>
+      <a class="card" data-cat="emerging-event-technology" href="#">
         <div class="card-img"><picture><source type="image/webp" srcset="assets/articles/art5.webp"><img src="assets/articles/art5.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-        <p class="card-cat">Emerging Event Technology</p>
-        <h3 class="card-title">Why warehouses are the ultimate canvas for unforgettable events</h3>
-        <p class="card-meta">3 min read</p>
-        <a class="card-link" href="#">Full article&nbsp;&nbsp;&rarr;</a>
-      </article>
-      <article class="card" data-cat="emerging-event-technology">
+        <div class="card-body">
+          <p class="card-cat">Emerging Event Technology</p>
+          <h3 class="card-title">Why warehouses are the ultimate canvas for unforgettable events</h3>
+          <p class="card-meta">3 min read</p>
+          <span class="card-cta">Full article<span class="card-arrow">&rarr;</span></span>
+        </div>
+      </a>
+      <a class="card" data-cat="emerging-event-technology" href="#">
         <div class="card-img"><picture><source type="image/webp" srcset="assets/articles/art6.webp"><img src="assets/articles/art6.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-        <p class="card-cat">Emerging Event Technology</p>
-        <h3 class="card-title">Rethinking the venue: Why non-traditional spaces are driving modern events</h3>
-        <p class="card-meta">6 min read</p>
-        <a class="card-link" href="#">Full article&nbsp;&nbsp;&rarr;</a>
-      </article>
-      <article class="card" data-cat="emerging-event-technology">
+        <div class="card-body">
+          <p class="card-cat">Emerging Event Technology</p>
+          <h3 class="card-title">Rethinking the venue: Why non-traditional spaces are driving modern events</h3>
+          <p class="card-meta">6 min read</p>
+          <span class="card-cta">Full article<span class="card-arrow">&rarr;</span></span>
+        </div>
+      </a>
+      <a class="card" data-cat="emerging-event-technology" href="#">
         <div class="card-img"><picture><source type="image/webp" srcset="assets/articles/art7.webp"><img src="assets/articles/art7.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-        <p class="card-cat">Emerging Event Technology</p>
-        <h3 class="card-title">8 ways to source the right speakers and talent for your event</h3>
-        <p class="card-meta">5 min read</p>
-        <a class="card-link" href="#">Full article&nbsp;&nbsp;&rarr;</a>
-      </article>
-      <article class="card" data-cat="emerging-event-technology">
+        <div class="card-body">
+          <p class="card-cat">Emerging Event Technology</p>
+          <h3 class="card-title">8 ways to source the right speakers and talent for your event</h3>
+          <p class="card-meta">5 min read</p>
+          <span class="card-cta">Full article<span class="card-arrow">&rarr;</span></span>
+        </div>
+      </a>
+      <a class="card" data-cat="emerging-event-technology" href="#">
         <div class="card-img"><picture><source type="image/webp" srcset="assets/articles/art8.webp"><img src="assets/articles/art8.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-        <p class="card-cat">Emerging Event Technology</p>
-        <h3 class="card-title">3 reasons to embed experiences within your next event</h3>
-        <p class="card-meta">4 min read</p>
-        <a class="card-link" href="#">Full article&nbsp;&nbsp;&rarr;</a>
-      </article>
+        <div class="card-body">
+          <p class="card-cat">Emerging Event Technology</p>
+          <h3 class="card-title">3 reasons to embed experiences within your next event</h3>
+          <p class="card-meta">4 min read</p>
+          <span class="card-cta">Full article<span class="card-arrow">&rarr;</span></span>
+        </div>
+      </a>
     <p class="grid-empty" id="gridEmpty">No articles in this category yet.</p>
   </section>
 
   <section class="cta-band">
+    <div class="cta-wave" aria-hidden="true">
+      <svg viewBox="0 0 1760 1683" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path id="lsavWavePath" d="M880.178 0C394.317 0 0 392.618 0 876.823C0 1361.38 393.961 1754 879.822 1754C1366.04 1754 1760 1361.38 1760 877.177C1760.36 392.973 1366.4 0 880.178 0ZM810.362 167.555C1168.7 135.251 1496.05 353.924 1584.75 720.272C1502.11 850.198 1397.74 965.215 1269.86 1052.19C1006.63 1231.46 716.325 290.381 483.368 521.834L175.608 827.479C182.732 461.131 473.75 197.729 810.362 167.555ZM876.26 1590C566.719 1588.58 276.77 1383.75 200.542 1077.75L465.558 820.734C500.109 787.01 546.772 773.876 587.379 780.62C622.643 786.655 651.139 818.249 680.704 855.878L1005.56 1268.73C1077.16 1359.61 1192.57 1389.43 1304.06 1307.07C1391.69 1242.11 1436.57 1134.54 1553.4 1098.34C1469.69 1402.92 1173.69 1591.42 876.26 1590.35V1590Z" fill="#FFFFFF" fill-opacity="0.1" fill-rule="evenodd"/>
+      </svg>
+    </div>
     <h2>Be our next case study.</h2>
     <p>Tell us what you&rsquo;re imagining &mdash; a summit, a launch, a stage no one&rsquo;s built before. We&rsquo;ll take it from napkin to standing ovation.</p>
     <a class="lsav-btn" href="https://lsav.tv/contact/"><img src="assets/arrow.svg?v=2" alt=""><p>Let&rsquo;s talk</p></a>
@@ -299,6 +369,7 @@
   <p class="footer-legal">&copy; 2026 LSAV Powerhouse. All rights reserved.</p>
 </footer>
 <script>
+/* category filter */
 (function(){
   var chips=document.querySelectorAll('.chip');
   var cards=document.querySelectorAll('.card');
@@ -316,10 +387,60 @@
       empty.style.display=shown?'none':'block';
     });
   });
+})();
+/* scroll reveal (cards + CTA band) */
+(function(){
+  var targets=[].slice.call(document.querySelectorAll('.card, .cta-band'));
   if('IntersectionObserver' in window){
     var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in-view');io.unobserve(e.target);}});},{threshold:0.08,rootMargin:'0px 0px -4% 0px'});
-    cards.forEach(function(c){io.observe(c);});
-  } else { cards.forEach(function(c){c.classList.add('in-view');}); }
+    targets.forEach(function(c){io.observe(c);});
+  } else { targets.forEach(function(c){c.classList.add('in-view');}); }
+})();
+/* LSAV mark wave — undulate the ring's center band while hovering the CTA */
+(function(){
+  var band=document.querySelector('.cta-band');
+  var path=document.getElementById('lsavWavePath');
+  if(!band||!path) return;
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
+  var CX=880, CY=877, A=46, K=2*Math.PI/880, W=2*Math.PI/2.8;
+  var subs=[], re=/([MLCZz])([^MLCZz]*)/g, m;
+  while((m=re.exec(path.getAttribute('d')))){
+    var cmd=m[1].toUpperCase();
+    var nums=(m[2].match(/-?\d*\.?\d+(?:e-?\d+)?/g)||[]).map(Number);
+    if(cmd==='M') subs.push([]);
+    var argc=cmd==='C'?6:cmd==='Z'?0:2;
+    var cur=subs[subs.length-1];
+    if(!cur) continue;
+    if(argc===0){ cur.push({c:'Z',n:[]}); continue; }
+    for(var i=0;i+argc<=nums.length;i+=argc){ cur.push({c:cmd==='M'&&i>0?'L':cmd,n:nums.slice(i,i+argc)}); }
+  }
+  function seg2d(segs,t){
+    var out='';
+    for(var i=0;i<segs.length;i++){
+      var g=segs[i];
+      if(g.c==='Z'){ out+='Z'; continue; }
+      out+=g.c;
+      for(var j=0;j<g.n.length;j+=2){
+        var x=g.n[j], y=g.n[j+1];
+        if(t!==undefined){
+          var r=Math.hypot(x-CX,y-CY);
+          var damp=Math.max(0,1-Math.pow(r/700,4));
+          y=y+A*damp*Math.sin(K*x-W*t);
+        }
+        out+=x.toFixed(1)+' '+y.toFixed(1)+(j+2<g.n.length?' ':'');
+      }
+    }
+    return out;
+  }
+  var staticD=seg2d(subs[0]);
+  var running=false, raf=0, t0=0, acc=0;
+  function frame(ts){ if(!running) return; var t=acc+(ts-t0)/1000; path.setAttribute('d',staticD+seg2d(subs[1],t)+seg2d(subs[2],t)); raf=requestAnimationFrame(frame); }
+  function start(){ if(running||reduce.matches) return; running=true; t0=performance.now(); raf=requestAnimationFrame(frame); }
+  function stop(){ if(!running) return; acc+=(performance.now()-t0)/1000; running=false; cancelAnimationFrame(raf); }
+  band.addEventListener('mouseenter',start);
+  band.addEventListener('mouseleave',stop);
+  band.addEventListener('focusin',start);
+  band.addEventListener('focusout',stop);
 })();
 </script>
 </body>
