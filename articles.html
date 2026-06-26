@@ -33,10 +33,8 @@
   .filter-bar { padding:56px 56px 8px; overflow-x:auto; -ms-overflow-style:none; scrollbar-width:none; }
   .filter-bar::-webkit-scrollbar { display:none; }
   .filter-track { display:flex; flex-wrap:nowrap; gap:10px; width:max-content; margin:0 auto; }
-  .chip { flex:0 0 auto; display:inline-flex; align-items:center; gap:8px; white-space:nowrap; font-family:Poppins,sans-serif; font-weight:600; font-size:12px; letter-spacing:.02em; text-transform:uppercase; color:var(--dark); background:var(--white); border:1.5px solid #D7D7D7; border-radius:120px; padding:11px 18px; cursor:pointer; transition:color .25s ease, background .25s ease, border-color .25s ease; }
-  .chip::before { content:""; width:8px; height:8px; border-radius:50%; background:var(--cat,#CFCFCF); flex:0 0 auto; }
+  .chip { flex:0 0 auto; white-space:nowrap; font-family:Poppins,sans-serif; font-weight:600; font-size:12px; letter-spacing:.02em; text-transform:uppercase; color:var(--dark); background:var(--white); border:1.5px solid #D7D7D7; border-radius:120px; padding:11px 18px; cursor:pointer; transition:color .25s ease, background .25s ease, border-color .25s ease; }
   .chip[data-filter="all"] { --cat:var(--dark); --on:#fff; }
-  .chip[data-filter="all"]::before { display:none; }
   .chip[data-filter="corporate-event-production"] { --cat:#77bc43; --on:#1A1718; }
   .chip[data-filter="av-technical-excellence"]    { --cat:#f68c2c; --on:#1A1718; }
   .chip[data-filter="tradeshow-exhibit-strategy"] { --cat:#00827e; --on:#fff; }
@@ -44,8 +42,7 @@
   .chip[data-filter="emerging-event-technology"]  { --cat:#6c3fc7; --on:#fff; }
   .chip:hover { border-color:var(--cat); }
   .chip.is-active { background:var(--cat); color:var(--on); border-color:var(--cat); }
-  .chip.is-active::before { display:none; }
-  @media (min-width:1025px) { .filter-track { border:1px solid #E4E4E4; border-radius:120px; padding:8px 10px; } }
+  @media (min-width:1025px) { .filter-track { background:#fff; border:1px solid #E8E8E8; border-radius:20px; padding:28px 32px; } }
   .chip:focus-visible { outline:3px solid var(--cyan); outline-offset:3px; }
 
   /* grid */
