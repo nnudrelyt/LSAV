@@ -559,10 +559,14 @@
     content: ""; position: absolute; inset: 0; z-index: -1;
     background: linear-gradient(transparent 28%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.9));
   }
+  .related-meta { position: relative; z-index: 1; padding: 0 28px 30px; }
   .related-card h3 {
-    position: relative; z-index: 1; color: #fff;
-    font-family: Poppins, sans-serif; font-weight: 700;
-    font-size: clamp(21px, 1.9vw, 28px); line-height: 1.16; padding: 0 28px 30px;
+    color: #fff; font-family: Poppins, sans-serif; font-weight: 700;
+    font-size: clamp(21px, 1.9vw, 28px); line-height: 1.16; margin-bottom: 8px;
+  }
+  .related-sub {
+    display: block; color: rgba(255,255,255,0.82);
+    font-family: Poppins, sans-serif; font-weight: 600; font-size: 14px; line-height: 1.32;
   }
   .related-card:hover img, .related-card:focus-visible img { transform: scale(1.05); }
   .related-card:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
@@ -625,31 +629,6 @@
     </div>
   </section>
 
-  <!-- What We Did -->
-  <section class="intro">
-    <h2>What We Did</h2>
-    <div class="intro-copy">
-      <div class="svc-list">
-        <span class="svc-chip">Immersive Event Design</span>
-        <span class="svc-chip">Custom Breakout Session Design</span>
-        <span class="svc-chip">Interactive and Experiential Elements</span>
-        <span class="svc-chip">Space Planning and Functional Layout</span>
-        <span class="svc-chip">Networking Facilitation</span>
-        <span class="svc-chip">Custom Prop Design</span>
-        <span class="svc-chip">Event Execution and On-Site Management</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Key numbers -->
-  <section class="stat-band" aria-label="By the numbers">
-    <div class="stat-band-inner">
-      <div class="stat"><div class="stat-num" data-target="2200">0</div><div class="stat-label">Leaders Hosted</div></div>
-      <div class="stat"><div class="stat-num" data-target="2">0</div><div class="stat-label">Days</div></div>
-      <div class="stat"><div class="stat-num" data-target="20">0</div><div class="stat-label">Themed Breakouts</div></div>
-    </div>
-  </section>
-
   <!-- The Process -->
   <section class="intro">
     <h2>The Process</h2>
@@ -685,6 +664,22 @@
     </div>
   </section>
 
+  <!-- What We Did -->
+  <section class="intro">
+    <h2>What We Did</h2>
+    <div class="intro-copy">
+      <div class="svc-list">
+        <span class="svc-chip">Immersive Event Design</span>
+        <span class="svc-chip">Custom Breakout Session Design</span>
+        <span class="svc-chip">Interactive and Experiential Elements</span>
+        <span class="svc-chip">Space Planning and Functional Layout</span>
+        <span class="svc-chip">Networking Facilitation</span>
+        <span class="svc-chip">Custom Prop Design</span>
+        <span class="svc-chip">Event Execution and On-Site Management</span>
+      </div>
+    </div>
+  </section>
+
   <!-- The Results -->
   <section class="intro">
     <h2>The Results</h2>
@@ -692,6 +687,43 @@
       <p>The United Airlines Leadership Conference 2025 was a tremendous success, with the carnival-themed experience generating positive feedback from attendees. The immersive design created an engaging, energetic atmosphere that kept the leaders excited and inspired throughout the two days. The Ferris wheel served as both a visual and functional centerpiece, effectively organizing the space while fostering a sense of excitement and curiosity.</p>
       <p>The themed breakout sessions were a major hit, with each one providing a unique experience that allowed attendees to dive deep into their chosen topics in an engaging and memorable way. The incorporation of carnival games added a playful touch that encouraged networking and socializing in between sessions, helping to create a relaxed yet focused environment.</p>
       <p>Overall, LSAV POWERHOUSE&rsquo;s design and execution helped elevate the leadership conference, making it a standout event that was both immersive and impactful.</p>
+    </div>
+  </section>
+
+  <!-- Key numbers -->
+  <section class="stat-band" aria-label="By the numbers">
+    <div class="stat-band-inner">
+      <div class="stat"><div class="stat-num" data-target="2200">0</div><div class="stat-label">Leaders Hosted</div></div>
+      <div class="stat"><div class="stat-num" data-target="2">0</div><div class="stat-label">Days</div></div>
+      <div class="stat"><div class="stat-num" data-target="20">0</div><div class="stat-label">Themed Breakouts</div></div>
+    </div>
+  </section>
+
+  <!-- You may also like (related case studies) -->
+  <section class="related" aria-label="You may also like">
+    <h2>You may also like</h2>
+    <div class="related-grid">
+      <a class="related-card" href="https://lsav.tv/case-studies/united-at-red-rock/">
+        <img src="assets/redrock.webp" alt="" loading="lazy" decoding="async">
+        <div class="related-meta">
+          <h3>United at Red Rocks</h3>
+          <span class="related-sub">Bringing brand and music together in an iconic setting</span>
+        </div>
+      </a>
+      <a class="related-card" href="https://lsav.tv/case-studies/united-and-emirates/">
+        <img src="assets/emirates.webp" alt="" loading="lazy" decoding="async">
+        <div class="related-meta">
+          <h3>United and Emirates</h3>
+          <span class="related-sub">A global partnership announcement, engineered under pressure</span>
+        </div>
+      </a>
+      <a class="related-card" href="https://lsav.tv/case-studies/united-backstage/">
+        <img src="assets/backstage.webp" alt="" loading="lazy" decoding="async">
+        <div class="related-meta">
+          <h3>United Backstage</h3>
+          <span class="related-sub">Reimagining internal engagement for a new era of flight</span>
+        </div>
+      </a>
     </div>
   </section>
 
@@ -707,25 +739,6 @@
     <a class="lsav-btn lsav-btn--on-blue lsav-btn--talk" href="https://lsav.tv/contact/">
       <img src="assets/arrow.svg?v=2" alt=""><p>Let&rsquo;s talk</p>
     </a>
-  </section>
-
-  <!-- You may also like -->
-  <section class="related" aria-label="You may also like">
-    <h2>You may also like</h2>
-    <div class="related-grid">
-      <a class="related-card" href="https://lsav.tv/how-crowd-streaming-expands-your-event-reach-through-attendee-generated-content/">
-        <img src="assets/related-crowd.webp" alt="" loading="lazy" decoding="async">
-        <h3>How Crowd Streaming Expands Your Event Reach Through Attendee-Generated Content</h3>
-      </a>
-      <a class="related-card" href="https://lsav.tv/how-ai-chatbots-elevate-the-attendee-experience-at-modern-events/">
-        <img src="assets/related-chatbots.webp" alt="" loading="lazy" decoding="async">
-        <h3>How AI Chatbots Elevate the Attendee Experience at Modern Events</h3>
-      </a>
-      <a class="related-card" href="https://lsav.tv/how-wearable-technology-is-transforming-event-engagement-and-data-insights/">
-        <img src="assets/related-wearable.webp" alt="" loading="lazy" decoding="async">
-        <h3>How Wearable Technology Is Transforming Event Engagement and Data Insights</h3>
-      </a>
-    </div>
   </section>
 
 </main>
@@ -884,17 +897,14 @@
   var nums=band.querySelectorAll('.stat-num');
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function fmt(n){ return n.toLocaleString('en-US'); }
-  function run(){
-    nums.forEach(function(el){
+  function run(){ nums.forEach(function(el){
       var target=parseInt(el.getAttribute('data-target'),10)||0;
       if(reduce){ el.textContent=fmt(target); return; }
       var dur=1500, t0=null;
       function step(ts){ if(!t0)t0=ts; var p=Math.min(1,(ts-t0)/dur);
         var e=1-Math.pow(1-p,3); el.textContent=fmt(Math.round(target*e));
         if(p<1) requestAnimationFrame(step); else el.textContent=fmt(target); }
-      requestAnimationFrame(step);
-    });
-  }
+      requestAnimationFrame(step); }); }
   if(!('IntersectionObserver' in window)){ run(); return; }
   var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ run(); io.disconnect(); } }); }, {threshold:0.4});
   io.observe(band);
