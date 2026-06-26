@@ -488,7 +488,6 @@
     .footer-menus { gap: 40px; }
   }
   /* ---------- Case-study detail page extras ---------- */
-  /* full-bleed video hero (reuses .hero / .hero-video) */
   .hero--case { min-height: 88vh; }
   .hero--case .hero-video::after { background: rgba(0,0,0,0.42); }
   .cs-backlink {
@@ -499,21 +498,21 @@
     transition: opacity .2s ease, color .2s ease;
   }
   .cs-backlink:hover, .cs-backlink:focus-visible { opacity: 1; color: var(--cyan); }
+  .intro--no-rule::after { display: none; }
 
-  /* key-numbers band — reversed scheme (cyan field, dark figures), 50% taller,
-     numbers roll up on scroll-in */
+  /* key-numbers band — light theme, count-up on scroll */
   .stat-band { background: var(--white); padding: 120px 87px; border-top: 1px solid #EAEAEA; border-bottom: 1px solid #EAEAEA; }
   .stat-band-inner {
     max-width: 1640px; margin: 0 auto;
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; text-align: center;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: center;
   }
   .stat-band .stat-num {
     font-family: Poppins, sans-serif; font-weight: 700;
-    font-size: clamp(54px, 5.6vw, 90px); line-height: 1; color: var(--cyan);
+    font-size: clamp(48px, 5vw, 80px); line-height: 1; color: var(--cyan);
     font-variant-numeric: tabular-nums;
   }
   .stat-band .stat-label {
-    font-family: Poppins, sans-serif; font-weight: 600; font-size: 16px;
+    font-family: Poppins, sans-serif; font-weight: 600; font-size: 15px;
     letter-spacing: 0.05em; text-transform: uppercase; color: var(--dark); margin-top: 18px;
   }
 
@@ -524,23 +523,17 @@
   }
   .svc-flow .svc-sep { color: var(--cyan); font-weight: 700; margin: 0 12px; }
 
-  /* photo scroll — continuous right-to-left marquee (same grammar as the
-     careers logo scroll) */
+  /* photo scroll — continuous right-to-left marquee */
   .photo-scroll { overflow: hidden; padding: 10px 0; background: var(--white); }
-  .photo-track {
-    display: flex; width: max-content;
-    animation: photoScroll 60s linear infinite; will-change: transform;
-  }
+  .photo-track { display: flex; width: max-content; animation: photoScroll 64s linear infinite; will-change: transform; }
   .photo-scroll:hover .photo-track { animation-play-state: paused; }
   .photo-set { display: flex; gap: 24px; padding-right: 24px; }
-  .photo-set img {
-    height: 165px; width: auto; max-width: none; border-radius: 14px;
-    object-fit: cover; display: block;
-  }
+  .photo-set img { height: 300px; width: auto; max-width: none; border-radius: 18px; object-fit: cover; display: block; }
   @keyframes photoScroll { to { transform: translateX(-50%); } }
   @media (prefers-reduced-motion: reduce) { .photo-track { animation: none; } }
 
-  /* You may also like — blog loop cards */
+  /* More of the Work — matches the lsav blog 'related content' card
+     (larger title; hover slides the meta up and reveals an Explore button) */
   .related { max-width: 1640px; margin: 0 auto; padding: 96px 40px 100px; }
   .related h2 {
     text-align: center; font-family: Poppins, sans-serif; font-weight: 600;
@@ -557,27 +550,33 @@
   }
   .related-card::after {
     content: ""; position: absolute; inset: 0; z-index: -1;
-    background: linear-gradient(transparent 28%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.9));
+    background: linear-gradient(transparent 24%, rgba(0,0,0,0.6) 62%, rgba(0,0,0,0.92));
   }
-  .related-meta { position: relative; z-index: 1; padding: 0 28px 30px; }
+  .related-meta { position: relative; z-index: 1; padding: 0 30px 32px; transition: transform .4s var(--reveal-ease); }
   .related-card h3 {
     color: #fff; font-family: Poppins, sans-serif; font-weight: 700;
-    font-size: clamp(21px, 1.9vw, 28px); line-height: 1.16; margin-bottom: 8px;
+    font-size: clamp(26px, 2.4vw, 36px); line-height: 1.12; margin-bottom: 10px;
   }
-  .related-sub {
-    display: block; color: rgba(255,255,255,0.82);
-    font-family: Poppins, sans-serif; font-weight: 600; font-size: 14px; line-height: 1.32;
+  .related-sub { display: block; color: rgba(255,255,255,0.82); font-family: Poppins, sans-serif; font-weight: 600; font-size: 15px; line-height: 1.32; }
+  .related-cta {
+    position: absolute; left: 30px; bottom: 32px; z-index: 1;
+    display: inline-flex; align-items: center; gap: 9px;
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 16px;
+    color: var(--cyan); border: 1.5px solid var(--cyan); border-radius: 5px; padding: 10px 18px;
+    opacity: 0; transition: opacity .4s ease;
   }
-  .related-card:hover img, .related-card:focus-visible img { transform: scale(1.05); }
+  .related-card:hover .related-meta, .related-card:focus-within .related-meta { transform: translateY(-46px); }
+  .related-card:hover .related-cta, .related-card:focus-within .related-cta { opacity: 1; }
+  .related-card:hover img, .related-card:focus-within img { transform: scale(1.05); }
   .related-card:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
 
   @media (max-width: 1024px) {
     .cs-backlink { top: 90px; left: 48px; }
     .stat-band { padding: 84px 48px; }
+    .stat-band-inner { grid-template-columns: repeat(2, 1fr); gap: 48px 24px; }
     .intro .intro-copy .svc-flow { font-size: 26px; }
     .svc-flow .svc-sep { margin: 0 8px; }
-    .svc-chip { font-size: 15px; padding: 11px 18px; }
-    .photo-set img { height: 120px; border-radius: 12px; }
+    .photo-set img { height: 200px; border-radius: 14px; }
     .related { padding: 72px 40px 80px; }
     .related-grid { grid-template-columns: 1fr; gap: 18px; max-width: 560px; margin: 0 auto; }
     .related-card { aspect-ratio: 16 / 10; }
@@ -587,8 +586,7 @@
     .hero--case { min-height: 80vh; }
     .stat-band { padding: 64px 24px; }
     .intro .intro-copy .svc-flow { font-size: 21px; line-height: 1.65; }
-    .stat-band-inner { grid-template-columns: 1fr; gap: 40px; }
-    .photo-set img { height: 90px; border-radius: 10px; }
+    .photo-set img { height: 150px; border-radius: 12px; }
     .photo-set { gap: 16px; padding-right: 16px; }
     .related { padding: 56px 24px 64px; }
   }
@@ -681,11 +679,12 @@
       <div class="stat"><div class="stat-num" data-target="2200">0</div><div class="stat-label">Leaders Hosted</div></div>
       <div class="stat"><div class="stat-num" data-target="2">0</div><div class="stat-label">Days</div></div>
       <div class="stat"><div class="stat-num" data-target="20">0</div><div class="stat-label">Themed Breakouts</div></div>
+      <div class="stat"><div class="stat-num" data-target="6">0</div><div class="stat-label">Branded Activations</div></div>
     </div>
   </section>
 
   <!-- The Results -->
-  <section class="intro">
+  <section class="intro intro--no-rule">
     <h2>The Results</h2>
     <div class="intro-copy">
       <p>The United Airlines Leadership Conference 2025 was a tremendous success, with the carnival-themed experience generating positive feedback from attendees. The immersive design created an engaging, energetic atmosphere that kept the leaders excited and inspired throughout the two days. The Ferris wheel served as both a visual and functional centerpiece, effectively organizing the space while fostering a sense of excitement and curiosity.</p>
@@ -704,6 +703,7 @@
           <h3>United at Red Rocks</h3>
           <span class="related-sub">Bringing brand and music together in an iconic setting</span>
         </div>
+        <span class="related-cta" aria-hidden="true">Explore <span>&rarr;</span></span>
       </a>
       <a class="related-card" href="https://lsav.tv/case-studies/united-and-emirates/">
         <img src="assets/emirates.webp" alt="" loading="lazy" decoding="async">
@@ -711,6 +711,7 @@
           <h3>United and Emirates</h3>
           <span class="related-sub">A global partnership announcement, engineered under pressure</span>
         </div>
+        <span class="related-cta" aria-hidden="true">Explore <span>&rarr;</span></span>
       </a>
       <a class="related-card" href="https://lsav.tv/case-studies/united-backstage/">
         <img src="assets/backstage.webp" alt="" loading="lazy" decoding="async">
@@ -718,6 +719,7 @@
           <h3>United Backstage</h3>
           <span class="related-sub">Reimagining internal engagement for a new era of flight</span>
         </div>
+        <span class="related-cta" aria-hidden="true">Explore <span>&rarr;</span></span>
       </a>
     </div>
   </section>
