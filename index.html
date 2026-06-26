@@ -313,12 +313,11 @@
   .cs-banner::before {
     content: ""; position: absolute; inset: 0;
     /* comp: image at 70% over black */
-    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),
-                var(--banner-img) center / cover no-repeat #000;
+    background: var(--banner-img) center / cover no-repeat #000;
   }
   .cs-banner::after {
     content: ""; position: absolute; inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.7), rgba(0,0,0,0));
+    background: radial-gradient(ellipse 136% 120% at 50% 50%, rgba(0,0,0,0.60), rgba(0,0,0,0.42) 60%, rgba(0,0,0,0.34));
   }
   .cs-banner > * { position: relative; z-index: 1; }
   .cs-banner-title {
@@ -610,7 +609,7 @@
     </article>
   </section>
 
-  <section class="cs-banner" style="--banner-img: url('assets/emirates.webp');">
+  <section class="cs-banner" style="--banner-img: url('assets/emirates.webp?v=3');">
     <h3 class="cs-banner-title">United and Emirates</h3>
     <p class="cs-sub">A global partnership announcement, engineered under pressure</p>
     <a class="cs-pill" href="https://lsav.tv/case-studies/united-and-emirates/">How we beat the clock</a>
@@ -626,7 +625,7 @@
       </div>
     </article>
     <article class="cs-card">
-      <div class="cs-img"><picture><source type="image/webp" srcset="assets/redrock.webp"><img src="assets/redrock.jpg" alt="United Airlines stage at Red Rocks Amphitheatre" loading="lazy" decoding="async"></picture></div>
+      <div class="cs-img"><picture><source type="image/webp" srcset="assets/redrock.webp?v=3"><img src="assets/redrock.jpg" alt="United Airlines stage at Red Rocks Amphitheatre" loading="lazy" decoding="async"></picture></div>
       <div class="cs-copy">
         <h3 class="cs-title">United at Red Rocks</h3>
         <p class="cs-sub">Bringing Brand and Music Together in an Iconic Setting</p>
