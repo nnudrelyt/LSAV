@@ -490,10 +490,15 @@
   /* ---------- Case-study detail page extras ---------- */
   .hero--case { position: relative; min-height: 88vh; }
   .hero--case .hero-video::after { background: rgba(0,0,0,0.42); }
+  .hero-fade {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 220px; z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0.12) 45%, transparent);
+  }
   /* full-width back-link bar overlaying the bottom of the hero, with a translucent white rule on top */
   .cs-backbar {
     position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
-    display: flex; align-items: center; gap: 10px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
     padding: 24px 87px;
     border-top: 1px solid rgba(255,255,255,0.22);
     font-family: Poppins, sans-serif; font-weight: 600; font-size: 14px;
@@ -631,6 +636,7 @@
         <source src="assets/ulc-hero.mp4" type="video/mp4">
       </video>
     </div>
+    <div class="hero-fade" aria-hidden="true"></div>
     <div class="hero-copy">
       <h1>United Leadership Conferences</h1>
       <p>From Napkin to Stage: The LSAV Process</p>
