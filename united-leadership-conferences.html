@@ -488,14 +488,9 @@
     .footer-menus { gap: 40px; }
   }
   /* ---------- Case-study detail page extras ---------- */
-  /* video hero (reuses .hero / .hero-video) */
+  /* full-bleed video hero (reuses .hero / .hero-video) */
   .hero--case { min-height: 88vh; }
   .hero--case .hero-video::after { background: rgba(0,0,0,0.42); }
-  .hero .cs-eyebrow { display: block; margin-bottom: 22px; }
-  .cs-eyebrow {
-    font-family: Poppins, sans-serif; font-weight: 700; font-size: 15px;
-    letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan);
-  }
   .cs-backlink {
     position: absolute; top: 104px; left: 87px; z-index: 5;
     font-family: Poppins, sans-serif; font-weight: 600; font-size: 14px;
@@ -505,19 +500,21 @@
   }
   .cs-backlink:hover, .cs-backlink:focus-visible { opacity: 1; color: var(--cyan); }
 
-  /* dark key-numbers band (replaces the old image feature) */
-  .stat-band { background: var(--dark); padding: 84px 87px; }
+  /* key-numbers band — reversed scheme (cyan field, dark figures), 50% taller,
+     numbers roll up on scroll-in */
+  .stat-band { background: var(--cyan); padding: 140px 87px; }
   .stat-band-inner {
     max-width: 1640px; margin: 0 auto;
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: center;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; text-align: center;
   }
   .stat-band .stat-num {
     font-family: Poppins, sans-serif; font-weight: 700;
-    font-size: clamp(46px, 4.6vw, 74px); line-height: 1; color: var(--cyan);
+    font-size: clamp(54px, 5.6vw, 90px); line-height: 1; color: var(--dark);
+    font-variant-numeric: tabular-nums;
   }
   .stat-band .stat-label {
-    font-family: Poppins, sans-serif; font-weight: 600; font-size: 15px;
-    letter-spacing: 0.04em; text-transform: uppercase; color: #fff; margin-top: 16px;
+    font-family: Poppins, sans-serif; font-weight: 600; font-size: 16px;
+    letter-spacing: 0.05em; text-transform: uppercase; color: var(--dark); margin-top: 18px;
   }
 
   /* services chips */
@@ -526,6 +523,22 @@
     font-family: Poppins, sans-serif; font-weight: 600; font-size: 17px; color: var(--dark);
     padding: 13px 22px; border: 1.5px solid #D7D7D7; border-radius: 120px; white-space: nowrap;
   }
+
+  /* photo scroll — continuous right-to-left marquee (same grammar as the
+     careers logo scroll) */
+  .photo-scroll { overflow: hidden; padding: 10px 0; background: var(--white); }
+  .photo-track {
+    display: flex; width: max-content;
+    animation: photoScroll 60s linear infinite; will-change: transform;
+  }
+  .photo-scroll:hover .photo-track { animation-play-state: paused; }
+  .photo-set { display: flex; gap: 24px; padding-right: 24px; }
+  .photo-set img {
+    height: 330px; width: auto; max-width: none; border-radius: 18px;
+    object-fit: cover; display: block;
+  }
+  @keyframes photoScroll { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .photo-track { animation: none; } }
 
   /* You may also like — blog loop cards */
   .related { max-width: 1640px; margin: 0 auto; padding: 96px 40px 100px; }
@@ -556,9 +569,9 @@
 
   @media (max-width: 1024px) {
     .cs-backlink { top: 90px; left: 48px; }
-    .stat-band { padding: 60px 48px; }
-    .stat-band-inner { grid-template-columns: repeat(2, 1fr); gap: 44px 24px; }
+    .stat-band { padding: 96px 48px; }
     .svc-chip { font-size: 15px; padding: 11px 18px; }
+    .photo-set img { height: 240px; border-radius: 14px; }
     .related { padding: 72px 40px 80px; }
     .related-grid { grid-template-columns: 1fr; gap: 18px; max-width: 560px; margin: 0 auto; }
     .related-card { aspect-ratio: 16 / 10; }
@@ -566,7 +579,10 @@
   @media (max-width: 767px) {
     .cs-backlink { top: 78px; left: 24px; font-size: 13px; }
     .hero--case { min-height: 80vh; }
-    .stat-band { padding: 48px 24px; }
+    .stat-band { padding: 72px 24px; }
+    .stat-band-inner { grid-template-columns: 1fr; gap: 40px; }
+    .photo-set img { height: 180px; border-radius: 12px; }
+    .photo-set { gap: 16px; padding-right: 16px; }
     .related { padding: 56px 24px 64px; }
   }
 </style>
@@ -586,14 +602,15 @@
 
 <main id="main">
 
-  <!-- Hero (live-site video) -->
+  <!-- Hero (self-hosted full-bleed video) -->
   <a class="cs-backlink" href="index.html"><span aria-hidden="true">&larr;</span> All Case Studies</a>
   <section class="hero hero--case" aria-label="United Leadership Conferences">
     <div class="hero-video" aria-hidden="true">
-      <iframe src="https://player.vimeo.com/video/1088490899?background=1&autopause=0" allow="autoplay" title="" loading="eager"></iframe>
+      <video poster="assets/ulc-hero-poster.jpg" autoplay muted loop playsinline preload="auto">
+        <source src="assets/ulc-hero.mp4" type="video/mp4">
+      </video>
     </div>
     <div class="hero-copy">
-      <span class="cs-eyebrow">United Airlines &middot; Leadership Conference 2025</span>
       <h1>United Leadership Conferences</h1>
       <p>From Napkin to Stage: The LSAV Process</p>
     </div>
@@ -605,46 +622,6 @@
     <div class="intro-copy">
       <p>For the 2025 United Airlines Leadership Conference, the company tasked LSAV POWERHOUSE with designing an immersive, large-scale experience for their top 2200 leaders. The goal was to create an engaging and unforgettable environment for leadership breakouts, keynotes, and networking opportunities. The theme for this year&rsquo;s conference was &ldquo;Carnival,&rdquo; offering a unique opportunity to push the boundaries of design and make the event stand out.</p>
       <p>The challenge was to create an immersive, vibrant atmosphere that captured the fun and excitement of a carnival, while still ensuring the space was functional for a high-level leadership conference. The activation needed to support a dynamic agenda, featuring multiple breakouts and keynote speeches, while maintaining an engaging aesthetic and promoting the sense of community United sought to foster.</p>
-    </div>
-  </section>
-
-  <!-- Key numbers -->
-  <section class="stat-band" aria-label="By the numbers">
-    <div class="stat-band-inner">
-      <div class="stat"><div class="stat-num">2,200</div><div class="stat-label">Leaders Hosted</div></div>
-      <div class="stat"><div class="stat-num">2</div><div class="stat-label">Days</div></div>
-      <div class="stat"><div class="stat-num">20</div><div class="stat-label">Themed Breakouts</div></div>
-      <div class="stat"><div class="stat-num">1</div><div class="stat-label">Ferris Wheel Centerpiece</div></div>
-    </div>
-  </section>
-
-  <!-- The Process -->
-  <section class="intro">
-    <h2>The Process</h2>
-    <div class="intro-copy">
-      <p>LSAV POWERHOUSE embraced the &ldquo;Carnival&rdquo; theme, transforming the conference space into a whimsical, yet professional environment. The centerpiece of the activation was a large Ferris wheel, which served as a striking visual anchor for the space. This eye-catching installation immediately set the tone for the event, signaling a fun and exciting atmosphere while adding to the immersive experience.</p>
-      <p>Surrounding the Ferris wheel, we designed multiple &lsquo;tents&rsquo; that represented the different hubs for the breakouts, each featuring themed d&eacute;cor and layouts that fit the specific topics being covered.</p>
-    </div>
-  </section>
-
-  <!-- Work image -->
-  <section class="cs-group">
-    <article class="cs-card">
-      <div class="cs-img"><img src="assets/ulc-immersive.webp" alt="The immersive activation environment at the United Leadership Conference" loading="lazy" decoding="async"></div>
-      <div class="cs-copy">
-        <h3 class="cs-title">A Brand World</h3>
-        <p class="cs-sub">An immersive environment that turned a conference hall into a space leaders wanted to walk through &mdash; vibrant up close, unmistakable from across the room.</p>
-      </div>
-    </article>
-  </section>
-
-  <!-- The Results -->
-  <section class="intro">
-    <h2>The Results</h2>
-    <div class="intro-copy">
-      <p>The United Airlines Leadership Conference 2025 was a tremendous success, with the carnival-themed experience generating positive feedback from attendees. The immersive design created an engaging, energetic atmosphere that kept the leaders excited and inspired throughout the two days. The Ferris wheel served as both a visual and functional centerpiece, effectively organizing the space while fostering a sense of excitement and curiosity.</p>
-      <p>The themed breakout sessions were a major hit, with each one providing a unique experience that allowed attendees to dive deep into their chosen topics in an engaging and memorable way. The incorporation of carnival games added a playful touch that encouraged networking and socializing in between sessions, helping to create a relaxed yet focused environment.</p>
-      <p>Overall, LSAV POWERHOUSE&rsquo;s design and execution helped elevate the leadership conference, making it a standout event that was both immersive and impactful.</p>
     </div>
   </section>
 
@@ -661,6 +638,60 @@
         <span class="svc-chip">Custom Prop Design</span>
         <span class="svc-chip">Event Execution and On-Site Management</span>
       </div>
+    </div>
+  </section>
+
+  <!-- Key numbers -->
+  <section class="stat-band" aria-label="By the numbers">
+    <div class="stat-band-inner">
+      <div class="stat"><div class="stat-num" data-target="2200">0</div><div class="stat-label">Leaders Hosted</div></div>
+      <div class="stat"><div class="stat-num" data-target="2">0</div><div class="stat-label">Days</div></div>
+      <div class="stat"><div class="stat-num" data-target="20">0</div><div class="stat-label">Themed Breakouts</div></div>
+    </div>
+  </section>
+
+  <!-- The Process -->
+  <section class="intro">
+    <h2>The Process</h2>
+    <div class="intro-copy">
+      <p>LSAV POWERHOUSE embraced the &ldquo;Carnival&rdquo; theme, transforming the conference space into a whimsical, yet professional environment. The centerpiece of the activation was a large Ferris wheel, which served as a striking visual anchor for the space. This eye-catching installation immediately set the tone for the event, signaling a fun and exciting atmosphere while adding to the immersive experience.</p>
+      <p>Surrounding the Ferris wheel, we designed multiple &lsquo;tents&rsquo; that represented the different hubs for the breakouts, each featuring themed d&eacute;cor and layouts that fit the specific topics being covered.</p>
+    </div>
+  </section>
+
+  <!-- Photo scroll -->
+  <section class="photo-scroll" aria-label="From the United Leadership Conference">
+    <div class="photo-track">
+      <div class="photo-set">
+        <img src="assets/ulc-immersive.webp" alt="Immersive activation environment" loading="lazy" decoding="async">
+        <img src="assets/ulc-scroll-carnival.webp" alt="Carnival-themed activation" loading="lazy" decoding="async">
+        <img src="assets/ulc-stage.webp" alt="Main keynote stage" loading="lazy" decoding="async">
+        <img src="assets/ulc-scroll-brandscapes.webp" alt="United Brandscapes installation" loading="lazy" decoding="async">
+        <img src="assets/ulc-scroll-golf.webp" alt="Carnival mini-golf game" loading="lazy" decoding="async">
+        <img src="assets/ulc-team-lc25.webp" alt="Leaders at the LC25 moment" loading="lazy" decoding="async">
+        <img src="assets/ulc-scroll-caricatures.webp" alt="Caricature booth activation" loading="lazy" decoding="async">
+        <img src="assets/ulc-team.webp" alt="The team behind the conference" loading="lazy" decoding="async">
+      </div>
+      <div class="photo-set" aria-hidden="true">
+        <img src="assets/ulc-immersive.webp" alt="" loading="lazy" decoding="async">
+        <img src="assets/ulc-scroll-carnival.webp" alt="" loading="lazy" decoding="async">
+        <img src="assets/ulc-stage.webp" alt="" loading="lazy" decoding="async">
+        <img src="assets/ulc-scroll-brandscapes.webp" alt="" loading="lazy" decoding="async">
+        <img src="assets/ulc-scroll-golf.webp" alt="" loading="lazy" decoding="async">
+        <img src="assets/ulc-team-lc25.webp" alt="" loading="lazy" decoding="async">
+        <img src="assets/ulc-scroll-caricatures.webp" alt="" loading="lazy" decoding="async">
+        <img src="assets/ulc-team.webp" alt="" loading="lazy" decoding="async">
+      </div>
+    </div>
+  </section>
+
+  <!-- The Results -->
+  <section class="intro">
+    <h2>The Results</h2>
+    <div class="intro-copy">
+      <p>The United Airlines Leadership Conference 2025 was a tremendous success, with the carnival-themed experience generating positive feedback from attendees. The immersive design created an engaging, energetic atmosphere that kept the leaders excited and inspired throughout the two days. The Ferris wheel served as both a visual and functional centerpiece, effectively organizing the space while fostering a sense of excitement and curiosity.</p>
+      <p>The themed breakout sessions were a major hit, with each one providing a unique experience that allowed attendees to dive deep into their chosen topics in an engaging and memorable way. The incorporation of carnival games added a playful touch that encouraged networking and socializing in between sessions, helping to create a relaxed yet focused environment.</p>
+      <p>Overall, LSAV POWERHOUSE&rsquo;s design and execution helped elevate the leadership conference, making it a standout event that was both immersive and impactful.</p>
     </div>
   </section>
 
@@ -844,6 +875,29 @@
     });
   }, { threshold: 0.08, rootMargin: '0px 0px -2% 0px' });
   targets.forEach(function (el) { io.observe(el); });
+})();
+</script>
+
+<script>
+(function(){
+  var band=document.querySelector('.stat-band'); if(!band) return;
+  var nums=band.querySelectorAll('.stat-num');
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function fmt(n){ return n.toLocaleString('en-US'); }
+  function run(){
+    nums.forEach(function(el){
+      var target=parseInt(el.getAttribute('data-target'),10)||0;
+      if(reduce){ el.textContent=fmt(target); return; }
+      var dur=1500, t0=null;
+      function step(ts){ if(!t0)t0=ts; var p=Math.min(1,(ts-t0)/dur);
+        var e=1-Math.pow(1-p,3); el.textContent=fmt(Math.round(target*e));
+        if(p<1) requestAnimationFrame(step); else el.textContent=fmt(target); }
+      requestAnimationFrame(step);
+    });
+  }
+  if(!('IntersectionObserver' in window)){ run(); return; }
+  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ run(); io.disconnect(); } }); }, {threshold:0.4});
+  io.observe(band);
 })();
 </script>
 </body>
