@@ -502,7 +502,10 @@
   .intro--no-rule::after { display: none; }
 
   /* key-numbers band — light theme, count-up on scroll */
-  .stat-band { background: var(--white); padding: 120px 87px; border-top: 1px solid #EAEAEA; border-bottom: 1px solid #EAEAEA; }
+  .stat-band { position: relative; background: var(--white); padding: 120px 87px; }
+  .stat-band::before, .stat-band::after { content: ""; position: absolute; left: 87px; right: 87px; height: 1px; background: #EAEAEA; }
+  .stat-band::before { top: 0; }
+  .stat-band::after { bottom: 0; }
   .stat-band-inner {
     max-width: 1640px; margin: 0 auto;
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: center;
@@ -579,6 +582,7 @@
   @media (max-width: 1024px) {
     .cs-backlink { top: 90px; left: 48px; }
     .stat-band { padding: 84px 48px; }
+    .stat-band::before, .stat-band::after { left: 48px; right: 48px; }
     .stat-band-inner { grid-template-columns: repeat(2, 1fr); gap: 48px 24px; }
     .intro .intro-copy .svc-flow { font-size: 26px; }
     .svc-flow .svc-sep { margin: 0 8px; }
@@ -592,6 +596,7 @@
     .cs-backlink { top: 78px; left: 24px; font-size: 13px; }
     .hero--case { min-height: 80vh; }
     .stat-band { padding: 64px 24px; }
+    .stat-band::before, .stat-band::after { left: 24px; right: 24px; }
     .intro .intro-copy .svc-flow { font-size: 21px; line-height: 1.65; }
     .photo-set img { height: 260px; border-radius: 14px; }
     .photo-set { gap: 16px; padding-right: 16px; }
@@ -691,7 +696,7 @@
   </section>
 
   <!-- The Results -->
-  <section class="intro intro--no-rule">
+  <section class="intro">
     <h2>The Results</h2>
     <div class="intro-copy">
       <p>The United Airlines Leadership Conference 2025 was a tremendous success, with the carnival-themed experience generating positive feedback from attendees. The immersive design created an engaging, energetic atmosphere that kept the leaders excited and inspired throughout the two days. The Ferris wheel served as both a visual and functional centerpiece, effectively organizing the space while fostering a sense of excitement and curiosity.</p>
