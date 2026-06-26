@@ -491,10 +491,9 @@
   .hero--case { min-height: 88vh; }
   .hero--case .hero-video::after { background: rgba(0,0,0,0.42); }
   .cs-backlink {
-    position: absolute; top: 104px; left: 87px; z-index: 5;
+    display: inline-flex; align-items: center; gap: 9px; margin-bottom: 22px;
     font-family: Poppins, sans-serif; font-weight: 600; font-size: 14px;
-    letter-spacing: 0.04em; text-transform: uppercase; color: #fff;
-    display: inline-flex; align-items: center; gap: 9px; opacity: 0.85;
+    letter-spacing: 0.04em; text-transform: uppercase; color: #fff; opacity: 0.85;
     transition: opacity .2s ease, color .2s ease;
   }
   .cs-backlink:hover, .cs-backlink:focus-visible { opacity: 1; color: var(--cyan); }
@@ -580,7 +579,6 @@
   .related-card:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
 
   @media (max-width: 1024px) {
-    .cs-backlink { top: 90px; left: 48px; }
     .stat-band { padding: 84px 48px; }
     .stat-band::before, .stat-band::after { left: 48px; right: 48px; }
     .stat-band-inner { grid-template-columns: repeat(2, 1fr); gap: 48px 24px; }
@@ -593,7 +591,7 @@
     .related-card:hover .related-meta, .related-card:focus-within .related-meta { transform: translateY(-86px); }
   }
   @media (max-width: 767px) {
-    .cs-backlink { top: 78px; left: 24px; font-size: 13px; }
+    .cs-backlink { font-size: 13px; margin-bottom: 16px; }
     .hero--case { min-height: 80vh; }
     .stat-band { padding: 64px 24px; }
     .stat-band::before, .stat-band::after { left: 24px; right: 24px; }
@@ -620,7 +618,6 @@
 <main id="main">
 
   <!-- Hero (self-hosted full-bleed video) -->
-  <a class="cs-backlink" href="index.html"><span aria-hidden="true">&larr;</span> All Case Studies</a>
   <section class="hero hero--case" aria-label="United Leadership Conferences">
     <div class="hero-video" aria-hidden="true">
       <video poster="assets/ulc-hero-poster.jpg" autoplay muted loop playsinline preload="auto">
@@ -628,6 +625,7 @@
       </video>
     </div>
     <div class="hero-copy">
+      <a class="cs-backlink" href="index.html"><span aria-hidden="true">&larr;</span> All Case Studies</a>
       <h1>United Leadership Conferences</h1>
       <p>From Napkin to Stage: The LSAV Process</p>
     </div>
