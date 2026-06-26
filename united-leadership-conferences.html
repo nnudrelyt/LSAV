@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>United Leadership Conferences — LSAV Powerhouse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dark: #231F20;
+    --near-black: #1A1718;
+    --cyan: #00AEEF;
+    --white: #FFFFFF;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: Calibri, Carlito, "Segoe UI", sans-serif;
+    background: var(--white);
+    color: #000;
+  }
+  img { display: block; }
+  a { text-decoration: none; }
+
+  .skip-link {
+    position: absolute; left: -9999px; top: 0;
+    background: var(--cyan); color: #fff; padding: 12px 24px;
+    font-family: Poppins, sans-serif; font-weight: 600; z-index: 100;
+  }
+  .skip-link:focus { left: 0; }
+
+  /* ---------- Scroll reveals ----------
+     One grammar: 600ms, easeOutQuint-ish, <=24px travel, one-shot.
+     Gated on html.js (set in <head>) so content is visible without JS.
+     prefers-reduced-motion gets everything instantly. */
+  :root { --reveal-ease: cubic-bezier(0.22, 1, 0.36, 1); }
+  .js .intro h2, .js .intro .intro-copy > p, .js .benefit,
+  .js .cs-card .cs-copy,
+  .js .cs-banner-title, .js .cs-banner .cs-sub, .js .cs-banner .cs-pill,
+  .js .cta-band > h2, .js .cta-band > p, .js .cta-band > .lsav-btn {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 1.05s var(--reveal-ease), transform 1.05s var(--reveal-ease);
+  }
+  .js .cs-card .cs-img img {
+    opacity: 0; transform: scale(1.02); will-change: transform, opacity;
+    transition: opacity 1.05s var(--reveal-ease), transform 1.6s var(--reveal-ease);
+  }
+  .js .benefit .benefit-num {
+    opacity: 0; transform: translateX(-16px);
+    transition: opacity 1.05s var(--reveal-ease), transform 1.05s var(--reveal-ease);
+  }
+  .js .logo-scroll .logo-track { opacity: 0; transition: opacity 1.05s var(--reveal-ease); will-change: transform, opacity; }
+  .js .intro::after, .js .logo-scroll::after {
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 1.2s var(--reveal-ease) .3s;
+  }
+  .js .cs-banner::before { transform: scale(1.05); transition: transform 1.6s var(--reveal-ease); will-change: transform; }
+  /* staggers */
+  .js .intro .intro-copy > p:nth-of-type(1) { transition-delay: .2s; }
+  .js .intro .intro-copy > p:nth-of-type(2) { transition-delay: .34s; }
+  .js .benefit:nth-child(1), .js .benefit:nth-child(1) .benefit-num { transition-delay: .2s; }
+  .js .benefit:nth-child(2), .js .benefit:nth-child(2) .benefit-num { transition-delay: .36s; }
+  .js .benefit:nth-child(3), .js .benefit:nth-child(3) .benefit-num { transition-delay: .5s; }
+  .js .cs-card .cs-copy { transition-delay: .16s; }
+  .js .cs-banner .cs-sub { transition-delay: .13s; }
+  .js .cs-banner .cs-pill { transition-delay: .26s; }
+  .js .cta-band > p { transition-delay: .13s; }
+  .js .cta-band > .lsav-btn { transition-delay: .26s; }
+  /* revealed state */
+  .js .intro.in-view h2, .js .intro.in-view .intro-copy > p, .js .intro.in-view .benefit,
+  .js .intro.in-view .benefit .benefit-num,
+  .js .cs-card.in-view .cs-copy, .js .cs-card.in-view .cs-img img,
+  .js .cs-banner.in-view .cs-banner-title, .js .cs-banner.in-view .cs-sub, .js .cs-banner.in-view .cs-pill,
+  .js .cta-band.in-view > h2, .js .cta-band.in-view > p, .js .cta-band.in-view > .lsav-btn {
+    opacity: 1; transform: none;
+  }
+  .js .logo-scroll.in-view .logo-track { opacity: 1; }
+  .js .intro.in-view::after, .js .logo-scroll.in-view::after { transform: scaleX(1); }
+  .js .cs-banner.in-view::before { transform: scale(1); }
+  @media (prefers-reduced-motion: reduce) {
+    .js :is(.intro h2, .intro .intro-copy > p, .benefit, .benefit-num, .cs-card .cs-copy,
+            .cs-card .cs-img img, .cs-banner-title, .cs-banner .cs-sub, .cs-banner .cs-pill,
+            .cta-band > h2, .cta-band > p, .cta-band > .lsav-btn, .logo-track) {
+      opacity: 1 !important; transform: none !important; transition: none !important;
+    }
+    .js .intro::after, .js .logo-scroll::after { transform: scaleX(1) !important; transition: none !important; }
+    .js .cs-banner::before { transform: scale(1) !important; transition: none !important; }
+  }
+
+  /* ---------- Header ---------- */
+  .site-header {
+    position: absolute; top: 0; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 23px 47px; z-index: 10;
+  }
+  .site-header .logo img { height: 34px; width: auto; max-width: 70vw; object-fit: contain; object-position: left; }
+  .site-header .menu-toggle {
+    background: none; border: 0; cursor: pointer; padding: 8px;
+  }
+  .site-header .menu-toggle img { height: 24px; width: auto; }
+
+  /* ---------- Buttons ----------
+     Recreated from lsav.tv footer (Elementor .elementor-element-bd6ab62, post-1407.css).
+     Cyan slab (::after) parked off-canvas left; on hover it floods the button,
+     the arrow flies right and the label slides left. 200ms ease-in-out. */
+  .lsav-btn, .lsav-btn::after, .lsav-btn img, .lsav-btn p { box-sizing: border-box; }
+  .lsav-btn {
+    position: relative;
+    display: block;
+    width: 230px;
+    padding: 25px 0 28px 90px;
+    border: 2px solid #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    text-decoration: none;
+    /* no base transition: hover-out snaps, so all visible motion is forward (L->R) */
+  }
+  .lsav-btn::after {
+    content: '';
+    position: absolute;
+    width: 240px;
+    height: 100%;
+    left: -180px;
+    top: 0;
+    z-index: 1;
+    background-color: #29ABE2;
+  }
+  .lsav-btn img {
+    width: 30px;
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    z-index: 2;
+  }
+  .lsav-btn p {
+    position: absolute;
+    margin: 0;
+    color: #fff;
+    font-family: Poppins, sans-serif;
+    font-weight: 400; /* Poppins Regular per design direction */
+    font-size: 20px;
+    line-height: 1px;
+    z-index: 3;
+  }
+  .lsav-btn:hover, .lsav-btn:focus-visible { padding-left: 30px; transition: all 200ms ease-in-out; }
+  .lsav-btn:hover::after, .lsav-btn:focus-visible::after { left: 0; transition: all 200ms ease-in-out; }
+  .lsav-btn:hover img, .lsav-btn:focus-visible img { left: 160px; transition: all 200ms ease-in-out; }
+  .lsav-btn:focus-visible { outline: 3px solid #29ABE2; outline-offset: 4px; }
+  .lsav-btn--on-blue::after { background-color: rgba(255, 255, 255, 0.28); }
+  /* Row variant — matches the live /case-studies/ "Case Study" buttons
+     (e.g. .elementor-element-172a703 in post-5135.css): 220px box,
+     80px label inset, Poppins 400. Hover values are shared with the base. */
+  .lsav-btn--case { width: 220px; padding-left: 80px; }
+  /* CTA-band instance per comp: narrower box for the shorter label */
+  .lsav-btn--talk { width: 190px; padding-left: 70px; }
+  .lsav-btn--talk:hover img, .lsav-btn--talk:focus-visible img { left: 130px; }
+  @media (max-width: 1024px) {
+    .lsav-btn { width: 200px; padding: 25px 0 25px 65px; }
+    .lsav-btn::after { width: 200px; left: -150px; }
+    .lsav-btn img { width: 25px; left: 13px; top: 15px; }
+    .lsav-btn:hover, .lsav-btn:focus-visible { padding-left: 25px; }
+    .lsav-btn:hover img, .lsav-btn:focus-visible img { left: 150px; }
+  }
+  @media (max-width: 767px) {
+    .lsav-btn { width: 185px; padding: 20px 20px 20px 65px; }
+    .lsav-btn::after { width: 195px; left: -140px; }
+    .lsav-btn img { width: 25px; left: 15px; top: 10px; }
+    .lsav-btn p { font-size: 18px; }
+    .lsav-btn:hover, .lsav-btn:focus-visible { padding-left: 20px; }
+    .lsav-btn:hover img, .lsav-btn:focus-visible img { left: 145px; }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative; min-height: 795px;
+    background: var(--dark);
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 120px 90px;
+  }
+  .hero { overflow: hidden; }
+  .hero-video { position: absolute; inset: 0; pointer-events: none; }
+  .hero-video video {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    border: 0;
+  }
+  .hero-video::after {                         /* scrim for copy legibility */
+    content: ""; position: absolute; inset: 0;
+    background: rgba(0, 0, 0, 0.2);
+  }
+  .hero-copy { position: relative; z-index: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-video { display: none; }             /* falls back to the solid dark hero */
+  }
+  .hero h1 {
+    font-family: Poppins, sans-serif; font-weight: 800;
+    font-size: clamp(40px, 3.9vw, 75px); line-height: 1.12;
+    color: var(--white); margin-bottom: 32px;
+  }
+  .hero p {
+    font-size: clamp(18px, 1.4vw, 27px); line-height: 1.56;
+    color: var(--white); max-width: 1448px; margin: 0 auto;
+  }
+
+  .hero-body--trim { display: none; }
+
+  /* ---------- Intro sections ---------- */
+  .intro {
+    max-width: 1920px; margin: 0 auto;
+    padding: 110px 87px 90px;
+    display: grid; grid-template-columns: 487px 1fr; gap: 160px;
+    position: relative;
+  }
+  .intro::after {
+    content: ""; position: absolute; left: 87px; right: 87px; bottom: 0;
+    height: 1px; background: #EAEAEA;
+  }
+  .intro h2 {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 48px; line-height: 60px; color: #000;
+  }
+  .intro .intro-copy { max-width: 1200px; }
+  .intro .intro-copy p {
+    font-size: 27px; line-height: 42px; margin-bottom: 36px;
+  }
+  .intro .intro-copy p:last-child { margin-bottom: 0; }
+  .intro .intro-copy p strong { font-family: Poppins, sans-serif; font-weight: 600; }
+  .intro--numbered .intro-copy { display: flex; flex-direction: column; gap: 36px; padding-top: 11px; }
+  .benefit { display: flex; gap: 40px; align-items: flex-start; padding-right: 160px; }
+  .benefit-num {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 48px; line-height: 48px; color: var(--cyan); flex: none;
+  }
+  .benefit p { font-size: 27px; line-height: 42px; margin: 0; }
+
+  /* ---------- Client logo scroll ---------- */
+  .logo-scroll { overflow: hidden; padding: 72px 0; background: var(--white); position: relative; }
+  .logo-scroll::after {
+    content: ""; position: absolute; left: 87px; right: 87px; bottom: 0;
+    height: 1px; background: #EAEAEA;
+  }
+  .logo-track {
+    display: flex; width: max-content;
+    animation: logoScroll 39.6s linear infinite;
+    will-change: transform;
+  }
+  .logo-scroll:hover .logo-track { animation-play-state: paused; }
+  .logo-set { display: flex; align-items: center; gap: 176px; padding-right: 176px; }
+  .logo-set img { height: 34px; width: auto; }
+  .logo-set img.logo--md { height: 48px; }
+  .logo-set img.logo--tall { height: 72px; }
+  .logo-set img.logo--dnc { height: 65px; }
+  .logo-set img.logo--lockup { height: 52px; }
+  .logo-set img.logo--wide { height: 27px; }
+  .logo-set span {
+    font-family: Poppins, sans-serif; font-weight: 600; font-size: 26px;
+    letter-spacing: 0.12em; color: #929292; white-space: nowrap;
+  }
+  @keyframes logoScroll { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .logo-track { animation: none; } }
+
+  /* ---------- Case study cards (synced from Figma comp rebuild) ---------- */
+  .cs-group {
+    max-width: 1640px; margin: 0 auto; padding: 90px 40px;
+    display: flex; flex-direction: column; gap: 60px;
+  }
+  .cs-card { display: flex; align-items: center; gap: 200px; min-height: 538px; }
+  .cs-card .cs-img {
+    width: 800px; max-width: 48vw; aspect-ratio: 800 / 538; flex: none;
+    border-radius: 64px; overflow: hidden; position: relative;
+  }
+  .cs-card .cs-img picture { display: contents; }
+  .cs-card .cs-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .cs-card .cs-copy {
+    display: flex; flex-direction: column; gap: 34px;
+    justify-content: center; align-items: flex-start; max-width: 640px;
+  }
+  .cs-card--img-right { flex-direction: row-reverse; gap: 80px; }
+  .cs-card--img-right .cs-copy { padding-left: 120px; }
+  .cs-title {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 40px; line-height: 40px; text-transform: uppercase; color: #000;
+  }
+  .cs-sub {
+    font-family: Poppins, sans-serif; font-weight: 400;
+    font-size: 18px; line-height: 40px; color: var(--dark);
+  }
+  .cs-link {
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 16px;
+    letter-spacing: 0.02em; text-transform: uppercase; color: var(--cyan);
+    padding-bottom: 8px; border-bottom: 2px solid rgba(0, 174, 239, 0.5);
+  }
+  .cs-link:hover, .cs-link:focus-visible { border-bottom-color: var(--cyan); }
+  .cs-link--white { color: #fff; border-bottom-color: rgba(255, 255, 255, 0.5); }
+  .cs-link--white:hover, .cs-link--white:focus-visible { border-bottom-color: #fff; }
+  .cs-pill {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 13px 14px; border: 2px solid #008BBF; border-radius: 120px;
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 16px;
+    letter-spacing: 0.02em; text-transform: uppercase; color: #fff; white-space: nowrap;
+  }
+  .cs-pill:hover, .cs-pill:focus-visible { border-color: var(--cyan); background: rgba(0, 139, 191, 0.25); }
+
+  /* full-bleed marquee banners */
+  .cs-banner {
+    position: relative; min-height: 807px;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; gap: 34px; padding: 80px;
+    background-color: #000; overflow: hidden;
+  }
+  .cs-banner::before {
+    content: ""; position: absolute; inset: 0;
+    /* comp: image at 70% over black */
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),
+                var(--banner-img) center / cover no-repeat #000;
+  }
+  .cs-banner::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.7), rgba(0,0,0,0));
+  }
+  .cs-banner > * { position: relative; z-index: 1; }
+  .cs-banner-title {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 48px; line-height: 60px; text-transform: uppercase; color: #fff;
+  }
+  .cs-banner .cs-sub { color: #fff; }
+
+  /* ---------- CTA band ---------- */
+  .cta-band {
+    position: relative; min-height: 600px; overflow: hidden;
+    background: var(--cyan);
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 80px;
+  }
+  .cta-band::before { content: ""; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.2); }
+  /* LSAV mark watermark — static position; the central wave band of the mark
+     itself undulates on hover (JS recomputes the two inner path edges with a
+     traveling sine, radially damped to zero where they meet the outer ring). */
+  .cta-wave {
+    position: absolute; top: -541px; left: 50%; margin-left: -880px;
+    width: 1760px; height: 1683px; pointer-events: none;
+  }
+  .cta-wave svg { width: 100%; height: 100%; display: block; }
+  /* child combinator: keep band typography off the button's inner <p> */
+  .cta-band > h2 {
+    position: relative;
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 42px; line-height: 1; color: var(--white);
+    margin-bottom: 28px;
+  }
+  .cta-band > p {
+    position: relative;
+    font-size: 27px; line-height: 42px; color: var(--white);
+    max-width: 1024px; margin-bottom: 44px;
+  }
+  .cta-band > .lsav-btn { position: relative; }
+
+  /* ---------- Footer ---------- */
+  .site-footer {
+    background: var(--near-black); color: var(--white);
+    padding: 80px 87px 48px;
+  }
+  .footer-top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 48px; flex-wrap: wrap;
+  }
+  .footer-top h2 {
+    font-family: Poppins, sans-serif; font-weight: 800;
+    font-size: clamp(36px, 3.3vw, 64px); color: var(--cyan);
+    margin-bottom: 32px;
+  }
+  .footer-brand { text-align: right; }
+  .footer-brand img { height: 30px; width: auto; max-width: 100%; object-fit: contain; margin-left: auto; }
+  .social-row { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+  .social-row a {
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--white); color: var(--near-black);
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 14px;
+  }
+  .social-row a:hover { background: var(--cyan); color: var(--white); }
+  .footer-divider {
+    border: 0; border-top: 1px solid rgba(255,255,255,0.15);
+    margin: 56px 0 48px;
+  }
+  .footer-menus {
+    display: flex; justify-content: center; gap: 120px; flex-wrap: wrap;
+  }
+  .footer-menus h3 {
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 14px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.5); margin-bottom: 18px;
+  }
+  .footer-menus ul { list-style: none; }
+  .footer-menus li { margin-bottom: 12px; }
+  .footer-menus a {
+    font-family: Poppins, sans-serif; font-weight: 400; font-size: 14px;
+    color: var(--white);
+  }
+  .footer-menus a:hover { color: var(--cyan); }
+  .footer-legal {
+    margin-top: 64px; text-align: center;
+    font-family: Poppins, sans-serif; font-size: 12px;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* ---------- Responsive ---------- */
+
+  /* ---------- Responsive: aligned to the live site's tiers (1440 / 1024 / 767).
+     Buttons keep their own site-spec blocks above. ---------- */
+  @media (max-width: 1440px) {
+    .intro { gap: 120px; }
+    .cs-group { padding: 72px 40px; }
+    .cs-card { gap: 120px; }
+    .cs-card--img-right { gap: 64px; }
+    .cs-card--img-right .cs-copy { padding-left: 80px; }
+  }
+  @media (max-width: 1024px) {
+    .hero { min-height: 640px; padding: 110px 48px; }
+    .intro { grid-template-columns: 1fr; gap: 40px; padding: 80px 48px; }
+    .intro::after, .logo-scroll::after { left: 48px; right: 48px; }
+    .intro h2 { font-size: 40px; line-height: 50px; }
+    .intro .intro-copy p { font-size: 22px; line-height: 36px; }
+    .benefit { gap: 28px; padding-right: 0; }
+    .benefit-num { font-size: 40px; line-height: 40px; }
+    .logo-scroll { padding: 56px 0; }
+    .logo-set { gap: 112px; padding-right: 112px; }
+    .logo-set img { height: 30px; }
+    .logo-set img.logo--md { height: 42px; }
+    .logo-set img.logo--tall { height: 60px; }
+    .logo-set img.logo--dnc { height: 54px; }
+    .logo-set img.logo--lockup { height: 46px; }
+    .logo-set img.logo--wide { height: 23px; }
+    .logo-set span { font-size: 22px; }
+    .cs-group { padding: 64px 48px; gap: 64px; }
+    .cs-card, .cs-card--img-right { flex-direction: column; align-items: flex-start; gap: 28px; min-height: 0; }
+    .cs-card .cs-copy { gap: 24px; }
+    .cs-card .cs-link { margin-top: 12px; }
+    .cs-card .cs-img { width: 100%; max-width: none; border-radius: 48px; }
+    .cs-card--img-right .cs-copy { padding-left: 0; }
+    .cs-title { font-size: 32px; line-height: 38px; }
+    .cs-sub { font-size: 16px; line-height: 30px; }
+    .cs-banner { min-height: 640px; padding: 64px 48px; }
+    .cs-banner-title { font-size: 36px; line-height: 46px; }
+    .cta-band { min-height: 520px; padding: 64px 48px; }
+    .cta-band > h2 { font-size: 34px; }
+    .site-footer { padding: 64px 48px 40px; }
+    .footer-menus { gap: 80px; }
+  }
+  @media (max-width: 767px) {
+    .hero { min-height: 520px; padding: 96px 24px 56px; }
+    .hero-body--full { display: none; }
+    .hero-body--trim { display: block; }
+    .intro { padding: 56px 24px; gap: 28px; }
+    .intro::after, .logo-scroll::after { left: 24px; right: 24px; }
+    .intro h2 { font-size: 32px; line-height: 40px; }
+    .intro .intro-copy p { font-size: 19px; line-height: 30px; }
+    .intro--numbered .intro-copy { gap: 28px; }
+    .benefit { gap: 20px; }
+    .benefit-num { font-size: 32px; line-height: 32px; }
+    .logo-scroll { padding: 40px 0; }
+    .logo-set { gap: 72px; padding-right: 72px; }
+    .logo-set img { height: 24px; }
+    .logo-set img.logo--md { height: 32px; }
+    .logo-set img.logo--tall { height: 48px; }
+    .logo-set img.logo--dnc { height: 42px; }
+    .logo-set img.logo--lockup { height: 38px; }
+    .logo-set img.logo--wide { height: 19px; }
+    .logo-set span { font-size: 18px; }
+    .cs-group { padding: 48px 24px; gap: 56px; }
+    .cs-card .cs-img { border-radius: 32px; }
+    .cs-card .cs-copy { gap: 16px; }
+    .cs-title { font-size: 26px; line-height: 32px; }
+    .cs-sub { font-size: 15px; line-height: 26px; }
+    .cs-link, .cs-pill { font-size: 14px; }
+    .cs-banner { min-height: 480px; padding: 56px 24px; }
+    .cs-banner-title { font-size: 28px; line-height: 36px; }
+    .cs-banner .cs-sub { font-size: 15px; line-height: 26px; }
+    .cta-band { padding: 56px 24px; }
+    .cta-band > h2 { font-size: 28px; }
+    .cta-band > p { font-size: 19px; line-height: 30px; }
+    .site-footer { padding: 56px 24px 32px; }
+    .footer-brand { text-align: left; }
+    .footer-brand img { margin-left: 0; }
+    .social-row { justify-content: flex-start; }
+    .footer-menus { gap: 40px; }
+  }
+  /* ---------- Case-study detail page extras ---------- */
+  /* stronger scrim than the index banners (0.3) so centered white text reads
+     over the varied ULC photos */
+  .cs-banner::before {
+    background: linear-gradient(rgba(0,0,0,0.42), rgba(0,0,0,0.42)),
+                var(--banner-img) center / cover no-repeat #000;
+  }
+  .cs-banner--hero { min-height: 88vh; gap: 26px; }
+  .cs-banner--hero h1.cs-banner-title {
+    font-size: clamp(40px, 5vw, 80px); line-height: 1.08; text-transform: none;
+  }
+  .cs-eyebrow {
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 15px;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan);
+  }
+  .cs-backlink {
+    position: absolute; top: 104px; left: 87px; z-index: 5;
+    font-family: Poppins, sans-serif; font-weight: 600; font-size: 14px;
+    letter-spacing: 0.04em; text-transform: uppercase; color: #fff;
+    display: inline-flex; align-items: center; gap: 9px; opacity: 0.85;
+    transition: opacity .2s ease, color .2s ease;
+  }
+  .cs-backlink:hover, .cs-backlink:focus-visible { opacity: 1; color: var(--cyan); }
+
+  /* project facts strip */
+  .meta-strip {
+    max-width: 1920px; margin: 0 auto; padding: 56px 87px;
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 36px;
+    border-bottom: 1px solid #EAEAEA;
+  }
+  .meta-item .meta-label {
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 12px;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-bottom: 12px;
+  }
+  .meta-item .meta-value {
+    font-family: Poppins, sans-serif; font-weight: 600; font-size: 19px; line-height: 26px; color: #000;
+  }
+
+  /* by-the-numbers */
+  .stats {
+    max-width: 1920px; margin: 0 auto; padding: 24px 87px 96px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: center;
+  }
+  .stat .stat-num {
+    font-family: Poppins, sans-serif; font-weight: 700;
+    font-size: clamp(44px, 4.4vw, 68px); line-height: 1; color: var(--cyan);
+  }
+  .stat .stat-label {
+    font-family: Poppins, sans-serif; font-weight: 600; font-size: 15px;
+    letter-spacing: 0.04em; text-transform: uppercase; color: var(--dark); margin-top: 14px;
+  }
+
+  /* services chips */
+  .svc-list { display: flex; flex-wrap: wrap; gap: 13px; padding-top: 4px; }
+  .svc-chip {
+    font-family: Poppins, sans-serif; font-weight: 600; font-size: 17px; color: var(--dark);
+    padding: 13px 22px; border: 1.5px solid #D7D7D7; border-radius: 120px; white-space: nowrap;
+  }
+
+  @media (max-width: 1024px) {
+    .cs-backlink { top: 90px; left: 48px; }
+    .meta-strip { grid-template-columns: repeat(3, 1fr); padding: 44px 48px; gap: 30px; }
+    .stats { grid-template-columns: repeat(2, 1fr); padding: 16px 48px 72px; gap: 44px 24px; }
+    .svc-chip { font-size: 15px; padding: 11px 18px; }
+  }
+  @media (max-width: 767px) {
+    .cs-backlink { top: 78px; left: 24px; font-size: 13px; }
+    .cs-banner--hero { min-height: 78vh; }
+    .meta-strip { grid-template-columns: 1fr 1fr; padding: 32px 24px; gap: 24px; }
+    .stats { grid-template-columns: 1fr 1fr; padding: 8px 24px 52px; gap: 36px 20px; }
+  }
+</style>
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <a class="logo" href="https://lsav.tv" aria-label="LSAV Powerhouse home">
+    <img src="assets/logo-white.png" alt="LSAV Powerhouse">
+  </a>
+  <button class="menu-toggle" aria-label="Open menu">
+    <img src="assets/menu-white.png" alt="">
+  </button>
+</header>
+
+<main id="main">
+
+  <!-- Hero -->
+  <a class="cs-backlink" href="index.html"><span aria-hidden="true">&larr;</span> All Case Studies</a>
+  <section class="cs-banner cs-banner--hero" style="--banner-img: url('assets/ulc-stage.webp');" aria-label="United Leadership Conferences">
+    <span class="cs-eyebrow">Case Study &mdash; United Airlines</span>
+    <h1 class="cs-banner-title">United Leadership Conferences</h1>
+    <p class="cs-sub">From Napkin to Stage: the LSAV process behind United&rsquo;s 2,200-leader &ldquo;Carnival.&rdquo;</p>
+  </section>
+
+  <!-- Project facts -->
+  <section class="meta-strip" aria-label="Project facts">
+    <div class="meta-item"><div class="meta-label">Client</div><div class="meta-value">United Airlines</div></div>
+    <div class="meta-item"><div class="meta-label">Event</div><div class="meta-value">Leadership Conference 2025</div></div>
+    <div class="meta-item"><div class="meta-label">Theme</div><div class="meta-value">&ldquo;Carnival&rdquo;</div></div>
+    <div class="meta-item"><div class="meta-label">Scale</div><div class="meta-value">2,200 leaders &middot; 2 days</div></div>
+    <div class="meta-item"><div class="meta-label">Our Role</div><div class="meta-value">Immersive Event Design</div></div>
+  </section>
+
+  <!-- The Challenge -->
+  <section class="intro">
+    <h2>The Challenge</h2>
+    <div class="intro-copy">
+      <p>United tasked LSAV POWERHOUSE with designing an immersive, large-scale experience for their top 2,200 leaders &mdash; an environment built to carry keynotes, leadership breakouts, and networking across two full days.</p>
+      <p>The theme was <strong>&ldquo;Carnival.&rdquo;</strong> The brief: capture the fun and energy of a carnival while keeping the space functional and on-brand for a high-level leadership conference &mdash; vibrant enough to feel unforgettable, disciplined enough to run a packed agenda, and warm enough to build the sense of community United wanted.</p>
+    </div>
+  </section>
+
+  <!-- Feature: immersive activation -->
+  <section class="cs-banner" style="--banner-img: url('assets/ulc-immersive.webp');" aria-label="Immersive activation space">
+    <h3 class="cs-banner-title">A World of Experiences, in Every Flight</h3>
+    <p class="cs-sub">An immersive environment that turned a conference hall into a brand world.</p>
+  </section>
+
+  <!-- The Process -->
+  <section class="intro">
+    <h2>The Process</h2>
+    <div class="intro-copy">
+      <p>LSAV embraced the &ldquo;Carnival&rdquo; theme and transformed the conference space into a whimsical &mdash; but still professional &mdash; environment. The centerpiece was a <strong>large Ferris wheel</strong>: a striking visual anchor that set the tone the moment leaders walked in.</p>
+      <p>Around it, we designed a cluster of themed <strong>&ldquo;tents&rdquo;</strong> &mdash; each its own breakout hub, with d&eacute;cor and layouts tuned to the topic inside. Carnival games filled the space between sessions, turning the gaps in the agenda into the networking United was after.</p>
+    </div>
+  </section>
+
+  <!-- Gallery card -->
+  <section class="cs-group">
+    <article class="cs-card">
+      <div class="cs-img"><img src="assets/ulc-team-lc25.webp" alt="United leaders at the LC25 photo moment" loading="lazy" decoding="async"></div>
+      <div class="cs-copy">
+        <h3 class="cs-title">Built for 2,200</h3>
+        <p class="cs-sub">A space that had to read as a carnival from across the room and still run a high-level agenda up close &mdash; the badge table held to the same standard as the mainstage.</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- What we did -->
+  <section class="intro">
+    <h2>What We Did</h2>
+    <div class="intro-copy">
+      <div class="svc-list">
+        <span class="svc-chip">Immersive Event Design</span>
+        <span class="svc-chip">Custom Breakout Session Design</span>
+        <span class="svc-chip">Interactive &amp; Experiential Elements</span>
+        <span class="svc-chip">Space Planning &amp; Functional Layout</span>
+        <span class="svc-chip">Networking Facilitation</span>
+        <span class="svc-chip">Custom Prop Design</span>
+        <span class="svc-chip">Event Execution &amp; On-Site Management</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results: stats -->
+  <section class="stats" aria-label="By the numbers">
+    <div class="stat"><div class="stat-num">2,200</div><div class="stat-label">Leaders Hosted</div></div>
+    <div class="stat"><div class="stat-num">2</div><div class="stat-label">Days</div></div>
+    <div class="stat"><div class="stat-num">20</div><div class="stat-label">Themed Breakouts</div></div>
+    <div class="stat"><div class="stat-num">1</div><div class="stat-label">Ferris Wheel</div></div>
+  </section>
+
+  <!-- The Results -->
+  <section class="intro">
+    <h2>The Results</h2>
+    <div class="intro-copy">
+      <p>The 2025 Leadership Conference landed as a standout. The carnival-themed experience drew genuinely positive feedback, and the energy held across both days. The Ferris wheel organized the floor and gave the room a center of gravity; the themed breakouts let leaders go deep on their topics in a way that felt memorable, not corporate.</p>
+      <p>The carnival games did exactly what they were meant to &mdash; turning the in-between moments into the networking United was after. From napkin to stage, the result was an event that was immersive and impactful in equal measure.</p>
+    </div>
+  </section>
+
+  <!-- Team banner -->
+  <section class="cs-banner" style="--banner-img: url('assets/ulc-team.webp');" aria-label="The team behind it">
+    <h3 class="cs-banner-title">One Team, From Napkin to Strike</h3>
+    <p class="cs-sub">Strategy, design, engineering, fabrication, and show &mdash; under one roof, no handoffs.</p>
+  </section>
+
+  <!-- CTA band -->
+  <section class="cta-band">
+    <div class="cta-wave" aria-hidden="true">
+      <svg viewBox="0 0 1760 1683" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path id="lsavWavePath" d="M880.178 0C394.317 0 0 392.618 0 876.823C0 1361.38 393.961 1754 879.822 1754C1366.04 1754 1760 1361.38 1760 877.177C1760.36 392.973 1366.4 0 880.178 0ZM810.362 167.555C1168.7 135.251 1496.05 353.924 1584.75 720.272C1502.11 850.198 1397.74 965.215 1269.86 1052.19C1006.63 1231.46 716.325 290.381 483.368 521.834L175.608 827.479C182.732 461.131 473.75 197.729 810.362 167.555ZM876.26 1590C566.719 1588.58 276.77 1383.75 200.542 1077.75L465.558 820.734C500.109 787.01 546.772 773.876 587.379 780.62C622.643 786.655 651.139 818.249 680.704 855.878L1005.56 1268.73C1077.16 1359.61 1192.57 1389.43 1304.06 1307.07C1391.69 1242.11 1436.57 1134.54 1553.4 1098.34C1469.69 1402.92 1173.69 1591.42 876.26 1590.35V1590Z" fill="#FFFFFF" fill-opacity="0.1" fill-rule="evenodd"/>
+      </svg>
+    </div>
+    <h2>Be our next case study.</h2>
+    <p>Tell us what you&rsquo;re imagining &mdash; a summit, a launch, a stage no one&rsquo;s built before. We&rsquo;ll take it from napkin to standing ovation.</p>
+    <a class="lsav-btn lsav-btn--on-blue lsav-btn--talk" href="https://lsav.tv/contact/">
+      <img src="assets/arrow.svg?v=2" alt=""><p>Let&rsquo;s talk</p>
+    </a>
+  </section>
+
+  <!-- More to explore -->
+  <section class="intro">
+    <h2>More to Explore</h2>
+    <div class="intro-copy">
+      <p>More of the work we&rsquo;ve built for United &mdash; from an iconic amphitheatre to politics&rsquo; biggest stage.</p>
+    </div>
+  </section>
+
+  <section class="cs-group">
+    <article class="cs-card">
+      <div class="cs-img"><picture><source type="image/webp" srcset="assets/redrock.webp"><img src="assets/redrock.jpg" alt="United Airlines stage at Red Rocks Amphitheatre" loading="lazy" decoding="async"></picture></div>
+      <div class="cs-copy">
+        <h3 class="cs-title">United at Red Rocks</h3>
+        <p class="cs-sub">Bringing Brand and Music Together in an Iconic Setting</p>
+        <a class="cs-link" href="https://lsav.tv/case-studies/united-at-red-rock/">Watch brand meet music</a>
+      </div>
+    </article>
+    <article class="cs-card cs-card--img-right">
+      <div class="cs-img"><picture><source type="image/webp" srcset="assets/dnc.webp"><img src="assets/dnc.jpg" alt="United Airlines at the 2024 Democratic National Convention" loading="lazy" decoding="async"></picture></div>
+      <div class="cs-copy">
+        <h3 class="cs-title">2024 Democratic National Convention</h3>
+        <p class="cs-sub">United Airlines on politics&rsquo; biggest, most unforgiving stage</p>
+        <a class="cs-link" href="https://lsav.tv/case-studies/democratic-national-convention-2024/">Go behind the broadcast</a>
+      </div>
+    </article>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-top">
+    <div>
+      <h2>Let&rsquo;s run the show.</h2>
+      <a class="lsav-btn" href="https://lsav.tv/contact/">
+        <img src="assets/arrow.svg?v=2" alt=""><p>Contact Us</p>
+      </a>
+    </div>
+    <div class="footer-brand">
+      <img src="assets/logo-white.png" alt="LSAV Powerhouse">
+      <div class="social-row">
+        <a href="#" aria-label="Facebook">f</a>
+        <a href="#" aria-label="Instagram">ig</a>
+        <a href="#" aria-label="LinkedIn">in</a>
+        <a href="#" aria-label="YouTube">yt</a>
+      </div>
+    </div>
+  </div>
+
+  <hr class="footer-divider">
+
+  <nav class="footer-menus" aria-label="Footer">
+    <div>
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="https://lsav.tv/case-studies/">Case Studies</a></li>
+        <li><a href="https://lsav.tv/powerhouse-livewire/">Blog</a></li>
+        <li><a href="https://lsav.tv/contact/">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>What We Do</h3>
+      <ul>
+        <li><a href="#">Events &amp; Conferences</a></li>
+        <li><a href="#">Brand Experiences</a></li>
+        <li><a href="#">Media Production</a></li>
+        <li><a href="#">Digital Experiences</a></li>
+        <li><a href="#">Studio Broadcast</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>How It's Done</h3>
+      <ul>
+        <li><a href="#">Strategy &amp; Planning</a></li>
+        <li><a href="#">Creative &amp; Ideation</a></li>
+        <li><a href="#">AV &amp; Engineering</a></li>
+        <li><a href="#">Digital Production</a></li>
+        <li><a href="#">Custom Fabrication</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <p class="footer-legal">© 2026 LSAV Powerhouse. All rights reserved.</p>
+</footer>
+
+
+<script>
+(function () {
+  // LSAV mark wave: the mark is [outer disc, upper hole, lower hole].
+  // The visible center band is the gap between the holes — undulate it by
+  // displacing every point of both holes with y += A * damp(r) * sin(kx - wt).
+  // damp(r) -> 0 near the ring radius, so the holes stay welded to the ring.
+  var band = document.querySelector('.cta-band');
+  var path = document.getElementById('lsavWavePath');
+  if (!band || !path) return;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var CX = 880, CY = 877;          // mark center
+  var A = 46;                      // amplitude (px in mark space)
+  var K = 2 * Math.PI / 880;       // wavelength 880px
+  var W = 2 * Math.PI / 2.8;       // period 2.8s, phase travels left -> right
+
+  // parse absolute path data (M/L/C/Z) into subpaths
+  var subs = [];
+  var re = /([MLCZz])([^MLCZz]*)/g, m;
+  while ((m = re.exec(path.getAttribute('d')))) {
+    var cmd = m[1].toUpperCase();
+    var nums = (m[2].match(/-?\d*\.?\d+(?:e-?\d+)?/g) || []).map(Number);
+    if (cmd === 'M') subs.push([]);
+    var argc = cmd === 'C' ? 6 : cmd === 'Z' ? 0 : 2;
+    var cur = subs[subs.length - 1];
+    if (!cur) continue;
+    if (argc === 0) { cur.push({ c: 'Z', n: [] }); continue; }
+    for (var i = 0; i + argc <= nums.length; i += argc) {
+      cur.push({ c: cmd === 'M' && i > 0 ? 'L' : cmd, n: nums.slice(i, i + argc) });
+    }
+  }
+  var staticD = seg2d(subs[0]);    // outer disc never changes
+
+  function seg2d(segs, t) {
+    var out = '';
+    for (var i = 0; i < segs.length; i++) {
+      var g = segs[i];
+      if (g.c === 'Z') { out += 'Z'; continue; }
+      out += g.c;
+      for (var j = 0; j < g.n.length; j += 2) {
+        var x = g.n[j], y = g.n[j + 1];
+        if (t !== undefined) {
+          var r = Math.hypot(x - CX, y - CY);
+          var damp = Math.max(0, 1 - Math.pow(r / 700, 4));
+          y = y + A * damp * Math.sin(K * x - W * t);
+        }
+        out += x.toFixed(1) + ' ' + y.toFixed(1) + (j + 2 < g.n.length ? ' ' : '');
+      }
+    }
+    return out;
+  }
+
+  var running = false, raf = 0, t0 = 0, acc = 0;
+  function frame(ts) {
+    if (!running) return;
+    var t = acc + (ts - t0) / 1000;
+    path.setAttribute('d', staticD + seg2d(subs[1], t) + seg2d(subs[2], t));
+    raf = requestAnimationFrame(frame);
+  }
+  function start() {
+    if (running || reduce.matches) return;
+    running = true; t0 = performance.now();
+    raf = requestAnimationFrame(frame);
+  }
+  function stop() {
+    if (!running) return;
+    acc += (performance.now() - t0) / 1000;   // freeze mid-wave, resume in phase
+    running = false; cancelAnimationFrame(raf);
+  }
+  band.addEventListener('mouseenter', start);
+  band.addEventListener('mouseleave', stop);
+  band.addEventListener('focusin', start);
+  band.addEventListener('focusout', stop);
+})();
+</script>
+
+<script>
+(function () {
+  var targets = document.querySelectorAll('.intro, .logo-scroll, .cs-card, .cs-banner, .cta-band');
+  if (!('IntersectionObserver' in window)) {
+    targets.forEach(function (el) { el.classList.add('in-view'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -2% 0px' });
+  targets.forEach(function (el) { io.observe(el); });
+})();
+</script>
+</body>
+</html>
