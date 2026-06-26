@@ -24,10 +24,10 @@
 
   /* hero — lighter scrim so the photo reads, still legible for white type */
   .hero { position:relative; min-height:540px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:160px 90px 90px; overflow:hidden; background:var(--dark); }
-  .hero::before { content:""; position:absolute; inset:0; background:linear-gradient(rgba(26,23,24,.18),rgba(26,23,24,.38)), var(--hero-img) center/cover no-repeat; }
+  .hero::before { content:""; position:absolute; inset:0; background:radial-gradient(ellipse 130% 115% at 50% 42%, rgba(26,23,24,.55), rgba(26,23,24,.33) 62%, rgba(26,23,24,.27)), var(--hero-img) center/cover no-repeat; }
   .hero > * { position:relative; z-index:1; }
-  .hero h1 { font-family:Poppins,sans-serif; font-weight:800; font-size:clamp(40px,3.9vw,75px); line-height:1.12; color:var(--white); text-shadow:0 2px 24px rgba(0,0,0,.35); }
-  .hero p { font-family:Poppins,sans-serif; font-weight:400; font-size:clamp(16px,1.4vw,20px); color:rgba(255,255,255,.9); margin-top:18px; letter-spacing:.01em; text-shadow:0 1px 16px rgba(0,0,0,.4); }
+  .hero h1 { font-family:Poppins,sans-serif; font-weight:800; font-size:clamp(40px,3.9vw,75px); line-height:1.12; color:var(--white); }
+  .hero p { font-family:Poppins,sans-serif; font-weight:400; font-size:clamp(16px,1.4vw,20px); color:rgba(255,255,255,.9); margin-top:18px; letter-spacing:.01em; }
 
   /* filter bar — brand pills, single line (horizontal scroll if it can't fit) */
   .filter-bar { max-width:1747px; margin:0 auto; padding:56px 87px 8px; overflow-x:auto; -ms-overflow-style:none; scrollbar-width:none; }
