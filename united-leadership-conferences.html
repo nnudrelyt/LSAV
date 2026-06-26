@@ -502,14 +502,14 @@
 
   /* key-numbers band — reversed scheme (cyan field, dark figures), 50% taller,
      numbers roll up on scroll-in */
-  .stat-band { background: var(--cyan); padding: 140px 87px; }
+  .stat-band { background: var(--white); padding: 120px 87px; border-top: 1px solid #EAEAEA; border-bottom: 1px solid #EAEAEA; }
   .stat-band-inner {
     max-width: 1640px; margin: 0 auto;
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; text-align: center;
   }
   .stat-band .stat-num {
     font-family: Poppins, sans-serif; font-weight: 700;
-    font-size: clamp(54px, 5.6vw, 90px); line-height: 1; color: var(--dark);
+    font-size: clamp(54px, 5.6vw, 90px); line-height: 1; color: var(--cyan);
     font-variant-numeric: tabular-nums;
   }
   .stat-band .stat-label {
@@ -517,12 +517,12 @@
     letter-spacing: 0.05em; text-transform: uppercase; color: var(--dark); margin-top: 18px;
   }
 
-  /* services chips */
-  .svc-list { display: flex; flex-wrap: wrap; gap: 13px; padding-top: 4px; }
-  .svc-chip {
-    font-family: Poppins, sans-serif; font-weight: 600; font-size: 17px; color: var(--dark);
-    padding: 13px 22px; border: 1.5px solid #D7D7D7; border-radius: 120px; white-space: nowrap;
+  /* What We Did — editorial flowing statement (matches careers Who We Hire) */
+  .intro .intro-copy .svc-flow {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 32px; line-height: 1.7; color: var(--dark); margin: 0;
   }
+  .svc-flow .svc-sep { color: var(--cyan); font-weight: 700; margin: 0 12px; }
 
   /* photo scroll — continuous right-to-left marquee (same grammar as the
      careers logo scroll) */
@@ -534,7 +534,7 @@
   .photo-scroll:hover .photo-track { animation-play-state: paused; }
   .photo-set { display: flex; gap: 24px; padding-right: 24px; }
   .photo-set img {
-    height: 330px; width: auto; max-width: none; border-radius: 18px;
+    height: 165px; width: auto; max-width: none; border-radius: 14px;
     object-fit: cover; display: block;
   }
   @keyframes photoScroll { to { transform: translateX(-50%); } }
@@ -573,9 +573,11 @@
 
   @media (max-width: 1024px) {
     .cs-backlink { top: 90px; left: 48px; }
-    .stat-band { padding: 96px 48px; }
+    .stat-band { padding: 84px 48px; }
+    .intro .intro-copy .svc-flow { font-size: 26px; }
+    .svc-flow .svc-sep { margin: 0 8px; }
     .svc-chip { font-size: 15px; padding: 11px 18px; }
-    .photo-set img { height: 240px; border-radius: 14px; }
+    .photo-set img { height: 120px; border-radius: 12px; }
     .related { padding: 72px 40px 80px; }
     .related-grid { grid-template-columns: 1fr; gap: 18px; max-width: 560px; margin: 0 auto; }
     .related-card { aspect-ratio: 16 / 10; }
@@ -583,9 +585,10 @@
   @media (max-width: 767px) {
     .cs-backlink { top: 78px; left: 24px; font-size: 13px; }
     .hero--case { min-height: 80vh; }
-    .stat-band { padding: 72px 24px; }
+    .stat-band { padding: 64px 24px; }
+    .intro .intro-copy .svc-flow { font-size: 21px; line-height: 1.65; }
     .stat-band-inner { grid-template-columns: 1fr; gap: 40px; }
-    .photo-set img { height: 180px; border-radius: 12px; }
+    .photo-set img { height: 90px; border-radius: 10px; }
     .photo-set { gap: 16px; padding-right: 16px; }
     .related { padding: 56px 24px 64px; }
   }
@@ -629,15 +632,6 @@
     </div>
   </section>
 
-  <!-- The Process -->
-  <section class="intro">
-    <h2>The Process</h2>
-    <div class="intro-copy">
-      <p>LSAV POWERHOUSE embraced the &ldquo;Carnival&rdquo; theme, transforming the conference space into a whimsical, yet professional environment. The centerpiece of the activation was a large Ferris wheel, which served as a striking visual anchor for the space. This eye-catching installation immediately set the tone for the event, signaling a fun and exciting atmosphere while adding to the immersive experience.</p>
-      <p>Surrounding the Ferris wheel, we designed multiple &lsquo;tents&rsquo; that represented the different hubs for the breakouts, each featuring themed d&eacute;cor and layouts that fit the specific topics being covered.</p>
-    </div>
-  </section>
-
   <!-- Photo scroll -->
   <section class="photo-scroll" aria-label="From the United Leadership Conference">
     <div class="photo-track">
@@ -664,19 +658,29 @@
     </div>
   </section>
 
+  <!-- The Process -->
+  <section class="intro">
+    <h2>The Process</h2>
+    <div class="intro-copy">
+      <p>LSAV POWERHOUSE embraced the &ldquo;Carnival&rdquo; theme, transforming the conference space into a whimsical, yet professional environment. The centerpiece of the activation was a large Ferris wheel, which served as a striking visual anchor for the space. This eye-catching installation immediately set the tone for the event, signaling a fun and exciting atmosphere while adding to the immersive experience.</p>
+      <p>Surrounding the Ferris wheel, we designed multiple &lsquo;tents&rsquo; that represented the different hubs for the breakouts, each featuring themed d&eacute;cor and layouts that fit the specific topics being covered.</p>
+    </div>
+  </section>
+
   <!-- What We Did -->
   <section class="intro">
     <h2>What We Did</h2>
     <div class="intro-copy">
-      <div class="svc-list">
-        <span class="svc-chip">Immersive Event Design</span>
-        <span class="svc-chip">Custom Breakout Session Design</span>
-        <span class="svc-chip">Interactive and Experiential Elements</span>
-        <span class="svc-chip">Space Planning and Functional Layout</span>
-        <span class="svc-chip">Networking Facilitation</span>
-        <span class="svc-chip">Custom Prop Design</span>
-        <span class="svc-chip">Event Execution and On-Site Management</span>
-      </div>
+      <p class="svc-flow">Immersive Event Design<span class="svc-sep">/</span>Custom Breakout Session Design<span class="svc-sep">/</span>Interactive &amp; Experiential Elements<span class="svc-sep">/</span>Space Planning &amp; Functional Layout<span class="svc-sep">/</span>Networking Facilitation<span class="svc-sep">/</span>Custom Prop Design<span class="svc-sep">/</span>Event Execution &amp; On-Site Management</p>
+    </div>
+  </section>
+
+  <!-- Key numbers -->
+  <section class="stat-band" aria-label="By the numbers">
+    <div class="stat-band-inner">
+      <div class="stat"><div class="stat-num" data-target="2200">0</div><div class="stat-label">Leaders Hosted</div></div>
+      <div class="stat"><div class="stat-num" data-target="2">0</div><div class="stat-label">Days</div></div>
+      <div class="stat"><div class="stat-num" data-target="20">0</div><div class="stat-label">Themed Breakouts</div></div>
     </div>
   </section>
 
@@ -690,17 +694,8 @@
     </div>
   </section>
 
-  <!-- Key numbers -->
-  <section class="stat-band" aria-label="By the numbers">
-    <div class="stat-band-inner">
-      <div class="stat"><div class="stat-num" data-target="2200">0</div><div class="stat-label">Leaders Hosted</div></div>
-      <div class="stat"><div class="stat-num" data-target="2">0</div><div class="stat-label">Days</div></div>
-      <div class="stat"><div class="stat-num" data-target="20">0</div><div class="stat-label">Themed Breakouts</div></div>
-    </div>
-  </section>
-
   <!-- You may also like (related case studies) -->
-  <section class="related" aria-label="You may also like">
+  <section class="related" aria-label="Related case studies">
     <h2>You may also like</h2>
     <div class="related-grid">
       <a class="related-card" href="https://lsav.tv/case-studies/united-at-red-rock/">
