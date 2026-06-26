@@ -488,15 +488,21 @@
     .footer-menus { gap: 40px; }
   }
   /* ---------- Case-study detail page extras ---------- */
-  .hero--case { min-height: 88vh; }
+  .hero--case { position: relative; min-height: 88vh; }
   .hero--case .hero-video::after { background: rgba(0,0,0,0.42); }
-  .cs-backlink {
-    display: inline-flex; align-items: center; gap: 9px; margin-bottom: 22px;
+  /* full-width back-link bar overlaying the bottom of the hero, with a translucent white rule on top */
+  .cs-backbar {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+    display: flex; align-items: center; gap: 10px;
+    padding: 24px 87px;
+    border-top: 1px solid rgba(255,255,255,0.22);
     font-family: Poppins, sans-serif; font-weight: 600; font-size: 14px;
-    letter-spacing: 0.04em; text-transform: uppercase; color: #fff; opacity: 0.85;
-    transition: opacity .2s ease, color .2s ease;
+    letter-spacing: 0.06em; text-transform: uppercase; color: #fff; opacity: 0.92;
+    transition: background .25s ease, color .25s ease, opacity .25s ease;
   }
-  .cs-backlink:hover, .cs-backlink:focus-visible { opacity: 1; color: var(--cyan); }
+  .cs-backbar span { transition: transform .25s ease; }
+  .cs-backbar:hover, .cs-backbar:focus-visible { background: rgba(255,255,255,0.08); color: var(--cyan); opacity: 1; }
+  .cs-backbar:hover span, .cs-backbar:focus-visible span { transform: translateX(-4px); }
   /* drop the hairline rule on intros that butt against a full-width band */
   .intro--no-rule::after { display: none; }
 
@@ -579,6 +585,7 @@
   .related-card:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
 
   @media (max-width: 1024px) {
+    .cs-backbar { padding: 22px 48px; }
     .stat-band { padding: 84px 48px; }
     .stat-band::before, .stat-band::after { left: 48px; right: 48px; }
     .stat-band-inner { grid-template-columns: repeat(2, 1fr); gap: 48px 24px; }
@@ -591,7 +598,7 @@
     .related-card:hover .related-meta, .related-card:focus-within .related-meta { transform: translateY(-86px); }
   }
   @media (max-width: 767px) {
-    .cs-backlink { font-size: 13px; margin-bottom: 16px; }
+    .cs-backbar { padding: 18px 24px; font-size: 13px; letter-spacing: 0.04em; }
     .hero--case { min-height: 80vh; }
     .stat-band { padding: 64px 24px; }
     .stat-band::before, .stat-band::after { left: 24px; right: 24px; }
@@ -625,10 +632,10 @@
       </video>
     </div>
     <div class="hero-copy">
-      <a class="cs-backlink" href="index.html"><span aria-hidden="true">&larr;</span> All Case Studies</a>
       <h1>United Leadership Conferences</h1>
       <p>From Napkin to Stage: The LSAV Process</p>
     </div>
+    <a class="cs-backbar" href="index.html"><span aria-hidden="true">&larr;</span> All Case Studies</a>
   </section>
 
   <!-- The Challenge -->
