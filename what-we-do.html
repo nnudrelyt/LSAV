@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Events &amp; Conferences — LSAV Powerhouse</title>
+<title>What We Do — LSAV Powerhouse</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
@@ -39,6 +39,7 @@
   .js .disciplines .disc-flow, .js .disciplines .disc-foot,
   .js .gallery .roles-head, .js .gallery figure,
   .js .related .roles-head, .js .related .rel-card,
+  .js .stat-band .stat, .js .stat-band .stat-note,
   .js .cs-banner-title, .js .cs-banner .cs-sub, .js .cs-banner .cs-pill,
   .js .cta-band > h2, .js .cta-band > p, .js .cta-band > .lsav-btn {
     opacity: 0; transform: translateY(24px);
@@ -65,6 +66,12 @@
   .js .gallery figure:nth-child(4) { transition-delay: .24s; }
   .js .related .rel-card:nth-child(2) { transition-delay: .14s; }
   .js .related .rel-card:nth-child(3) { transition-delay: .28s; }
+  .js .related .rel-card:nth-child(4) { transition-delay: .2s; }
+  .js .related .rel-card:nth-child(5) { transition-delay: .34s; }
+  .js .stat-band .stat:nth-child(2) { transition-delay: .14s; }
+  .js .stat-band .stat:nth-child(3) { transition-delay: .28s; }
+  .js .stat-band .stat:nth-child(4) { transition-delay: .42s; }
+  .js .stat-band .stat-note { transition-delay: .56s; }
   .js .cs-banner .cs-sub { transition-delay: .13s; }
   .js .cs-banner .cs-pill { transition-delay: .26s; }
   .js .cta-band > p { transition-delay: .13s; }
@@ -75,6 +82,7 @@
   .js .disciplines.in-view .disc-flow, .js .disciplines.in-view .disc-foot,
   .js .gallery.in-view .roles-head, .js .gallery.in-view figure,
   .js .related.in-view .roles-head, .js .related.in-view .rel-card,
+  .js .stat-band.in-view .stat, .js .stat-band.in-view .stat-note,
   .js .cs-banner.in-view .cs-banner-title, .js .cs-banner.in-view .cs-sub, .js .cs-banner.in-view .cs-pill,
   .js .cta-band.in-view > h2, .js .cta-band.in-view > p, .js .cta-band.in-view > .lsav-btn {
     opacity: 1; transform: none;
@@ -85,6 +93,7 @@
             .disciplines .disc-flow, .disciplines .disc-foot,
             .gallery .roles-head, .gallery figure,
             .related .roles-head, .related .rel-card,
+            .stat-band .stat, .stat-band .stat-note,
             .cs-banner-title, .cs-banner .cs-sub, .cs-banner .cs-pill,
             .cta-band > h2, .cta-band > p, .cta-band > .lsav-btn) {
       opacity: 1 !important; transform: none !important; transition: none !important;
@@ -175,7 +184,7 @@
     .lsav-btn:hover img, .lsav-btn:focus-visible img { left: 145px; }
   }
 
-  /* ---------- Hero (photo variant of the careers video hero) ---------- */
+  /* ---------- Hero (video, shared with careers) ---------- */
   .hero {
     position: relative; min-height: 720px;
     background: var(--dark);
@@ -184,15 +193,56 @@
     overflow: hidden;
   }
   .hero-photo { position: absolute; inset: 0; pointer-events: none; }
-  .hero-photo img {
+  .hero-photo video {
     position: absolute; top: 0; left: 0;
     width: 100%; height: 100%;
     object-fit: cover;
+    border: 0;
   }
   .hero-photo::after {
     content: ""; position: absolute; inset: 0;
     background: linear-gradient(rgba(0, 0, 0, 0.34), rgba(0, 0, 0, 0.46));
   }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-photo video { display: none; }
+  }
+
+  /* ---------- Stat band (placeholder figures pending client confirmation) ---------- */
+  .stat-band { background: var(--dark); padding: 100px 87px; }
+  .stat-grid {
+    max-width: 1640px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 48px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: Poppins, sans-serif; font-weight: 800;
+    font-size: clamp(48px, 4.4vw, 84px); line-height: 1;
+    color: var(--cyan); margin-bottom: 16px;
+  }
+  .stat-label {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.82);
+  }
+  .stat-note {
+    max-width: 1640px; margin: 44px auto 0; text-align: center;
+    font-size: 15px; font-style: italic; color: rgba(255, 255, 255, 0.45);
+  }
+
+  /* ---------- Services grid (hub) — 2 lead + 3 supporting ---------- */
+  .services .rel-grid { grid-template-columns: repeat(6, 1fr); }
+  .services .rel-card { grid-column: span 2; }
+  .services .rel-card:nth-child(1), .services .rel-card:nth-child(2) { grid-column: span 3; }
+  .services .rel-sub { font-size: 17px; line-height: 27px; color: #444; margin: -6px 0 14px; }
+
+  /* ---------- Combination tags on case-study cards ---------- */
+  .rel-tags {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--dark); margin: -6px 0 14px;
+  }
+  .rel-tags .disc-sep { margin: 0 8px; }
+  .combos .rel-grid { grid-template-columns: 1fr 1fr; }
   .hero-copy { position: relative; z-index: 1; max-width: 1320px; }
   .hero h1 {
     font-family: Poppins, sans-serif; font-weight: 800;
@@ -485,6 +535,10 @@
     .related { padding: 72px 48px; }
     .rel-grid { grid-template-columns: 1fr; gap: 18px; }
     .rel-img { aspect-ratio: 16 / 8; }
+    .services .rel-grid, .combos .rel-grid { grid-template-columns: 1fr; }
+    .services .rel-card, .services .rel-card:nth-child(1), .services .rel-card:nth-child(2) { grid-column: auto; }
+    .stat-band { padding: 72px 48px; }
+    .stat-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
     /* fixed-attachment janks on touch devices — let the photo scroll normally */
     .cs-banner { min-height: 560px; padding: 64px 48px; background-attachment: scroll, scroll; }
     .cs-banner-title { font-size: 36px; line-height: 46px; }
@@ -551,94 +605,119 @@
   <!-- Hero -->
   <section class="hero">
     <div class="hero-photo" aria-hidden="true">
-      <img src="assets/events-hero.webp" alt="" fetchpriority="high">
+      <video poster="assets/LSAV_hero_poster.jpg?v=3" autoplay muted loop playsinline preload="auto">
+        <source src="assets/LSAV_hero_web.webm?v=3" type="video/webm">
+        <source src="assets/LSAV_hero_web.mp4?v=3" type="video/mp4">
+      </video>
     </div>
     <div class="hero-copy">
-      <h1>Spaces that speak.</h1>
-      <p class="hero-body--full">From corporate conferences to global summits, we merge the creativity of an agency with the precision of a world-class production team &mdash; live experiences designed to inspire, engage, and leave nothing to chance.</p>
-      <p class="hero-body--trim">Corporate conferences to global summits &mdash; agency creativity fused with world-class technical production.</p>
+      <h1>What we do.</h1>
+      <p class="hero-body--full">Events, brand experiences, media, digital, and broadcast &mdash; the creativity of an agency and the precision of a production powerhouse, delivered by one team.</p>
+      <p class="hero-body--trim">Events, brand experiences, media, digital, and broadcast &mdash; one team, every discipline.</p>
     </div>
   </section>
 
-  <!-- Intro -->
+  <!-- Intro: the combination narrative -->
   <section class="intro">
-    <h2>Bringing Events to Life, One Detail at a Time</h2>
+    <h2>One Team, Every Discipline</h2>
     <div class="intro-copy">
-      <p>At LSAV Powerhouse, we merge the creativity of an agency with the technical precision of a world-class production team to create exceptional brand and attendee experiences. From corporate conferences to global summits, we bring your vision to life with unmatched expertise and innovative solutions that captivate and inspire.</p>
-      <p>Every detail matters, and every moment is an opportunity to wow &mdash; in person, online, or both at once.</p>
+      <p>The best events don&rsquo;t fit in one box. A leadership conference needs a stage, a story, a broadcast feed, and an app. A product launch needs a custom build, a highlight reel, and a virtual audience. That&rsquo;s why our disciplines aren&rsquo;t departments you hire separately &mdash; they&rsquo;re one team that plans, designs, builds, films, and streams together.</p>
+      <p>Bring us the ambition. We&rsquo;ll bring everything else.</p>
     </div>
   </section>
 
-  <!-- What we produce -->
-  <section class="intro disciplines">
-    <h2>What We Produce</h2>
-    <div class="intro-copy">
-      <p class="disc-flow">Leadership Meetings<span class="disc-sep">/</span>Association Annual Meetings<span class="disc-sep">/</span>National Sales Meetings<span class="disc-sep">/</span>Trade Shows &amp; Exhibits<span class="disc-sep">/</span>Conventions<span class="disc-sep">/</span>Awards &amp; Galas</p>
-      <p class="disc-foot">From a 40-person leadership offsite to a 20,000-seat convention &mdash; if there&rsquo;s an audience, we&rsquo;ll run the show.</p>
+  <!-- Stat band -->
+  <section class="stat-band" aria-label="LSAV by the numbers">
+    <div class="stat-grid">
+      <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Events Produced&#8224;</div></div>
+      <div class="stat"><div class="stat-num">4</div><div class="stat-label">Production Hubs</div></div>
+      <div class="stat"><div class="stat-num">30+</div><div class="stat-label">Years Behind the Show&#8224;</div></div>
+      <div class="stat"><div class="stat-num">1</div><div class="stat-label">Owned Broadcast Studio</div></div>
     </div>
+    <p class="stat-note">&#8224; Placeholder figures &mdash; to be confirmed with the LSAV team before launch.</p>
   </section>
 
-  <!-- How we deliver -->
-  <section class="intro intro--numbered">
-    <h2>How We Deliver</h2>
-    <div class="intro-copy">
-      <div class="benefit"><span class="benefit-num">01</span><p><strong>Flawless AV execution:</strong> crystal-clear sound, dynamic lighting, and stunning visuals that leave an impact.</p></div>
-      <div class="benefit"><span class="benefit-num">02</span><p><strong>Immersive scenic design:</strong> event spaces transformed into environments perfectly tailored to your theme and goals.</p></div>
-      <div class="benefit"><span class="benefit-num">03</span><p><strong>End-to-end project management:</strong> every detail handled with precision and care, from kickoff to load-out &mdash; complete peace of mind.</p></div>
-      <div class="benefit"><span class="benefit-num">04</span><p><strong>Live, virtual &amp; hybrid:</strong> dynamic tools that bridge the gap, so every participant feels connected and engaged.</p></div>
-    </div>
-  </section>
-
-  <!-- Gallery -->
-  <section class="gallery" aria-label="Recent event productions">
+  <!-- The five services -->
+  <section class="related services" aria-label="Our services">
     <div class="roles-head">
-      <span class="eyebrow">The Work</span>
-      <h2>Moments made live.</h2>
+      <span class="eyebrow">The Disciplines</span>
+      <h2>Five ways in. One team behind all of them.</h2>
     </div>
-    <div class="gallery-grid">
-      <figure><img src="assets/events-g1.webp" alt="Product reveal inside an aircraft hangar — a circular LED screen suspended above a car and a Boeing jet" loading="lazy"></figure>
-      <figure><img src="assets/events-g2.webp" alt="Keynote speaker on a dark stage beneath oversized projected type" loading="lazy"></figure>
-      <figure><img src="assets/events-g3.webp" alt="General session in a purple-lit ballroom with multi-screen projection" loading="lazy"></figure>
-      <figure class="gallery-wide"><img src="assets/events-wide.webp" alt="Panoramic view of a full convention floor with a wrap-around LED stage" loading="lazy"></figure>
+    <div class="rel-grid">
+      <a class="rel-card" href="events-and-conferences.html">
+        <div class="rel-img"><img src="assets/events-hero.webp" alt="" loading="lazy"></div>
+        <div class="rel-body">
+          <h3>Events &amp; Conferences</h3>
+          <p class="rel-sub">Spaces that speak &mdash; leadership meetings to 20,000-seat conventions.</p>
+          <span class="rel-cta">Explore &rarr;</span>
+        </div>
+      </a>
+      <a class="rel-card" href="brand-experiences.html">
+        <div class="rel-img"><img src="assets/brand-hero.webp" alt="" loading="lazy"></div>
+        <div class="rel-body">
+          <h3>Brand Experiences</h3>
+          <p class="rel-sub">Bringing brands to life &mdash; activations, custom builds, tours, and launches.</p>
+          <span class="rel-cta">Explore &rarr;</span>
+        </div>
+      </a>
+      <a class="rel-card" href="media-production.html">
+        <div class="rel-img"><img src="assets/media-hero.webp" alt="" loading="lazy"></div>
+        <div class="rel-body">
+          <h3>Media Production</h3>
+          <p class="rel-sub">Stories that stick &mdash; filmed, edited, and on screen in real time.</p>
+          <span class="rel-cta">Explore &rarr;</span>
+        </div>
+      </a>
+      <a class="rel-card" href="digital-experiences.html">
+        <div class="rel-img"><img src="assets/digital-hero.webp" alt="" loading="lazy"></div>
+        <div class="rel-body">
+          <h3>Digital Experiences</h3>
+          <p class="rel-sub">Virtual meets incredible &mdash; platforms, engagement, and analytics.</p>
+          <span class="rel-cta">Explore &rarr;</span>
+        </div>
+      </a>
+      <a class="rel-card" href="studio-broadcast.html">
+        <div class="rel-img"><img src="assets/studio-hero.webp" alt="" loading="lazy"></div>
+        <div class="rel-body">
+          <h3>Studio Broadcast</h3>
+          <p class="rel-sub">Broadcast brilliance &mdash; from our own Chicago studio.</p>
+          <span class="rel-cta">Explore &rarr;</span>
+        </div>
+      </a>
     </div>
   </section>
 
-  <!-- Full-bleed feature banner -->
-  <section class="cs-banner" style="--banner-img: url('assets/events-banner.webp');" aria-label="See our latest work">
-    <h2 class="cs-banner-title">Every seat feels like the front row</h2>
-    <p class="cs-sub">Live, virtual, or hybrid &mdash; we craft moments that resonate long after the event ends.</p>
-    <a class="cs-pill" href="index.html">Check out our latest work</a>
-  </section>
-
-  <!-- Related work -->
-  <section class="related" aria-label="Related case studies">
+  <!-- Combinations: how it comes together -->
+  <section class="related combos" aria-label="How the disciplines combine">
     <div class="roles-head">
-      <span class="eyebrow">The Proof</span>
-      <h2>See it in action.</h2>
+      <span class="eyebrow">How It Comes Together</span>
+      <h2>Most clients don&rsquo;t buy one service. They buy the team.</h2>
     </div>
     <div class="rel-grid">
       <a class="rel-card" href="united-leadership-conferences.html">
         <div class="rel-img"><img src="assets/ulc.webp" alt="" loading="lazy"></div>
         <div class="rel-body">
           <h3>United Leadership Conferences</h3>
-          <span class="rel-cta">View case study &rarr;</span>
+          <p class="rel-tags">Events<span class="disc-sep">/</span>Media<span class="disc-sep">/</span>Fabrication<span class="disc-sep">/</span>Digital</p>
+          <span class="rel-cta">See the full process &rarr;</span>
         </div>
       </a>
-      <a class="rel-card" href="https://lsav.tv/case-studies/morningstar-2024/">
-        <div class="rel-img"><img src="assets/morningstar.webp" alt="" loading="lazy"></div>
+      <a class="rel-card" href="https://lsav.tv/case-studies/democratic-national-convention-2024/">
+        <div class="rel-img"><img src="assets/dnc.webp" alt="" loading="lazy"></div>
         <div class="rel-body">
-          <h3>Morningstar</h3>
-          <span class="rel-cta">View case study &rarr;</span>
-        </div>
-      </a>
-      <a class="rel-card" href="https://lsav.tv/case-studies/promat/">
-        <div class="rel-img"><img src="assets/promat.webp" alt="" loading="lazy"></div>
-        <div class="rel-body">
-          <h3>ProMat</h3>
+          <h3>2024 Democratic National Convention</h3>
+          <p class="rel-tags">Broadcast<span class="disc-sep">/</span>AV &amp; Engineering<span class="disc-sep">/</span>Media</p>
           <span class="rel-cta">View case study &rarr;</span>
         </div>
       </a>
     </div>
+  </section>
+
+  <!-- Full-bleed feature banner -->
+  <section class="cs-banner" style="--banner-img: url('assets/events-wide.webp');" aria-label="See our latest work">
+    <h2 class="cs-banner-title">The proof is in the production</h2>
+    <p class="cs-sub">Ten stories of ambition, engineering, and rooms full of people who felt it.</p>
+    <a class="cs-pill" href="index.html">Check out our latest work</a>
   </section>
 
   <!-- CTA band -->
@@ -783,7 +862,7 @@
 
 <script>
 (function () {
-  var targets = document.querySelectorAll('.intro, .disciplines, .gallery, .related, .cs-banner, .cta-band');
+  var targets = document.querySelectorAll('.intro, .disciplines, .gallery, .related, .stat-band, .cs-banner, .cta-band');
   if (!('IntersectionObserver' in window)) {
     targets.forEach(function (el) { el.classList.add('in-view'); });
     return;
