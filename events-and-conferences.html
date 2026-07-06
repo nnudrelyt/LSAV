@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events &amp; Conferences — LSAV Powerhouse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dark: #231F20;
+    --near-black: #1A1718;
+    --cyan: #00AEEF;
+    --white: #FFFFFF;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: Calibri, Carlito, "Segoe UI", sans-serif;
+    background: var(--white);
+    color: #000;
+  }
+  img { display: block; }
+  a { text-decoration: none; }
+
+  .skip-link {
+    position: absolute; left: -9999px; top: 0;
+    background: var(--cyan); color: #fff; padding: 12px 24px;
+    font-family: Poppins, sans-serif; font-weight: 600; z-index: 100;
+  }
+  .skip-link:focus { left: 0; }
+
+  /* ---------- Scroll reveals ----------
+     One grammar: easeOutQuint-ish, <=24px travel, one-shot.
+     Gated on html.js (set in <head>) so content is visible without JS.
+     prefers-reduced-motion gets everything instantly. */
+  :root { --reveal-ease: cubic-bezier(0.22, 1, 0.36, 1); }
+  .js .intro h2, .js .intro .intro-copy > p, .js .benefit,
+  .js .disciplines .disc-flow, .js .disciplines .disc-foot,
+  .js .gallery .roles-head, .js .gallery figure,
+  .js .cs-banner-title, .js .cs-banner .cs-sub, .js .cs-banner .cs-pill,
+  .js .cta-band > h2, .js .cta-band > p, .js .cta-band > .lsav-btn {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 1.05s var(--reveal-ease), transform 1.05s var(--reveal-ease);
+  }
+  .js .benefit .benefit-num {
+    opacity: 0; transform: translateX(-16px);
+    transition: opacity 1.05s var(--reveal-ease), transform 1.05s var(--reveal-ease);
+  }
+  .js .intro::after {
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 1.2s var(--reveal-ease) .3s;
+  }
+  /* staggers */
+  .js .intro .intro-copy > p:nth-of-type(1) { transition-delay: .2s; }
+  .js .intro .intro-copy > p:nth-of-type(2) { transition-delay: .34s; }
+  .js .benefit:nth-child(1), .js .benefit:nth-child(1) .benefit-num { transition-delay: .2s; }
+  .js .benefit:nth-child(2), .js .benefit:nth-child(2) .benefit-num { transition-delay: .36s; }
+  .js .benefit:nth-child(3), .js .benefit:nth-child(3) .benefit-num { transition-delay: .5s; }
+  .js .benefit:nth-child(4), .js .benefit:nth-child(4) .benefit-num { transition-delay: .64s; }
+  .js .disciplines .disc-foot { transition-delay: .14s; }
+  .js .gallery figure:nth-child(2) { transition-delay: .14s; }
+  .js .gallery figure:nth-child(3) { transition-delay: .1s; }
+  .js .gallery figure:nth-child(4) { transition-delay: .24s; }
+  .js .cs-banner .cs-sub { transition-delay: .13s; }
+  .js .cs-banner .cs-pill { transition-delay: .26s; }
+  .js .cta-band > p { transition-delay: .13s; }
+  .js .cta-band > .lsav-btn { transition-delay: .26s; }
+  /* revealed state */
+  .js .intro.in-view h2, .js .intro.in-view .intro-copy > p, .js .intro.in-view .benefit,
+  .js .intro.in-view .benefit .benefit-num,
+  .js .disciplines.in-view .disc-flow, .js .disciplines.in-view .disc-foot,
+  .js .gallery.in-view .roles-head, .js .gallery.in-view figure,
+  .js .cs-banner.in-view .cs-banner-title, .js .cs-banner.in-view .cs-sub, .js .cs-banner.in-view .cs-pill,
+  .js .cta-band.in-view > h2, .js .cta-band.in-view > p, .js .cta-band.in-view > .lsav-btn {
+    opacity: 1; transform: none;
+  }
+  .js .intro.in-view::after { transform: scaleX(1); }
+  @media (prefers-reduced-motion: reduce) {
+    .js :is(.intro h2, .intro .intro-copy > p, .benefit, .benefit-num,
+            .disciplines .disc-flow, .disciplines .disc-foot,
+            .gallery .roles-head, .gallery figure,
+            .cs-banner-title, .cs-banner .cs-sub, .cs-banner .cs-pill,
+            .cta-band > h2, .cta-band > p, .cta-band > .lsav-btn) {
+      opacity: 1 !important; transform: none !important; transition: none !important;
+    }
+    .js .intro::after { transform: scaleX(1) !important; transition: none !important; }
+  }
+
+  /* ---------- Header ---------- */
+  .site-header {
+    position: absolute; top: 0; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 23px 47px; z-index: 10;
+  }
+  .site-header .logo img { height: 34px; width: auto; max-width: 70vw; object-fit: contain; object-position: left; }
+  .site-header .menu-toggle {
+    background: none; border: 0; cursor: pointer; padding: 8px;
+  }
+  .site-header .menu-toggle img { height: 24px; width: auto; }
+
+  /* ---------- Buttons ----------
+     Recreated from lsav.tv footer (Elementor .elementor-element-bd6ab62, post-1407.css).
+     Cyan slab (::after) parked off-canvas left; on hover it floods the button,
+     the arrow flies right and the label slides left. 200ms ease-in-out. */
+  .lsav-btn, .lsav-btn::after, .lsav-btn img, .lsav-btn p { box-sizing: border-box; }
+  .lsav-btn {
+    position: relative;
+    display: block;
+    width: 230px;
+    padding: 25px 0 28px 90px;
+    border: 2px solid #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    text-decoration: none;
+  }
+  .lsav-btn::after {
+    content: '';
+    position: absolute;
+    width: 240px;
+    height: 100%;
+    left: -180px;
+    top: 0;
+    z-index: 1;
+    background-color: #29ABE2;
+  }
+  .lsav-btn img {
+    width: 30px;
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    z-index: 2;
+  }
+  .lsav-btn p {
+    position: absolute;
+    margin: 0;
+    color: #fff;
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1px;
+    z-index: 3;
+  }
+  .lsav-btn:hover, .lsav-btn:focus-visible { padding-left: 30px; transition: all 200ms ease-in-out; }
+  .lsav-btn:hover::after, .lsav-btn:focus-visible::after { left: 0; transition: all 200ms ease-in-out; }
+  .lsav-btn:hover img, .lsav-btn:focus-visible img { left: 160px; transition: all 200ms ease-in-out; }
+  .lsav-btn:focus-visible { outline: 3px solid #29ABE2; outline-offset: 4px; }
+  .lsav-btn--on-blue::after { background-color: rgba(255, 255, 255, 0.28); }
+  /* "Let's Talk" — narrower box for the short label. Slab parks fully
+     off-canvas at rest (the base button's 60px peek reads two-tone on the
+     blue band — same fix as the careers Submit button); doubled class so
+     these rules outrank the base responsive overrides at every breakpoint. */
+  .lsav-btn.lsav-btn--talk { width: 190px; padding-left: 70px; }
+  .lsav-btn.lsav-btn--talk::after { left: -204px; width: 204px; }
+  .lsav-btn.lsav-btn--talk:hover::after, .lsav-btn.lsav-btn--talk:focus-visible::after { left: 0; }
+  .lsav-btn.lsav-btn--talk:hover img, .lsav-btn.lsav-btn--talk:focus-visible img { left: 130px; }
+  @media (max-width: 1024px) {
+    .lsav-btn { width: 200px; padding: 25px 0 25px 65px; }
+    .lsav-btn::after { width: 200px; left: -150px; }
+    .lsav-btn img { width: 25px; left: 13px; top: 15px; }
+    .lsav-btn:hover, .lsav-btn:focus-visible { padding-left: 25px; }
+    .lsav-btn:hover img, .lsav-btn:focus-visible img { left: 150px; }
+  }
+  @media (max-width: 767px) {
+    .lsav-btn { width: 185px; padding: 20px 20px 20px 65px; }
+    .lsav-btn::after { width: 195px; left: -140px; }
+    .lsav-btn img { width: 25px; left: 15px; top: 10px; }
+    .lsav-btn p { font-size: 18px; }
+    .lsav-btn:hover, .lsav-btn:focus-visible { padding-left: 20px; }
+    .lsav-btn:hover img, .lsav-btn:focus-visible img { left: 145px; }
+  }
+
+  /* ---------- Hero (photo variant of the careers video hero) ---------- */
+  .hero {
+    position: relative; min-height: 720px;
+    background: var(--dark);
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 120px 90px;
+    overflow: hidden;
+  }
+  .hero-photo { position: absolute; inset: 0; pointer-events: none; }
+  .hero-photo img {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .hero-photo::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.34), rgba(0, 0, 0, 0.46));
+  }
+  .hero-copy { position: relative; z-index: 1; max-width: 1320px; }
+  .hero h1 {
+    font-family: Poppins, sans-serif; font-weight: 800;
+    font-size: clamp(40px, 3.9vw, 75px); line-height: 1.12;
+    color: var(--white); margin-bottom: 32px;
+  }
+  .hero p {
+    font-size: clamp(18px, 1.4vw, 27px); line-height: 1.56;
+    color: var(--white); max-width: 1100px; margin: 0 auto;
+    text-shadow: 0 1px 18px rgba(0, 0, 0, 0.45);
+  }
+  .hero-body--trim { display: none; }
+
+  /* ---------- Intro sections ---------- */
+  .intro {
+    max-width: 1920px; margin: 0 auto;
+    padding: 110px 87px 90px;
+    display: grid; grid-template-columns: 487px 1fr; gap: 160px;
+    position: relative;
+  }
+  .intro::after {
+    content: ""; position: absolute; left: 87px; right: 87px; bottom: 0;
+    height: 1px; background: #EAEAEA;
+  }
+  .intro h2 {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 48px; line-height: 60px; color: #000;
+  }
+  .intro .intro-copy { max-width: 1200px; }
+  .intro .intro-copy p {
+    font-size: 27px; line-height: 42px; margin-bottom: 36px;
+  }
+  .intro .intro-copy p:last-child { margin-bottom: 0; }
+  .intro .intro-copy p strong { font-family: Poppins, sans-serif; font-weight: 600; }
+  .intro--numbered .intro-copy { display: flex; flex-direction: column; gap: 36px; padding-top: 11px; }
+  .benefit { display: flex; gap: 40px; align-items: flex-start; padding-right: 160px; }
+  .benefit-num {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 48px; line-height: 48px; color: var(--cyan); flex: none;
+  }
+  .benefit p { font-size: 27px; line-height: 42px; margin: 0; }
+
+  /* ---------- What we produce — editorial statement (flowing list, cyan separators) ---------- */
+  .disciplines .intro-copy { display: flex; flex-direction: column; gap: 40px; padding-top: 4px; }
+  .disciplines .intro-copy .disc-flow {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 32px; line-height: 1.7; color: var(--dark); margin: 0;
+  }
+  .disc-flow .disc-sep { color: var(--cyan); font-weight: 700; margin: 0 12px; }
+  .disciplines .intro-copy .disc-foot { font-size: 22px; line-height: 36px; margin: 0; color: #444; }
+
+  /* ---------- Gallery — the work in the room ---------- */
+  .gallery {
+    max-width: 1640px; margin: 0 auto; padding: 110px 87px 100px;
+  }
+  .roles-head { margin-bottom: 56px; max-width: 1100px; }
+  .roles-head .eyebrow {
+    display: inline-block;
+    font-family: Poppins, sans-serif; font-weight: 700;
+    font-size: 16px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--cyan); margin-bottom: 18px;
+  }
+  .roles-head h2 {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 48px; line-height: 60px; color: #000;
+  }
+  .gallery-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  }
+  .gallery figure {
+    position: relative; overflow: hidden; border-radius: 20px;
+    aspect-ratio: 16 / 9; background: var(--dark); margin: 0;
+  }
+  /* ultra-wide convention shot runs full width at (near) native aspect */
+  .gallery figure.gallery-wide { grid-column: 1 / -1; aspect-ratio: 2560 / 617; }
+  .gallery figure img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .6s var(--reveal-ease);
+  }
+  .gallery figure:hover img { transform: scale(1.05); }
+  @media (prefers-reduced-motion: reduce) {
+    .gallery figure:hover img { transform: none; }
+  }
+
+  /* ---------- Full-bleed feature banner (ported from the case-studies page) ---------- */
+  .cs-banner {
+    position: relative; min-height: 720px;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; gap: 34px; padding: 80px;
+    overflow: hidden;
+    /* Photo is fixed to the viewport so the section scrolls over it (parallax).
+       The scrim layers on top and stays element-bound. Fixed-attachment is
+       swapped for scroll on touch/mobile below (it janks on iOS/Android). */
+    background-color: #000;
+    background-image: linear-gradient(rgba(0,0,0,0.44), rgba(0,0,0,0.44)), var(--banner-img);
+    background-position: center center, center center;
+    background-size: cover, cover;
+    background-repeat: no-repeat, no-repeat;
+    background-attachment: scroll, fixed;
+  }
+  .cs-banner::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.7), rgba(0,0,0,0));
+  }
+  .cs-banner > * { position: relative; z-index: 1; }
+  .cs-banner-title {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 48px; line-height: 60px; text-transform: uppercase; color: #fff;
+    max-width: 1100px;
+  }
+  .cs-banner .cs-sub {
+    font-family: Poppins, sans-serif; font-weight: 400;
+    font-size: 22px; line-height: 36px; color: #fff; max-width: 760px;
+  }
+  .cs-pill {
+    position: relative; overflow: hidden;
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 16px 30px; border: 2px solid #008BBF; border-radius: 120px;
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 16px;
+    letter-spacing: 0.02em; text-transform: uppercase; color: #fff; white-space: nowrap;
+    transition: border-color .35s ease, box-shadow .35s ease, letter-spacing .35s ease;
+  }
+  /* cyan fill wipes in left->right behind the label (matches the site's
+     L->R button motion); pill also gains a cyan glow + slight tracking */
+  .cs-pill::after {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background: var(--cyan); transform: scaleX(0); transform-origin: left;
+    transition: transform .45s var(--reveal-ease);
+  }
+  .cs-pill:hover, .cs-pill:focus-visible {
+    border-color: var(--cyan);
+    box-shadow: 0 10px 32px rgba(0, 174, 239, 0.45);
+    letter-spacing: 0.08em;
+  }
+  .cs-pill:hover::after, .cs-pill:focus-visible::after { transform: scaleX(1); }
+  .cs-pill:focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; }
+  /* Match the reveal selector's specificity (0,3,0) so this transition list —
+     which adds the hover props to the fade-up transition — wins by source order
+     and the hover changes animate instead of snapping. */
+  .js .cs-banner .cs-pill {
+    transition: opacity 1.05s var(--reveal-ease), transform 1.05s var(--reveal-ease),
+                border-color .35s ease, box-shadow .35s ease, letter-spacing .35s ease;
+  }
+
+  /* ---------- CTA band ---------- */
+  .cta-band {
+    position: relative; min-height: 600px; overflow: hidden;
+    background: var(--cyan);
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 80px;
+  }
+  .cta-band::before { content: ""; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.2); }
+  .cta-wave {
+    position: absolute; top: -541px; left: 50%; margin-left: -880px;
+    width: 1760px; height: 1683px; pointer-events: none;
+  }
+  .cta-wave svg { width: 100%; height: 100%; display: block; }
+  .cta-band > h2 {
+    position: relative;
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 42px; line-height: 1; color: var(--white);
+    margin-bottom: 28px;
+  }
+  .cta-band > p {
+    position: relative;
+    font-size: 27px; line-height: 42px; color: var(--white);
+    max-width: 1024px; margin-bottom: 44px;
+  }
+  .cta-band > .lsav-btn { position: relative; }
+
+  /* ---------- Footer ---------- */
+  .site-footer {
+    background: var(--near-black); color: var(--white);
+    padding: 80px 87px 48px;
+  }
+  .footer-top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 48px; flex-wrap: wrap;
+  }
+  .footer-top h2 {
+    font-family: Poppins, sans-serif; font-weight: 800;
+    font-size: clamp(36px, 3.3vw, 64px); color: var(--cyan);
+    margin-bottom: 32px;
+  }
+  .footer-brand { text-align: right; }
+  .footer-brand img { height: 30px; width: auto; max-width: 100%; object-fit: contain; margin-left: auto; }
+  .social-row { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+  .social-row a {
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--white); color: var(--near-black);
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 14px;
+  }
+  .social-row a:hover { background: var(--cyan); color: var(--white); }
+  .footer-divider {
+    border: 0; border-top: 1px solid rgba(255,255,255,0.15);
+    margin: 56px 0 48px;
+  }
+  .footer-menus {
+    display: flex; justify-content: center; gap: 120px; flex-wrap: wrap;
+  }
+  .footer-menus h3 {
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 14px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.5); margin-bottom: 18px;
+  }
+  .footer-menus ul { list-style: none; }
+  .footer-menus li { margin-bottom: 12px; }
+  .footer-menus a {
+    font-family: Poppins, sans-serif; font-weight: 400; font-size: 14px;
+    color: var(--white);
+  }
+  .footer-menus a:hover { color: var(--cyan); }
+  .footer-legal {
+    margin-top: 64px; text-align: center;
+    font-family: Poppins, sans-serif; font-size: 12px;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1440px) {
+    .intro { gap: 120px; }
+    .gallery { padding: 90px 64px 90px; }
+  }
+  @media (max-width: 1024px) {
+    .hero { min-height: 600px; padding: 110px 48px; }
+    .intro { grid-template-columns: 1fr; gap: 40px; padding: 80px 48px; }
+    .intro::after { left: 48px; right: 48px; }
+    .intro h2 { font-size: 40px; line-height: 50px; }
+    .intro .intro-copy p { font-size: 22px; line-height: 36px; }
+    .benefit { gap: 28px; padding-right: 0; }
+    .benefit-num { font-size: 40px; line-height: 40px; }
+    .disciplines .intro-copy .disc-flow { font-size: 26px; }
+    .disc-flow .disc-sep { margin: 0 8px; }
+    .gallery { padding: 72px 48px; }
+    .roles-head { margin-bottom: 40px; }
+    .roles-head h2 { font-size: 40px; line-height: 50px; }
+    .gallery-grid { gap: 18px; }
+    /* fixed-attachment janks on touch devices — let the photo scroll normally */
+    .cs-banner { min-height: 560px; padding: 64px 48px; background-attachment: scroll, scroll; }
+    .cs-banner-title { font-size: 36px; line-height: 46px; }
+    .cs-banner .cs-sub { font-size: 18px; line-height: 30px; }
+    .cta-band { min-height: 520px; padding: 64px 48px; }
+    .cta-band > h2 { font-size: 34px; }
+    .site-footer { padding: 64px 48px 40px; }
+    .footer-menus { gap: 80px; }
+  }
+  @media (max-width: 767px) {
+    .hero { min-height: 520px; padding: 96px 24px 56px; }
+    .hero-body--full { display: none; }
+    .hero-body--trim { display: block; }
+    .intro { padding: 56px 24px; gap: 28px; }
+    .intro::after { left: 24px; right: 24px; }
+    .intro h2 { font-size: 32px; line-height: 40px; }
+    .intro .intro-copy p { font-size: 19px; line-height: 30px; }
+    .intro--numbered .intro-copy { gap: 28px; }
+    .benefit { gap: 20px; }
+    .benefit-num { font-size: 32px; line-height: 32px; }
+    .disciplines .intro-copy .disc-flow { font-size: 21px; line-height: 1.65; }
+    .disciplines .intro-copy .disc-foot { font-size: 18px; line-height: 30px; }
+    .gallery { padding: 56px 24px; }
+    .roles-head h2 { font-size: 32px; line-height: 40px; }
+    .gallery-grid { grid-template-columns: 1fr; gap: 14px; }
+    .gallery figure { border-radius: 14px; }
+    /* panoramic strip reads as a sliver at phone widths — crop to 16:9 */
+    .gallery figure.gallery-wide { aspect-ratio: 16 / 9; }
+    .cs-banner { min-height: 460px; padding: 56px 24px; }
+    .cs-banner-title { font-size: 28px; line-height: 36px; }
+    .cs-banner .cs-sub { font-size: 16px; line-height: 27px; }
+    .cta-band { padding: 56px 24px; }
+    .cta-band > h2 { font-size: 28px; }
+    .cta-band > p { font-size: 19px; line-height: 30px; }
+    .site-footer { padding: 56px 24px 32px; }
+    .footer-brand { text-align: left; }
+    .footer-brand img { margin-left: 0; }
+    .social-row { justify-content: flex-start; }
+    .footer-menus { gap: 40px; }
+  }
+</style>
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <a class="logo" href="https://lsav.tv" aria-label="LSAV Powerhouse home">
+    <img src="assets/logo-white.png" alt="LSAV Powerhouse">
+  </a>
+  <button class="menu-toggle" aria-label="Open menu">
+    <img src="assets/menu-white.png" alt="">
+  </button>
+</header>
+
+<main id="main">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-photo" aria-hidden="true">
+      <img src="assets/events-hero.webp" alt="" fetchpriority="high">
+    </div>
+    <div class="hero-copy">
+      <h1>Spaces that speak.</h1>
+      <p class="hero-body--full">From corporate conferences to global summits, we merge the creativity of an agency with the precision of a world-class production team &mdash; live experiences designed to inspire, engage, and leave nothing to chance.</p>
+      <p class="hero-body--trim">Corporate conferences to global summits &mdash; agency creativity fused with world-class technical production.</p>
+    </div>
+  </section>
+
+  <!-- Intro -->
+  <section class="intro">
+    <h2>Bringing Events to Life, One Detail at a Time</h2>
+    <div class="intro-copy">
+      <p>At LSAV Powerhouse, we merge the creativity of an agency with the technical precision of a world-class production team to create exceptional brand and attendee experiences. From corporate conferences to global summits, we bring your vision to life with unmatched expertise and innovative solutions that captivate and inspire.</p>
+      <p>Every detail matters, and every moment is an opportunity to wow &mdash; in person, online, or both at once.</p>
+    </div>
+  </section>
+
+  <!-- What we produce -->
+  <section class="intro disciplines">
+    <h2>What We Produce</h2>
+    <div class="intro-copy">
+      <p class="disc-flow">Leadership Meetings<span class="disc-sep">/</span>Association Annual Meetings<span class="disc-sep">/</span>National Sales Meetings<span class="disc-sep">/</span>Trade Shows &amp; Exhibits<span class="disc-sep">/</span>Conventions<span class="disc-sep">/</span>Awards &amp; Galas</p>
+      <p class="disc-foot">From a 40-person leadership offsite to a 20,000-seat convention &mdash; if there&rsquo;s an audience, we&rsquo;ll run the show.</p>
+    </div>
+  </section>
+
+  <!-- How we deliver -->
+  <section class="intro intro--numbered">
+    <h2>How We Deliver</h2>
+    <div class="intro-copy">
+      <div class="benefit"><span class="benefit-num">01</span><p><strong>Flawless AV execution:</strong> crystal-clear sound, dynamic lighting, and stunning visuals that leave an impact.</p></div>
+      <div class="benefit"><span class="benefit-num">02</span><p><strong>Immersive scenic design:</strong> event spaces transformed into environments perfectly tailored to your theme and goals.</p></div>
+      <div class="benefit"><span class="benefit-num">03</span><p><strong>End-to-end project management:</strong> every detail handled with precision and care, from kickoff to load-out &mdash; complete peace of mind.</p></div>
+      <div class="benefit"><span class="benefit-num">04</span><p><strong>Live, virtual &amp; hybrid:</strong> dynamic tools that bridge the gap, so every participant feels connected and engaged.</p></div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="gallery" aria-label="Recent event productions">
+    <div class="roles-head">
+      <span class="eyebrow">The Work</span>
+      <h2>Moments made live.</h2>
+    </div>
+    <div class="gallery-grid">
+      <figure><img src="assets/events-g1.webp" alt="Product reveal inside an aircraft hangar — a circular LED screen suspended above a car and a Boeing jet" loading="lazy"></figure>
+      <figure><img src="assets/events-g2.webp" alt="Keynote speaker on a dark stage beneath oversized projected type" loading="lazy"></figure>
+      <figure><img src="assets/events-g3.webp" alt="General session in a purple-lit ballroom with multi-screen projection" loading="lazy"></figure>
+      <figure class="gallery-wide"><img src="assets/events-wide.webp" alt="Panoramic view of a full convention floor with a wrap-around LED stage" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <!-- Full-bleed feature banner -->
+  <section class="cs-banner" style="--banner-img: url('assets/events-banner.webp');" aria-label="See our latest work">
+    <h2 class="cs-banner-title">Every seat feels like the front row</h2>
+    <p class="cs-sub">Live, virtual, or hybrid &mdash; we craft moments that resonate long after the event ends.</p>
+    <a class="cs-pill" href="index.html">Check out our latest work</a>
+  </section>
+
+  <!-- CTA band -->
+  <section class="cta-band">
+    <div class="cta-wave" aria-hidden="true">
+      <svg viewBox="0 0 1760 1683" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path id="lsavWavePath" d="M880.178 0C394.317 0 0 392.618 0 876.823C0 1361.38 393.961 1754 879.822 1754C1366.04 1754 1760 1361.38 1760 877.177C1760.36 392.973 1366.4 0 880.178 0ZM810.362 167.555C1168.7 135.251 1496.05 353.924 1584.75 720.272C1502.11 850.198 1397.74 965.215 1269.86 1052.19C1006.63 1231.46 716.325 290.381 483.368 521.834L175.608 827.479C182.732 461.131 473.75 197.729 810.362 167.555ZM876.26 1590C566.719 1588.58 276.77 1383.75 200.542 1077.75L465.558 820.734C500.109 787.01 546.772 773.876 587.379 780.62C622.643 786.655 651.139 818.249 680.704 855.878L1005.56 1268.73C1077.16 1359.61 1192.57 1389.43 1304.06 1307.07C1391.69 1242.11 1436.57 1134.54 1553.4 1098.34C1469.69 1402.92 1173.69 1591.42 876.26 1590.35V1590Z" fill="#FFFFFF" fill-opacity="0.1" fill-rule="evenodd"/>
+      </svg>
+    </div>
+    <h2>Ready to run the show?</h2>
+    <p>Tell us what you&rsquo;re planning &mdash; a leadership meeting, a trade show, a 20,000-seat convention &mdash; and we&rsquo;ll bring the vision, the technology, and the crew to make it unforgettable.</p>
+    <a class="lsav-btn lsav-btn--on-blue lsav-btn--talk" href="https://lsav.tv/contact/">
+      <img src="assets/arrow.svg?v=2" alt=""><p>Let&rsquo;s Talk</p>
+    </a>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-top">
+    <div>
+      <h2>Let&rsquo;s run the show.</h2>
+      <a class="lsav-btn" href="https://lsav.tv/contact/">
+        <img src="assets/arrow.svg?v=2" alt=""><p>Contact Us</p>
+      </a>
+    </div>
+    <div class="footer-brand">
+      <img src="assets/logo-white.png" alt="LSAV Powerhouse">
+      <div class="social-row">
+        <a href="#" aria-label="Facebook">f</a>
+        <a href="#" aria-label="Instagram">ig</a>
+        <a href="#" aria-label="LinkedIn">in</a>
+        <a href="#" aria-label="YouTube">yt</a>
+      </div>
+    </div>
+  </div>
+
+  <hr class="footer-divider">
+
+  <nav class="footer-menus" aria-label="Footer">
+    <div>
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="https://lsav.tv/case-studies/">Case Studies</a></li>
+        <li><a href="https://lsav.tv/powerhouse-livewire/">Blog</a></li>
+        <li><a href="https://lsav.tv/contact/">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>What We Do</h3>
+      <ul>
+        <li><a href="events-and-conferences.html">Events &amp; Conferences</a></li>
+        <li><a href="#">Brand Experiences</a></li>
+        <li><a href="#">Media Production</a></li>
+        <li><a href="#">Digital Experiences</a></li>
+        <li><a href="#">Studio Broadcast</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>How It's Done</h3>
+      <ul>
+        <li><a href="#">Strategy &amp; Planning</a></li>
+        <li><a href="#">Creative &amp; Ideation</a></li>
+        <li><a href="#">AV &amp; Engineering</a></li>
+        <li><a href="#">Digital Production</a></li>
+        <li><a href="#">Custom Fabrication</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <p class="footer-legal">© 2026 LSAV Powerhouse. All rights reserved.</p>
+</footer>
+
+<script>
+(function () {
+  // LSAV mark wave (shared with index.html): undulate the center band of the
+  // mark on hover by displacing both inner holes with a radially-damped sine.
+  var band = document.querySelector('.cta-band');
+  var path = document.getElementById('lsavWavePath');
+  if (!band || !path) return;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var CX = 880, CY = 877;
+  var A = 46;
+  var K = 2 * Math.PI / 880;
+  var W = 2 * Math.PI / 2.8;
+
+  var subs = [];
+  var re = /([MLCZz])([^MLCZz]*)/g, m;
+  while ((m = re.exec(path.getAttribute('d')))) {
+    var cmd = m[1].toUpperCase();
+    var nums = (m[2].match(/-?\d*\.?\d+(?:e-?\d+)?/g) || []).map(Number);
+    if (cmd === 'M') subs.push([]);
+    var argc = cmd === 'C' ? 6 : cmd === 'Z' ? 0 : 2;
+    var cur = subs[subs.length - 1];
+    if (!cur) continue;
+    if (argc === 0) { cur.push({ c: 'Z', n: [] }); continue; }
+    for (var i = 0; i + argc <= nums.length; i += argc) {
+      cur.push({ c: cmd === 'M' && i > 0 ? 'L' : cmd, n: nums.slice(i, i + argc) });
+    }
+  }
+  var staticD = seg2d(subs[0]);
+
+  function seg2d(segs, t) {
+    var out = '';
+    for (var i = 0; i < segs.length; i++) {
+      var g = segs[i];
+      if (g.c === 'Z') { out += 'Z'; continue; }
+      out += g.c;
+      for (var j = 0; j < g.n.length; j += 2) {
+        var x = g.n[j], y = g.n[j + 1];
+        if (t !== undefined) {
+          var r = Math.hypot(x - CX, y - CY);
+          var damp = Math.max(0, 1 - Math.pow(r / 700, 4));
+          y = y + A * damp * Math.sin(K * x - W * t);
+        }
+        out += x.toFixed(1) + ' ' + y.toFixed(1) + (j + 2 < g.n.length ? ' ' : '');
+      }
+    }
+    return out;
+  }
+
+  var running = false, raf = 0, t0 = 0, acc = 0;
+  function frame(ts) {
+    if (!running) return;
+    var t = acc + (ts - t0) / 1000;
+    path.setAttribute('d', staticD + seg2d(subs[1], t) + seg2d(subs[2], t));
+    raf = requestAnimationFrame(frame);
+  }
+  function start() {
+    if (running || reduce.matches) return;
+    running = true; t0 = performance.now();
+    raf = requestAnimationFrame(frame);
+  }
+  function stop() {
+    if (!running) return;
+    acc += (performance.now() - t0) / 1000;
+    running = false; cancelAnimationFrame(raf);
+  }
+  band.addEventListener('mouseenter', start);
+  band.addEventListener('mouseleave', stop);
+  band.addEventListener('focusin', start);
+  band.addEventListener('focusout', stop);
+})();
+</script>
+
+<script>
+(function () {
+  var targets = document.querySelectorAll('.intro, .disciplines, .gallery, .cs-banner, .cta-band');
+  if (!('IntersectionObserver' in window)) {
+    targets.forEach(function (el) { el.classList.add('in-view'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -2% 0px' });
+  targets.forEach(function (el) { io.observe(el); });
+})();
+</script>
+</body>
+</html>
