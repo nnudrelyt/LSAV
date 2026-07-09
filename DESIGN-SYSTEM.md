@@ -123,12 +123,11 @@ Dark closing section (`--near-black`) with headline, copy, and a `.lsav-btn`. Re
   - `assets/css/lsav-service.css` — linked by the six service pages: buttons, "what we produce", related work, production hubs, feature banner, CTA band.
   - Still inline per page (genuinely page-specific or variant): scroll-reveal choreography, hero, gallery, responsive `@media` overrides, and each page's unique sections.
 - **Phase 2 — token layer (done):** the two accent colors and the eight-step type scale were promoted from inline literals into `:root` tokens (see §1, §2). Design decisions now live in one place.
-- **Phase 3 — reveal system (partial):** `--reveal-ease` hoisted into the foundation token layer (the safe, provable part). The **behavioral** rewrite — extracting the identical `IntersectionObserver` into a shared `assets/js/lsav-reveal.js` parameterized by a `data-targets` selector, so the mechanism lives once — is **specified but not yet applied**, because it changes runtime behavior and must be verified in a real browser before shipping (the preview tooling wasn't available when this was written). See "Next" below.
-- **Equivalence guarantee:** every change in Phases 1–3 was verified render-equivalent to the pre-refactor pages — each page's fully-resolved CSS matches the original rule-for-rule (0 rules added or lost).
+- **Phase 3 — reveal system (done):** `--reveal-ease` hoisted into the foundation token layer, and the identical `IntersectionObserver` extracted into a shared `assets/js/lsav-reveal.js`. Each page now loads it with `<script src="assets/js/lsav-reveal.js" data-targets="…">` — the mechanism (threshold `0.08`, `rootMargin`, one-shot `unobserve`, no-JS fallback) lives once; only the `data-targets` selector list is per-page. Bespoke per-page JS (careers' single-open accordion, ULC's stat counter) stays inline and untouched. The reveal *choreography* CSS stays inline by design (genuine per-page variation). Verified in-browser on the Vercel preview — reveals fire once, in order, staggers intact.
+- **Equivalence guarantee:** the CSS/token changes (Phases 1, 2, 3a) were verified render-equivalent to the pre-refactor pages — each page's fully-resolved CSS matches the original rule-for-rule (0 rules added or lost). Phase 3b (JS) preserves the observer mechanism byte-for-byte; only the target-selector source changed (hardcoded → `data-targets`).
 
-### Next (needs browser verification)
+### Next
 
-- **Shared reveal JS:** move the observer to `assets/js/lsav-reveal.js`; each page keeps only its `data-targets="…"` list. Watch every page's reveals fire once, in order, with staggers intact, and confirm the reduced-motion path.
 - **HTML duplication:** header/footer/nav markup is still copy-pasted across pages — raw static HTML can't share markup. Fully de-duplicating needs a light static generator (11ty / Astro) or server includes.
 - **Guardrail:** add a `stylelint` rule banning raw hex/px outside the token sheet, so drift can't creep back in.
 - **Companion docs:** copy/voice lives in `copy-deck.md`; type & grid conventions also exist in the LSAV-Blog Figma file.
