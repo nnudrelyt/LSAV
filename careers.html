@@ -7,34 +7,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/lsav-foundation.css">
 <style>
-  :root {
-    --dark: #231F20;
-    --near-black: #1A1718;
-    --cyan: #00AEEF;
-    --white: #FFFFFF;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: Calibri, Carlito, "Segoe UI", sans-serif;
-    background: var(--white);
-    color: #000;
-  }
-  img { display: block; }
-  a { text-decoration: none; }
-
-  .skip-link {
-    position: absolute; left: -9999px; top: 0;
-    background: var(--cyan); color: #fff; padding: 12px 24px;
-    font-family: Poppins, sans-serif; font-weight: 600; z-index: 100;
-  }
-  .skip-link:focus { left: 0; }
-
   /* ---------- Scroll reveals ----------
      One grammar: 600ms, easeOutQuint-ish, <=24px travel, one-shot.
      Gated on html.js (set in <head>) so content is visible without JS.
      prefers-reduced-motion gets everything instantly. */
-  :root { --reveal-ease: cubic-bezier(0.22, 1, 0.36, 1); }
   .js .intro h2, .js .intro .intro-copy > p, .js .benefit,
   .js .disciplines .disc-flow, .js .disciplines .disc-foot,
   .js .role,
@@ -84,18 +62,6 @@
     .js .intro::after { transform: scaleX(1) !important; transition: none !important; }
   }
 
-  /* ---------- Header ---------- */
-  .site-header {
-    position: absolute; top: 0; left: 0; right: 0;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 23px 47px; z-index: 10;
-  }
-  .site-header .logo img { height: 34px; width: auto; max-width: 70vw; object-fit: contain; object-position: left; }
-  .site-header .menu-toggle {
-    background: none; border: 0; cursor: pointer; padding: 8px;
-  }
-  .site-header .menu-toggle img { height: 24px; width: auto; }
-
   /* ---------- Buttons ----------
      Recreated from lsav.tv footer (Elementor .elementor-element-bd6ab62, post-1407.css).
      Cyan slab (::after) parked off-canvas left; on hover it floods the button,
@@ -119,7 +85,7 @@
     left: -180px;
     top: 0;
     z-index: 1;
-    background-color: #29ABE2;
+    background-color: var(--btn-hover);
   }
   .lsav-btn img {
     width: 30px;
@@ -141,7 +107,7 @@
   .lsav-btn:hover, .lsav-btn:focus-visible { padding-left: 30px; transition: all 200ms ease-in-out; }
   .lsav-btn:hover::after, .lsav-btn:focus-visible::after { left: 0; transition: all 200ms ease-in-out; }
   .lsav-btn:hover img, .lsav-btn:focus-visible img { left: 160px; transition: all 200ms ease-in-out; }
-  .lsav-btn:focus-visible { outline: 3px solid #29ABE2; outline-offset: 4px; }
+  .lsav-btn:focus-visible { outline: 3px solid var(--btn-hover); outline-offset: 4px; }
   .lsav-btn--on-blue::after { background-color: rgba(255, 255, 255, 0.28); }
   /* Dark-on-light variant: cyan border + cyan fill for use on white sections */
   .lsav-btn--dark { border-color: var(--cyan); }
@@ -165,7 +131,7 @@
      Arrow + label are both vertically centered. */
   .lsav-btn.lsav-btn--apply { width: 200px; padding: 18px 0 18px 56px; background-color: var(--cyan); border-color: var(--cyan); }
   .lsav-btn.lsav-btn--apply::after { display: none; }
-  .lsav-btn.lsav-btn--apply:hover, .lsav-btn.lsav-btn--apply:focus-visible { background-color: #008BBF; padding-left: 30px; }
+  .lsav-btn.lsav-btn--apply:hover, .lsav-btn.lsav-btn--apply:focus-visible { background-color: var(--cyan-deep); padding-left: 30px; }
   .lsav-btn.lsav-btn--apply img { width: 24px; top: 50%; left: 18px; transform: translateY(-50%); }
   .lsav-btn.lsav-btn--apply p { font-size: 18px; font-weight: 600; top: 50%; line-height: 1; transform: translateY(-50%); }
   .lsav-btn.lsav-btn--apply:hover img, .lsav-btn.lsav-btn--apply:focus-visible img { left: 140px; transform: translateY(-50%); }
@@ -210,43 +176,14 @@
   }
   .hero h1 {
     font-family: Poppins, sans-serif; font-weight: 800;
-    font-size: clamp(40px, 3.9vw, 75px); line-height: 1.12;
+    font-size: var(--fs-hero); line-height: 1.12;
     color: var(--white); margin-bottom: 32px;
   }
   .hero p {
-    font-size: clamp(18px, 1.4vw, 27px); line-height: 1.56;
+    font-size: var(--fs-lead); line-height: 1.56;
     color: var(--white); max-width: 1100px; margin: 0 auto;
   }
   .hero-body--trim { display: none; }
-
-  /* ---------- Intro sections ---------- */
-  .intro {
-    max-width: 1920px; margin: 0 auto;
-    padding: 110px 87px 90px;
-    display: grid; grid-template-columns: 487px 1fr; gap: 160px;
-    position: relative;
-  }
-  .intro::after {
-    content: ""; position: absolute; left: 87px; right: 87px; bottom: 0;
-    height: 1px; background: #EAEAEA;
-  }
-  .intro h2 {
-    font-family: Poppins, sans-serif; font-weight: 600;
-    font-size: 48px; line-height: 60px; color: #000;
-  }
-  .intro .intro-copy { max-width: 1200px; }
-  .intro .intro-copy p {
-    font-size: 27px; line-height: 42px; margin-bottom: 36px;
-  }
-  .intro .intro-copy p:last-child { margin-bottom: 0; }
-  .intro .intro-copy p strong { font-family: Poppins, sans-serif; font-weight: 600; }
-  .intro--numbered .intro-copy { display: flex; flex-direction: column; gap: 36px; padding-top: 11px; }
-  .benefit { display: flex; gap: 40px; align-items: flex-start; padding-right: 160px; }
-  .benefit-num {
-    font-family: Poppins, sans-serif; font-weight: 600;
-    font-size: 48px; line-height: 48px; color: var(--cyan); flex: none;
-  }
-  .benefit p { font-size: 27px; line-height: 42px; margin: 0; }
 
   /* ---------- Who We Hire — editorial statement (flowing list, cyan separators) ---------- */
   .disciplines .intro-copy { display: flex; flex-direction: column; gap: 40px; padding-top: 4px; }
@@ -410,7 +347,7 @@
   .cs-pill {
     position: relative; overflow: hidden;
     display: inline-flex; align-items: center; justify-content: center;
-    padding: 16px 30px; border: 2px solid #008BBF; border-radius: 120px;
+    padding: 16px 30px; border: 2px solid var(--cyan-deep); border-radius: 120px;
     font-family: Poppins, sans-serif; font-weight: 700; font-size: 16px;
     letter-spacing: 0.02em; text-transform: uppercase; color: #fff; white-space: nowrap;
     transition: border-color .35s ease, box-shadow .35s ease, letter-spacing .35s ease;
@@ -462,55 +399,6 @@
     max-width: 1024px; margin-bottom: 44px;
   }
   .cta-band > .lsav-btn { position: relative; }
-
-  /* ---------- Footer ---------- */
-  .site-footer {
-    background: var(--near-black); color: var(--white);
-    padding: 80px 87px 48px;
-  }
-  .footer-top {
-    display: flex; justify-content: space-between; align-items: flex-start;
-    gap: 48px; flex-wrap: wrap;
-  }
-  .footer-top h2 {
-    font-family: Poppins, sans-serif; font-weight: 800;
-    font-size: clamp(36px, 3.3vw, 64px); color: var(--cyan);
-    margin-bottom: 32px;
-  }
-  .footer-brand { text-align: right; }
-  .footer-brand img { height: 30px; width: auto; max-width: 100%; object-fit: contain; margin-left: auto; }
-  .social-row { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
-  .social-row a {
-    display: flex; align-items: center; justify-content: center;
-    width: 36px; height: 36px; border-radius: 50%;
-    background: var(--white); color: var(--near-black);
-    font-family: Poppins, sans-serif; font-weight: 700; font-size: 14px;
-  }
-  .social-row a:hover { background: var(--cyan); color: var(--white); }
-  .footer-divider {
-    border: 0; border-top: 1px solid rgba(255,255,255,0.15);
-    margin: 56px 0 48px;
-  }
-  .footer-menus {
-    display: flex; justify-content: center; gap: 120px; flex-wrap: wrap;
-  }
-  .footer-menus h3 {
-    font-family: Poppins, sans-serif; font-weight: 700; font-size: 14px;
-    text-transform: uppercase; letter-spacing: 0.08em;
-    color: rgba(255,255,255,0.5); margin-bottom: 18px;
-  }
-  .footer-menus ul { list-style: none; }
-  .footer-menus li { margin-bottom: 12px; }
-  .footer-menus a {
-    font-family: Poppins, sans-serif; font-weight: 400; font-size: 14px;
-    color: var(--white);
-  }
-  .footer-menus a:hover { color: var(--cyan); }
-  .footer-legal {
-    margin-top: 64px; text-align: center;
-    font-family: Poppins, sans-serif; font-size: 12px;
-    color: rgba(255,255,255,0.4);
-  }
 
   /* ---------- Responsive ---------- */
   @media (max-width: 1440px) {
@@ -1031,21 +919,9 @@
 })();
 </script>
 
-<script>
-(function () {
-  var targets = document.querySelectorAll('.intro, .disciplines, .role, .cs-banner, .cta-band');
-  if (!('IntersectionObserver' in window)) {
-    targets.forEach(function (el) { el.classList.add('in-view'); });
-    return;
-  }
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.08, rootMargin: '0px 0px -2% 0px' });
-  targets.forEach(function (el) { io.observe(el); });
-})();
+<script src="assets/js/lsav-reveal.js" data-targets=".intro, .disciplines, .role, .cs-banner, .cta-band"></script>
 
+<script>
 // Single-open accordion: opening one role collapses the others.
 (function () {
   var roles = document.querySelectorAll('.role');
