@@ -26,7 +26,7 @@
     left: -180px;
     top: 0;
     z-index: 1;
-    background-color: #29ABE2;
+    background-color: var(--btn-hover);
   }
   .lsav-btn img {
     width: 30px;
@@ -48,7 +48,7 @@
   .lsav-btn:hover, .lsav-btn:focus-visible { padding-left: 30px; transition: all 200ms ease-in-out; }
   .lsav-btn:hover::after, .lsav-btn:focus-visible::after { left: 0; transition: all 200ms ease-in-out; }
   .lsav-btn:hover img, .lsav-btn:focus-visible img { left: 160px; transition: all 200ms ease-in-out; }
-  .lsav-btn:focus-visible { outline: 3px solid #29ABE2; outline-offset: 4px; }
+  .lsav-btn:focus-visible { outline: 3px solid var(--btn-hover); outline-offset: 4px; }
   .lsav-btn--on-blue::after { background-color: rgba(255, 255, 255, 0.28); }
   /* "Let's Talk" — narrower box for the short label. Slab parks fully
      off-canvas at rest (the base button's 60px peek reads two-tone on the

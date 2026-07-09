@@ -13,7 +13,6 @@
      One grammar: 600ms, easeOutQuint-ish, <=24px travel, one-shot.
      Gated on html.js (set in <head>) so content is visible without JS.
      prefers-reduced-motion gets everything instantly. */
-  :root { --reveal-ease: cubic-bezier(0.22, 1, 0.36, 1); }
   .js .intro h2, .js .intro .intro-copy > p, .js .benefit,
   .js .cs-card .cs-copy,
   .js .cs-banner-title, .js .cs-banner .cs-sub, .js .cs-banner .cs-pill,
@@ -91,7 +90,7 @@
     left: -180px;
     top: 0;
     z-index: 1;
-    background-color: #29ABE2;
+    background-color: var(--btn-hover);
   }
   .lsav-btn img {
     width: 30px;
@@ -113,7 +112,7 @@
   .lsav-btn:hover, .lsav-btn:focus-visible { padding-left: 30px; transition: all 200ms ease-in-out; }
   .lsav-btn:hover::after, .lsav-btn:focus-visible::after { left: 0; transition: all 200ms ease-in-out; }
   .lsav-btn:hover img, .lsav-btn:focus-visible img { left: 160px; transition: all 200ms ease-in-out; }
-  .lsav-btn:focus-visible { outline: 3px solid #29ABE2; outline-offset: 4px; }
+  .lsav-btn:focus-visible { outline: 3px solid var(--btn-hover); outline-offset: 4px; }
   .lsav-btn--on-blue::after { background-color: rgba(255, 255, 255, 0.28); }
   /* Row variant — matches the live /case-studies/ "Case Study" buttons
      (e.g. .elementor-element-172a703 in post-5135.css): 220px box,
@@ -163,11 +162,11 @@
   }
   .hero h1 {
     font-family: Poppins, sans-serif; font-weight: 800;
-    font-size: clamp(40px, 3.9vw, 75px); line-height: 1.12;
+    font-size: var(--fs-hero); line-height: 1.12;
     color: var(--white); margin-bottom: 32px;
   }
   .hero p {
-    font-size: clamp(18px, 1.4vw, 27px); line-height: 1.56;
+    font-size: var(--fs-lead); line-height: 1.56;
     color: var(--white); max-width: 1448px; margin: 0 auto;
   }
 
@@ -235,7 +234,7 @@
   .cs-link--white:hover, .cs-link--white:focus-visible { border-bottom-color: #fff; }
   .cs-pill {
     display: inline-flex; align-items: center; justify-content: center;
-    padding: 13px 14px; border: 2px solid #008BBF; border-radius: 120px;
+    padding: 13px 14px; border: 2px solid var(--cyan-deep); border-radius: 120px;
     font-family: Poppins, sans-serif; font-weight: 700; font-size: 16px;
     letter-spacing: 0.02em; text-transform: uppercase; color: #fff; white-space: nowrap;
   }
@@ -441,7 +440,7 @@
   .related { max-width: 1640px; margin: 0 auto; padding: 96px 40px 100px; }
   .related h2 {
     text-align: center; font-family: Poppins, sans-serif; font-weight: 600;
-    font-size: clamp(32px, 3.3vw, 48px); color: var(--cyan); margin-bottom: 56px;
+    font-size: var(--fs-h3); color: var(--cyan); margin-bottom: 56px;
   }
   .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
   .related-card {
@@ -459,12 +458,12 @@
   .related-meta { position: relative; z-index: 1; padding: 0 32px 34px; transition: transform .42s var(--reveal-ease); }
   .related-card h3 {
     color: #fff; font-family: Poppins, sans-serif; font-weight: 700;
-    font-size: clamp(26px, 2.4vw, 36px); line-height: 1.12; margin-bottom: 12px;
+    font-size: var(--fs-h4); line-height: 1.12; margin-bottom: 12px;
   }
   .related-sub {
     display: block; color: rgba(255,255,255,0.9);
     font-family: Calibri, Carlito, "Segoe UI", sans-serif; font-weight: 400;
-    font-size: clamp(18px, 1.5vw, 22px); line-height: 1.42;
+    font-size: var(--fs-body); line-height: 1.42;
   }
   .related-cta {
     position: absolute; left: 32px; bottom: 36px; z-index: 1;
