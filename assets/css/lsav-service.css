@@ -1,0 +1,101 @@
+/* ==========================================================================
+   LSAV — Service-page template. Shared by the six service pages.
+   Buttons, editorial "what we produce", related work, production hubs,
+   full-bleed feature banner, CTA band.
+   ========================================================================== */
+  /* ---------- Buttons ----------
+     Recreated from lsav.tv footer (Elementor .elementor-element-bd6ab62, post-1407.css).
+     Cyan slab (::after) parked off-canvas left; on hover it floods the button,
+     the arrow flies right and the label slides left. 200ms ease-in-out. */
+  .lsav-btn, .lsav-btn::after, .lsav-btn img, .lsav-btn p { box-sizing: border-box; }
+  .lsav-btn {
+    position: relative;
+    display: block;
+    width: 230px;
+    padding: 25px 0 28px 90px;
+    border: 2px solid #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    text-decoration: none;
+  }
+  .lsav-btn::after {
+    content: '';
+    position: absolute;
+    width: 240px;
+    height: 100%;
+    left: -180px;
+    top: 0;
+    z-index: 1;
+    background-color: #29ABE2;
+  }
+  .lsav-btn img {
+    width: 30px;
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    z-index: 2;
+  }
+  .lsav-btn p {
+    position: absolute;
+    margin: 0;
+    color: #fff;
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1px;
+    z-index: 3;
+  }
+  .lsav-btn:hover, .lsav-btn:focus-visible { padding-left: 30px; transition: all 200ms ease-in-out; }
+  .lsav-btn:hover::after, .lsav-btn:focus-visible::after { left: 0; transition: all 200ms ease-in-out; }
+  .lsav-btn:hover img, .lsav-btn:focus-visible img { left: 160px; transition: all 200ms ease-in-out; }
+  .lsav-btn:focus-visible { outline: 3px solid #29ABE2; outline-offset: 4px; }
+  .lsav-btn--on-blue::after { background-color: rgba(255, 255, 255, 0.28); }
+  /* "Let's Talk" — narrower box for the short label. Slab parks fully
+     off-canvas at rest (the base button's 60px peek reads two-tone on the
+     blue band — same fix as the careers Submit button); doubled class so
+     these rules outrank the base responsive overrides at every breakpoint. */
+  .lsav-btn.lsav-btn--talk { width: 190px; padding-left: 70px; }
+  .lsav-btn.lsav-btn--talk::after { left: -204px; width: 204px; }
+  .lsav-btn.lsav-btn--talk:hover::after, .lsav-btn.lsav-btn--talk:focus-visible::after { left: 0; }
+  .lsav-btn.lsav-btn--talk:hover img, .lsav-btn.lsav-btn--talk:focus-visible img { left: 130px; }
+  @media (max-width: 1024px) {
+    .lsav-btn { width: 200px; padding: 25px 0 25px 65px; }
+    .lsav-btn::after { width: 200px; left: -150px; }
+    .lsav-btn img { width: 25px; left: 13px; top: 15px; }
+    .lsav-btn:hover, .lsav-btn:focus-visible { padding-left: 25px; }
+    .lsav-btn:hover img, .lsav-btn:focus-visible img { left: 150px; }
+  }
+  @media (max-width: 767px) {
+    .lsav-btn { width: 185px; padding: 20px 20px 20px 65px; }
+    .lsav-btn::after { width: 195px; left: -140px; }
+    .lsav-btn img { width: 25px; left: 15px; top: 10px; }
+    .lsav-btn p { font-size: 18px; }
+    .lsav-btn:hover, .lsav-btn:focus-visible { padding-left: 20px; }
+    .lsav-btn:hover img, .lsav-btn:focus-visible img { left: 145px; }
+  }
+
+  /* ---------- CTA band ---------- */
+  .cta-band {
+    position: relative; min-height: 600px; overflow: hidden;
+    background: var(--cyan);
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 80px;
+  }
+  .cta-band::before { content: ""; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.2); }
+  .cta-wave {
+    position: absolute; top: -541px; left: 50%; margin-left: -880px;
+    width: 1760px; height: 1683px; pointer-events: none;
+  }
+  .cta-wave svg { width: 100%; height: 100%; display: block; }
+  .cta-band > h2 {
+    position: relative;
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 42px; line-height: 1; color: var(--white);
+    margin-bottom: 28px;
+  }
+  .cta-band > p {
+    position: relative;
+    font-size: 27px; line-height: 42px; color: var(--white);
+    max-width: 1024px; margin-bottom: 44px;
+  }
+  .cta-band > .lsav-btn { position: relative; }
