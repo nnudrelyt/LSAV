@@ -266,40 +266,12 @@
   .bio-close:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
   @media (prefers-reduced-motion: reduce) { .bio-cue, .bio-close { transition: none; } }
 
-  /* ===== TEMP: leadership-distinction option picker (remove after choosing) ===== */
-  /* A = baseline (no rules). Options scoped to leadership (.member--lead / first block). */
-  body[data-lead-opt="b"] .member--lead .member-photo { aspect-ratio: 5 / 7; }              /* Scale: taller lead cards */
-  body[data-lead-opt="b"] .member--lead .member-name { font-size: 25px; }
-  body[data-lead-opt="c"] .member--lead { border: 2px solid var(--cyan); box-shadow: 0 12px 34px rgba(0,174,239,.16); } /* Cyan frame */
-  body[data-lead-opt="d"] .member--lead::before { content:""; position:absolute; top:0; left:0; right:0; height:5px; background:var(--cyan); z-index:5; pointer-events:none; } /* Top bar */
-  body[data-lead-opt="e"] .member--lead .member-info { background: var(--near-black); }     /* Dark nameplate */
-  body[data-lead-opt="e"] .member--lead .member-name { color:#fff; }
-  body[data-lead-opt="e"] .member--lead .member-role { color: var(--cyan); }
-  body[data-lead-opt="f"] .team-block:first-of-type { background: linear-gradient(180deg,#E1F1FA,#CCE6F4); border-radius:28px; padding:44px 40px 46px; } /* Section band */
-  body[data-lead-opt="f"] .member--lead { box-shadow: 0 14px 34px rgba(10,60,90,.12); }
-  /* G · dark plate, leadership as a single row of 4 (Danny removed), no band */
-  body[data-lead-opt="g"] .team-grid--lead > .member { flex-basis: calc((100% - 84px) / 4); max-width: calc((100% - 84px) / 4); }
-  body[data-lead-opt="g"] .member--lead { box-shadow: 0 16px 42px rgba(10,60,90,.15); }
-  body[data-lead-opt="g"] .member--lead .member-info { background: var(--near-black); }
-  body[data-lead-opt="g"] .member--lead .member-name { color:#fff; font-size: 25px; }
-  body[data-lead-opt="g"] .member--lead .member-role { color: var(--cyan); }
-
-  .opt-picker {
-    position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 2000;
-    display: flex; align-items: center; gap: 6px; padding: 10px 14px;
-    background: rgba(26,23,24,.94); border-radius: 120px;
-    box-shadow: 0 12px 40px rgba(0,0,0,.35); font-family: Poppins, sans-serif;
-  }
-  .opt-picker-label { color:#fff; font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; opacity:.6; margin:0 6px 0 4px; white-space:nowrap; }
-  .opt-picker button {
-    font-family: Poppins, sans-serif; font-weight:600; font-size:13px; color:#fff;
-    background:transparent; border:0; padding:8px 13px; border-radius:120px; cursor:pointer;
-    white-space:nowrap; transition: background .15s ease;
-  }
-  .opt-picker button:hover { background: rgba(255,255,255,.14); }
-  .opt-picker button.is-active { background: var(--cyan); }
-  @media (max-width:900px){ .opt-picker{ flex-wrap:wrap; justify-content:center; max-width:92vw; } .opt-picker-label{ width:100%; text-align:center; margin-bottom:2px; } }
-  /* ===== END TEMP ===== */
+  /* ---------- Leadership treatment: single row of 4, dark nameplate ---------- */
+  .team-grid--lead > .member { flex-basis: calc((100% - 84px) / 4); max-width: calc((100% - 84px) / 4); }
+  .member--lead { box-shadow: 0 16px 42px rgba(10,60,90,.15); }
+  .member--lead .member-info { background: var(--near-black); }
+  .member--lead .member-name { color: #fff; font-size: 25px; }
+  /* (.member--lead .member-role is already cyan in the leadership block above) */
 
   /* ---------- Full-bleed feature banner (ported from careers/case-studies) ---------- */
   .cs-banner {
@@ -427,7 +399,7 @@
 </style>
 <script>document.documentElement.classList.add('js');</script>
 </head>
-<body data-lead-opt="g">
+<body>
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="site-header">
@@ -939,30 +911,6 @@
   });
   modal.querySelectorAll('[data-close]').forEach(function (el) {
     el.addEventListener('click', close);
-  });
-})();
-</script>
-
-<!-- TEMP: leadership-distinction option picker (remove after choosing) -->
-<div class="opt-picker" role="group" aria-label="Leadership style preview">
-  <span class="opt-picker-label">Leadership style</span>
-  <button type="button" data-opt="a">Baseline</button>
-  <button type="button" data-opt="b">Scale</button>
-  <button type="button" data-opt="c">Cyan frame</button>
-  <button type="button" data-opt="d">Top bar</button>
-  <button type="button" data-opt="e">Dark plate</button>
-  <button type="button" data-opt="f">Band</button>
-  <button type="button" data-opt="g" class="is-active">Plate 3+2</button>
-</div>
-<script>
-(function () {
-  var pick = document.querySelector('.opt-picker');
-  if (!pick) return;
-  pick.addEventListener('click', function (e) {
-    var b = e.target.closest('button[data-opt]');
-    if (!b) return;
-    document.body.setAttribute('data-lead-opt', b.getAttribute('data-opt'));
-    pick.querySelectorAll('button').forEach(function (x) { x.classList.toggle('is-active', x === b); });
   });
 })();
 </script>
