@@ -276,28 +276,27 @@
   /* ---------- Full-bleed feature banner (ported from careers/case-studies) ---------- */
   .wwd-strip { max-width: 1920px; margin: 0 auto; padding: 0 87px 96px; }
   .wwd-wrap {
-    position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden;
-    border-radius: 18px; background-color: var(--dark);
+    position: relative; width: 100%; min-height: 300px; overflow: hidden;
+    border-radius: 16px; background-color: var(--dark);
     background-image:
-      linear-gradient(180deg, rgba(35,31,32,0) 34%, rgba(35,31,32,.46) 62%, rgba(35,31,32,.9) 100%),
-      linear-gradient(90deg, rgba(35,31,32,.62) 0%, rgba(35,31,32,.15) 42%, rgba(35,31,32,0) 66%),
-      url('assets/events-hero.webp');
+      linear-gradient(90deg, rgba(35,31,32,.94) 0%, rgba(35,31,32,.55) 48%, rgba(35,31,32,.1) 100%),
+      url('assets/emirates.jpg');
     background-size: cover; background-position: center; background-repeat: no-repeat;
-    display: flex; align-items: flex-end;
+    display: flex; align-items: center;
   }
   .wwd-inner {
-    position: relative; z-index: 1; width: 100%; padding: 56px 60px;
-    display: flex; align-items: flex-end; justify-content: space-between; gap: 44px; flex-wrap: wrap;
+    position: relative; z-index: 1; width: 100%; padding: 40px 52px;
+    display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap;
   }
   .wwd-eyebrow {
     font-family: Poppins, sans-serif; font-weight: 700; font-size: 14px;
-    letter-spacing: 0.16em; text-transform: uppercase; color: var(--cyan); margin-bottom: 14px;
-    text-shadow: 0 1px 12px rgba(0,0,0,.45);
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--cyan); margin-bottom: 12px;
+    text-shadow: 0 1px 12px rgba(0,0,0,.6);
   }
   .wwd-title {
-    font-family: Poppins, sans-serif; font-weight: 700; font-size: 40px;
-    line-height: 1.08; color: #fff; margin-bottom: 30px; max-width: 640px;
-    text-shadow: 0 2px 20px rgba(0,0,0,.5);
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 30px;
+    line-height: 1.1; color: #fff; margin-bottom: 18px; max-width: 520px;
+    text-shadow: 0 2px 18px rgba(0,0,0,.6);
   }
   .wwd-svcs { display: flex; flex-wrap: wrap; gap: 10px 12px; }
   .wwd-svcs a {
@@ -361,9 +360,9 @@
     .bio-modal-card { grid-template-columns: 260px 1fr; }
     .bio-modal-body { padding: 40px 40px 44px; }
     .wwd-strip { padding: 0 48px 76px; }
-    .wwd-wrap { aspect-ratio: auto; min-height: 460px; }
-    .wwd-inner { padding: 44px 44px; gap: 32px; }
-    .wwd-title { font-size: 32px; }
+    .wwd-wrap { min-height: 300px; }
+    .wwd-inner { padding: 36px 40px; gap: 28px; }
+    .wwd-title { font-size: 27px; }
     .cta-band { min-height: 520px; padding: 64px 48px; }
     .cta-band > h2 { font-size: 34px; }
     .site-footer { padding: 64px 48px 40px; }
@@ -393,9 +392,10 @@
     .bio-modal-body .bio-name { font-size: 26px; }
     .bio-modal-body .bio-text { font-size: 16px; line-height: 27px; }
     .wwd-strip { padding: 0 24px 56px; }
-    .wwd-wrap { aspect-ratio: auto; min-height: 420px; }
-    .wwd-inner { flex-direction: column; align-items: flex-start; gap: 22px; padding: 32px 24px; }
-    .wwd-title { font-size: 26px; margin-bottom: 20px; }
+    .wwd-wrap { min-height: 380px; align-items: flex-end;
+      background-image: linear-gradient(180deg, rgba(35,31,32,.5) 0%, rgba(35,31,32,.9) 100%), url('assets/emirates.jpg'); }
+    .wwd-inner { flex-direction: column; align-items: flex-start; gap: 20px; padding: 30px 24px; }
+    .wwd-title { font-size: 26px; margin-bottom: 16px; }
     .wwd-btn { width: 100%; justify-content: center; }
     .cta-band { padding: 56px 24px; }
     .cta-band > h2 { font-size: 28px; }
