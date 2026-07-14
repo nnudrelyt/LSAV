@@ -274,50 +274,44 @@
   /* (.member--lead .member-role is already cyan in the leadership block above) */
 
   /* ---------- Full-bleed feature banner (ported from careers/case-studies) ---------- */
-  .cs-banner {
-    position: relative; min-height: 640px;
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    text-align: center; gap: 34px; padding: 80px; overflow: hidden;
-    background-color: #000;
-    background-image: linear-gradient(rgba(0,0,0,0.42), rgba(0,0,0,0.42)), var(--banner-img);
-    background-position: center center, center center;
-    background-size: cover, cover; background-repeat: no-repeat, no-repeat;
-    background-attachment: scroll, fixed;
+  .wwd-strip { background: #F3F6F9; padding: 60px 24px; }
+  .wwd-wrap {
+    max-width: 1320px; margin: 0 auto; background: #fff;
+    border: 1px solid #E2E7EC; border-radius: 16px; padding: 44px 52px;
+    display: flex; align-items: center; justify-content: space-between; gap: 44px; flex-wrap: wrap;
   }
-  .cs-banner::after {
-    content: ""; position: absolute; inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.7), rgba(0,0,0,0));
+  .wwd-eyebrow {
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 14px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--cyan); margin-bottom: 12px;
   }
-  .cs-banner > * { position: relative; z-index: 1; }
-  .cs-banner-title {
-    font-family: Poppins, sans-serif; font-weight: 600;
-    font-size: 48px; line-height: 60px; text-transform: uppercase; color: #fff; max-width: 1100px;
+  .wwd-title {
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 30px;
+    line-height: 1.12; color: var(--dark); margin-bottom: 30px;
   }
-  .cs-banner .cs-sub {
-    font-family: Poppins, sans-serif; font-weight: 400;
-    font-size: 22px; line-height: 36px; color: #fff; max-width: 760px;
+  .wwd-svcs { display: flex; flex-wrap: wrap; gap: 10px 12px; }
+  .wwd-svcs a {
+    font-family: Calibri, Carlito, "Segoe UI", sans-serif; font-size: 16px; color: #3F4B56;
+    padding: 8px 16px; border: 1px solid #DBE1E7; border-radius: 100px; white-space: nowrap;
+    transition: border-color .25s ease, color .25s ease, background .25s ease;
   }
-  .cs-pill {
-    position: relative; overflow: hidden;
-    display: inline-flex; align-items: center; justify-content: center;
-    padding: 16px 30px; border: 2px solid var(--cyan-deep); border-radius: 120px;
-    font-family: Poppins, sans-serif; font-weight: 700; font-size: 16px;
-    letter-spacing: 0.02em; text-transform: uppercase; color: #fff; white-space: nowrap;
-    transition: border-color .35s ease, box-shadow .35s ease, letter-spacing .35s ease;
+  .wwd-svcs a:hover { border-color: var(--cyan); color: var(--cyan-deep); background: rgba(0,174,239,0.06); }
+  .wwd-svcs a:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
+  .wwd-btn {
+    flex: none; display: inline-flex; align-items: center; gap: 12px; background: var(--cyan); color: #fff;
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.03em;
+    text-transform: uppercase; padding: 18px 32px; border-radius: 120px; white-space: nowrap;
+    transition: background .3s ease, box-shadow .3s ease;
   }
-  .cs-pill::after {
-    content: ""; position: absolute; inset: 0; z-index: -1;
-    background: var(--cyan); transform: scaleX(0); transform-origin: left;
-    transition: transform .45s var(--reveal-ease);
+  .wwd-btn svg { width: 20px; height: 20px; }
+  .wwd-btn:hover, .wwd-btn:focus-visible { background: var(--btn-hover); box-shadow: 0 10px 28px rgba(0,174,239,.35); }
+  .wwd-btn:focus-visible { outline: 3px solid var(--cyan-deep); outline-offset: 3px; }
+  .js .wwd-strip .wwd-wrap {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 1.05s var(--reveal-ease), transform 1.05s var(--reveal-ease);
   }
-  .cs-pill:hover, .cs-pill:focus-visible {
-    border-color: var(--cyan); box-shadow: 0 10px 32px rgba(0, 174, 239, 0.45); letter-spacing: 0.08em;
-  }
-  .cs-pill:hover::after, .cs-pill:focus-visible::after { transform: scaleX(1); }
-  .cs-pill:focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; }
-  .js .cs-banner .cs-pill {
-    transition: opacity 1.05s var(--reveal-ease), transform 1.05s var(--reveal-ease),
-                border-color .35s ease, box-shadow .35s ease, letter-spacing .35s ease;
+  .js .wwd-strip.in-view .wwd-wrap { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .js .wwd-strip .wwd-wrap { opacity: 1; transform: none; transition: none; }
   }
 
   /* ---------- CTA band ---------- */
@@ -353,9 +347,9 @@
     .member-name { font-size: 20px; }
     .bio-modal-card { grid-template-columns: 260px 1fr; }
     .bio-modal-body { padding: 40px 40px 44px; }
-    .cs-banner { min-height: 540px; padding: 64px 48px; background-attachment: scroll, scroll; }
-    .cs-banner-title { font-size: 36px; line-height: 46px; }
-    .cs-banner .cs-sub { font-size: 18px; line-height: 30px; }
+    .wwd-strip { padding: 52px 40px; }
+    .wwd-wrap { padding: 40px 44px; gap: 32px; }
+    .wwd-title { font-size: 27px; }
     .cta-band { min-height: 520px; padding: 64px 48px; }
     .cta-band > h2 { font-size: 34px; }
     .site-footer { padding: 64px 48px 40px; }
@@ -384,9 +378,10 @@
     .bio-modal-body { padding: 30px 24px 34px; }
     .bio-modal-body .bio-name { font-size: 26px; }
     .bio-modal-body .bio-text { font-size: 16px; line-height: 27px; }
-    .cs-banner { min-height: 440px; padding: 56px 24px; }
-    .cs-banner-title { font-size: 28px; line-height: 36px; }
-    .cs-banner .cs-sub { font-size: 16px; line-height: 27px; }
+    .wwd-strip { padding: 40px 16px; }
+    .wwd-wrap { flex-direction: column; align-items: flex-start; gap: 28px; padding: 32px 24px; }
+    .wwd-title { font-size: 24px; margin-bottom: 24px; }
+    .wwd-btn { width: 100%; justify-content: center; }
     .cta-band { padding: 56px 24px; }
     .cta-band > h2 { font-size: 28px; }
     .cta-band > p { font-size: 19px; line-height: 30px; }
@@ -704,11 +699,24 @@
 
   </section>
 
-  <!-- Full-bleed feature banner -->
-  <section class="cs-banner" style="--banner-img: url('assets/backstage.webp');" aria-label="One team, end to end">
-    <h2 class="cs-banner-title">One team behind every show</h2>
-    <p class="cs-sub">From the first site survey to the final blackout, the same people carry your program end to end, with no handoffs and no surprises.</p>
-    <a class="cs-pill" href="what-we-do.html">See what we do</a>
+  <!-- What We Do strip -->
+  <section class="wwd-strip" aria-label="What we do">
+    <div class="wwd-wrap">
+      <div class="wwd-lead">
+        <div class="wwd-eyebrow">What We Do</div>
+        <h2 class="wwd-title">Every discipline under one roof</h2>
+        <div class="wwd-svcs">
+          <a href="events-and-conferences.html">Events &amp; Conferences</a>
+          <a href="brand-experiences.html">Brand Experiences</a>
+          <a href="studio-broadcast.html">Studio Broadcast</a>
+          <a href="media-production.html">Media Production</a>
+          <a href="digital-experiences.html">Digital Experiences</a>
+        </div>
+      </div>
+      <a class="wwd-btn" href="what-we-do.html">Explore our work
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
   </section>
 
   <!-- CTA band -->
@@ -848,7 +856,7 @@
 })();
 </script>
 
-<script src="assets/js/lsav-reveal.js" data-targets=".intro, .team-block-head, .member, .cs-banner, .cta-band"></script>
+<script src="assets/js/lsav-reveal.js" data-targets=".intro, .team-block-head, .member, .wwd-strip, .cta-band"></script>
 
 <!-- Bio modal -->
 <div class="bio-modal" id="bioModal" hidden role="dialog" aria-modal="true" aria-labelledby="bioModalName">
