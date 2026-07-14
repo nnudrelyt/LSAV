@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Team — LSAV Powerhouse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/lsav-foundation.css">
+<style>
+  /* ---------- Scroll reveals ----------
+     Same grammar as the rest of the site: opacity 0->1, translateY(24px)->0,
+     one-shot, ~1.05s, --reveal-ease. Gated on html.js; reduced-motion is instant. */
+  .js .intro h2, .js .intro .intro-copy > p,
+  .js .team-block-head, .js .member,
+  .js .cs-banner-title, .js .cs-banner .cs-sub, .js .cs-banner .cs-pill,
+  .js .cta-band > h2, .js .cta-band > p, .js .cta-band > .lsav-btn {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 1.05s var(--reveal-ease), transform 1.05s var(--reveal-ease);
+  }
+  .js .member { transition: opacity .9s var(--reveal-ease), transform .9s var(--reveal-ease); }
+  .js .intro::after {
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 1.2s var(--reveal-ease) .3s;
+  }
+  /* staggers */
+  .js .intro .intro-copy > p:nth-of-type(1) { transition-delay: .2s; }
+  .js .intro .intro-copy > p:nth-of-type(2) { transition-delay: .34s; }
+  .js .cs-banner .cs-sub { transition-delay: .13s; }
+  .js .cs-banner .cs-pill { transition-delay: .26s; }
+  .js .cta-band > p { transition-delay: .13s; }
+  .js .cta-band > .lsav-btn { transition-delay: .26s; }
+  /* member cards ripple in as each row enters (they're observed individually) */
+  .js .team-grid .member:nth-child(4n+2) { transition-delay: .07s; }
+  .js .team-grid .member:nth-child(4n+3) { transition-delay: .14s; }
+  .js .team-grid .member:nth-child(4n+4) { transition-delay: .21s; }
+  /* revealed state */
+  .js .intro.in-view h2, .js .intro.in-view .intro-copy > p,
+  .js .team-block-head.in-view, .js .member.in-view,
+  .js .cs-banner.in-view .cs-banner-title, .js .cs-banner.in-view .cs-sub, .js .cs-banner.in-view .cs-pill,
+  .js .cta-band.in-view > h2, .js .cta-band.in-view > p, .js .cta-band.in-view > .lsav-btn {
+    opacity: 1; transform: none;
+  }
+  .js .intro.in-view::after { transform: scaleX(1); }
+  @media (prefers-reduced-motion: reduce) {
+    .js :is(.intro h2, .intro .intro-copy > p, .team-block-head, .member,
+            .cs-banner-title, .cs-banner .cs-sub, .cs-banner .cs-pill,
+            .cta-band > h2, .cta-band > p, .cta-band > .lsav-btn) {
+      opacity: 1 !important; transform: none !important; transition: none !important;
+    }
+    .js .intro::after { transform: scaleX(1) !important; transition: none !important; }
+  }
+
+  /* ---------- Buttons (ported from careers.html — same mechanic) ---------- */
+  .lsav-btn, .lsav-btn::after, .lsav-btn img, .lsav-btn p { box-sizing: border-box; }
+  .lsav-btn {
+    position: relative; display: block; width: 230px;
+    padding: 25px 0 28px 90px; border: 2px solid #fff; border-radius: 6px;
+    overflow: hidden; text-decoration: none;
+  }
+  .lsav-btn::after {
+    content: ''; position: absolute; width: 240px; height: 100%;
+    left: -180px; top: 0; z-index: 1; background-color: var(--btn-hover);
+  }
+  .lsav-btn img { width: 30px; position: absolute; left: 15px; top: 15px; z-index: 2; }
+  .lsav-btn p {
+    position: absolute; margin: 0; color: #fff; font-family: Poppins, sans-serif;
+    font-weight: 400; font-size: 20px; line-height: 1px; z-index: 3;
+  }
+  .lsav-btn:hover, .lsav-btn:focus-visible { padding-left: 30px; transition: all 200ms ease-in-out; }
+  .lsav-btn:hover::after, .lsav-btn:focus-visible::after { left: 0; transition: all 200ms ease-in-out; }
+  .lsav-btn:hover img, .lsav-btn:focus-visible img { left: 160px; transition: all 200ms ease-in-out; }
+  .lsav-btn:focus-visible { outline: 3px solid var(--btn-hover); outline-offset: 4px; }
+  .lsav-btn--on-blue::after { background-color: rgba(255, 255, 255, 0.28); }
+  .lsav-btn.lsav-btn--submit { width: 308px; padding-left: 64px; }
+  .lsav-btn.lsav-btn--submit::after { left: -322px; width: 322px; }
+  .lsav-btn.lsav-btn--submit:hover::after, .lsav-btn.lsav-btn--submit:focus-visible::after { left: 0; }
+  .lsav-btn.lsav-btn--submit:hover, .lsav-btn.lsav-btn--submit:focus-visible { padding-left: 30px; }
+  .lsav-btn.lsav-btn--submit:hover img, .lsav-btn.lsav-btn--submit:focus-visible img { left: 250px; }
+  @media (max-width: 1024px) {
+    .lsav-btn { width: 200px; padding: 25px 0 25px 65px; }
+    .lsav-btn::after { width: 200px; left: -150px; }
+    .lsav-btn img { width: 25px; left: 13px; top: 15px; }
+    .lsav-btn:hover, .lsav-btn:focus-visible { padding-left: 25px; }
+    .lsav-btn:hover img, .lsav-btn:focus-visible img { left: 150px; }
+  }
+  @media (max-width: 767px) {
+    .lsav-btn { width: 185px; padding: 20px 20px 20px 65px; }
+    .lsav-btn::after { width: 195px; left: -140px; }
+    .lsav-btn img { width: 25px; left: 15px; top: 10px; }
+    .lsav-btn p { font-size: 18px; }
+    .lsav-btn:hover, .lsav-btn:focus-visible { padding-left: 20px; }
+    .lsav-btn:hover img, .lsav-btn:focus-visible img { left: 145px; }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative; min-height: 660px; background: var(--dark);
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 120px 90px; overflow: hidden;
+  }
+  .hero-video { position: absolute; inset: 0; pointer-events: none; }
+  .hero-video video {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover; border: 0;
+  }
+  .hero-video::after { content: ""; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.4); }
+  .hero-copy { position: relative; z-index: 1; max-width: 1320px; }
+  @media (prefers-reduced-motion: reduce) { .hero-video { display: none; } }
+  .hero .eyebrow {
+    display: inline-block; font-family: Poppins, sans-serif; font-weight: 700;
+    font-size: 16px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--cyan); margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: Poppins, sans-serif; font-weight: 800;
+    font-size: var(--fs-hero); line-height: 1.12; color: var(--white); margin-bottom: 28px;
+  }
+  .hero p {
+    font-size: var(--fs-lead); line-height: 1.56; color: var(--white);
+    max-width: 1000px; margin: 0 auto;
+  }
+  .hero-body--trim { display: none; }
+
+  /* ---------- Team roster ---------- */
+  /* Match the intro's content width (1920 / 87px gutters) so the roster
+     columns align edge-to-edge with the copy column above. */
+  .team { max-width: 1920px; margin: 0 auto; padding: 104px 87px 96px; }
+  .team-block { margin-bottom: 88px; }
+  .team-block:last-child { margin-bottom: 0; }
+  .team-block-head {
+    display: flex; align-items: baseline; justify-content: center; gap: 18px;
+    text-align: center;
+    margin-bottom: 46px;
+  }
+  /* Oversized uppercase title with a trailing cyan period (Option E) */
+  .team-block-head .eyebrow {
+    font-family: Poppins, sans-serif; font-weight: 700;
+    font-size: 30px; letter-spacing: 0.02em; text-transform: uppercase; color: var(--dark);
+  }
+  .team-block-head .eyebrow::after { content: "."; color: var(--cyan); }
+  .team-block-head .count {
+    font-family: Poppins, sans-serif; font-weight: 600; font-size: 15px;
+    color: #A0A0A0; margin-left: auto;
+  }
+
+  /* Uniform 5-up rows, centered — partial departments (3–4 people) center
+     instead of left-aligning; a full row of 5 fills the column exactly. */
+  .team-grid, .team-grid--lead {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 28px;
+  }
+  .team-grid > .member, .team-grid--lead > .member {
+    flex: 0 0 calc((100% - 112px) / 5); max-width: calc((100% - 112px) / 5); min-width: 0;
+  }
+
+  .member {
+    position: relative;
+    display: flex; flex-direction: column; background: #fff; border: 1px solid #E8E8E8; border-radius: 20px;
+    overflow: hidden;
+    transition: transform .4s ease, box-shadow .4s ease, border-color .4s ease;
+  }
+  .member:hover { transform: translateY(-4px); box-shadow: 8px 8px 25px rgba(0,0,0,.1); border-color: var(--cyan); }
+  /* Photo slot — drop a portrait <img> in and it fills; until then a branded
+     monogram stands in. aspect-ratio keeps every card on the same grid. */
+  .member-photo {
+    position: relative; flex: none; aspect-ratio: 4 / 5; overflow: hidden;
+    background: radial-gradient(120% 92% at 50% 0%, #2C2729 0%, #1A1718 66%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .member-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .member-photo .monogram {
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 46px;
+    letter-spacing: 0.02em; color: var(--cyan); opacity: .92;
+  }
+  .member-photo::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 42%;
+    background: linear-gradient(180deg, rgba(26,23,24,0), rgba(26,23,24,.5));
+  }
+  .member-photo .rule {
+    position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; z-index: 2;
+    background: var(--cyan); transform: scaleX(0); transform-origin: left;
+    transition: transform .4s var(--reveal-ease);
+  }
+  .member:hover .member-photo .rule { transform: scaleX(1); }
+  .member-info { flex: 1 1 auto; padding: 24px 26px 28px; }
+  .member-name { font-family: Poppins, sans-serif; font-weight: 600; font-size: 23px; line-height: 1.25; color: #000; }
+  .member-role { font-size: 16px; line-height: 1.4; color: #5A5A5A; margin-top: 8px; }
+
+  /* Leadership — larger cards, cyan-charged avatar, role in brand cyan */
+  .member--lead .member-photo:not(:has(img)) { background: radial-gradient(120% 92% at 50% 0%, #0C3A4B 0%, #10171B 70%); }
+  .member--lead .member-photo .monogram { font-size: 58px; color: #fff; }
+  .member--lead .member-info { padding: 24px 26px 28px; }
+  .member--lead .member-name { font-size: 23px; }
+  .member--lead .member-role {
+    font-family: Poppins, sans-serif; font-weight: 600; font-size: 16px; color: var(--cyan); margin-top: 8px;
+  }
+
+  /* Photos present: swap the monogram avatar for the real cutout headshot.
+     The B&W portraits are transparent-top cutouts anchored to the bottom edge,
+     so they sit on a clean studio backdrop — neutral gray for the team, a faint
+     cyan wash for leadership. The dark bottom scrim (built for the monogram
+     avatar) is dropped so it doesn't smudge the light backdrop. */
+  .member-photo:has(img) .monogram { display: none; }
+  /* Faint-cyan studio wash on every headshot card (leadership + departments) */
+  .member-photo:has(img) { background: linear-gradient(180deg, #E9F5FB, #CFE6F1); }
+  .member-photo:has(img)::after { display: none; }
+  .member-photo img { object-position: center top; }
+
+  /* ---------- Bio reveal ---------- */
+  .member.has-bio { cursor: pointer; }
+  /* full-card transparent button = the accessible trigger */
+  .member-open {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    background: none; border: 0; margin: 0; padding: 0; cursor: pointer;
+    z-index: 4; border-radius: 20px;
+  }
+  .member-open:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
+  /* "Read Bio" cue — hidden at rest, rises in on hover/focus of a bio card */
+  .bio-cue {
+    position: absolute; left: 16px; bottom: 16px; z-index: 3;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 15px; border-radius: 120px; background: var(--cyan); color: #fff;
+    font-family: Poppins, sans-serif; font-weight: 600; font-size: 13px;
+    letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap;
+    opacity: 0; transform: translateY(6px);
+    transition: opacity .35s var(--reveal-ease), transform .35s var(--reveal-ease);
+  }
+  .bio-cue::after { content: "\2192"; font-weight: 700; }
+  .member.has-bio:hover .bio-cue,
+  .member.has-bio:focus-within .bio-cue { opacity: 1; transform: none; }
+
+  /* Modal (matches the live site's popup affordance) */
+  .bio-modal[hidden] { display: none; }
+  .bio-modal {
+    position: fixed; inset: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: center; padding: 24px;
+  }
+  .bio-modal-backdrop { position: absolute; inset: 0; background: rgba(20,18,19,.74); }
+  .bio-modal-card {
+    position: relative; z-index: 1; width: 100%; max-width: 860px; max-height: 88vh;
+    background: #fff; border-radius: 24px; overflow: hidden;
+    display: grid; grid-template-columns: 320px 1fr;
+    box-shadow: 0 40px 120px rgba(0,0,0,.5);
+  }
+  .bio-modal-photo { position: relative; background: linear-gradient(180deg, #E9F5FB, #CFE6F1); }
+  .bio-modal-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+  .bio-modal-body { padding: 48px 48px 52px; overflow-y: auto; }
+  .bio-modal-body .bio-name {
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 32px; line-height: 1.15; color: #000;
+  }
+  .bio-modal-body .bio-role {
+    font-family: Poppins, sans-serif; font-weight: 600; font-size: 16px; color: var(--cyan);
+    margin-top: 8px; margin-bottom: 26px;
+  }
+  .bio-modal-body .bio-text { font-size: 18px; line-height: 31px; color: #2A2A2A; }
+  .bio-close {
+    position: absolute; top: 18px; right: 18px; z-index: 2;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(255,255,255,.92); border: 1px solid #E2E2E2; cursor: pointer;
+    font-size: 22px; line-height: 1; color: var(--dark);
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s ease, transform .2s ease, color .2s ease;
+  }
+  .bio-close:hover { background: var(--cyan); color: #fff; transform: rotate(90deg); }
+  .bio-close:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { .bio-cue, .bio-close { transition: none; } }
+
+  /* ===== TEMP: leadership-distinction option picker (remove after choosing) ===== */
+  /* A = baseline (no rules). Options scoped to leadership (.member--lead / first block). */
+  body[data-lead-opt="b"] .member--lead .member-photo { aspect-ratio: 5 / 7; }              /* Scale: taller lead cards */
+  body[data-lead-opt="b"] .member--lead .member-name { font-size: 25px; }
+  body[data-lead-opt="c"] .member--lead { border: 2px solid var(--cyan); box-shadow: 0 12px 34px rgba(0,174,239,.16); } /* Cyan frame */
+  body[data-lead-opt="d"] .member--lead::before { content:""; position:absolute; top:0; left:0; right:0; height:5px; background:var(--cyan); z-index:5; pointer-events:none; } /* Top bar */
+  body[data-lead-opt="e"] .member--lead .member-info { background: var(--near-black); }     /* Dark nameplate */
+  body[data-lead-opt="e"] .member--lead .member-name { color:#fff; }
+  body[data-lead-opt="e"] .member--lead .member-role { color: var(--cyan); }
+  body[data-lead-opt="f"] .team-block:first-of-type { background: linear-gradient(180deg,#E1F1FA,#CCE6F4); border-radius:28px; padding:44px 40px 46px; } /* Section band */
+  body[data-lead-opt="f"] .member--lead { box-shadow: 0 14px 34px rgba(10,60,90,.12); }
+  /* G · dark plate, leadership as a single row of 4 (Danny removed), no band */
+  body[data-lead-opt="g"] .team-grid--lead > .member { flex-basis: calc((100% - 84px) / 4); max-width: calc((100% - 84px) / 4); }
+  body[data-lead-opt="g"] .member--lead { box-shadow: 0 16px 42px rgba(10,60,90,.15); }
+  body[data-lead-opt="g"] .member--lead .member-info { background: var(--near-black); }
+  body[data-lead-opt="g"] .member--lead .member-name { color:#fff; font-size: 25px; }
+  body[data-lead-opt="g"] .member--lead .member-role { color: var(--cyan); }
+
+  .opt-picker {
+    position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 2000;
+    display: flex; align-items: center; gap: 6px; padding: 10px 14px;
+    background: rgba(26,23,24,.94); border-radius: 120px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.35); font-family: Poppins, sans-serif;
+  }
+  .opt-picker-label { color:#fff; font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; opacity:.6; margin:0 6px 0 4px; white-space:nowrap; }
+  .opt-picker button {
+    font-family: Poppins, sans-serif; font-weight:600; font-size:13px; color:#fff;
+    background:transparent; border:0; padding:8px 13px; border-radius:120px; cursor:pointer;
+    white-space:nowrap; transition: background .15s ease;
+  }
+  .opt-picker button:hover { background: rgba(255,255,255,.14); }
+  .opt-picker button.is-active { background: var(--cyan); }
+  @media (max-width:900px){ .opt-picker{ flex-wrap:wrap; justify-content:center; max-width:92vw; } .opt-picker-label{ width:100%; text-align:center; margin-bottom:2px; } }
+  /* ===== END TEMP ===== */
+
+  /* ---------- Full-bleed feature banner (ported from careers/case-studies) ---------- */
+  .cs-banner {
+    position: relative; min-height: 640px;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; gap: 34px; padding: 80px; overflow: hidden;
+    background-color: #000;
+    background-image: linear-gradient(rgba(0,0,0,0.42), rgba(0,0,0,0.42)), var(--banner-img);
+    background-position: center center, center center;
+    background-size: cover, cover; background-repeat: no-repeat, no-repeat;
+    background-attachment: scroll, fixed;
+  }
+  .cs-banner::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.7), rgba(0,0,0,0));
+  }
+  .cs-banner > * { position: relative; z-index: 1; }
+  .cs-banner-title {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 48px; line-height: 60px; text-transform: uppercase; color: #fff; max-width: 1100px;
+  }
+  .cs-banner .cs-sub {
+    font-family: Poppins, sans-serif; font-weight: 400;
+    font-size: 22px; line-height: 36px; color: #fff; max-width: 760px;
+  }
+  .cs-pill {
+    position: relative; overflow: hidden;
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 16px 30px; border: 2px solid var(--cyan-deep); border-radius: 120px;
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 16px;
+    letter-spacing: 0.02em; text-transform: uppercase; color: #fff; white-space: nowrap;
+    transition: border-color .35s ease, box-shadow .35s ease, letter-spacing .35s ease;
+  }
+  .cs-pill::after {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background: var(--cyan); transform: scaleX(0); transform-origin: left;
+    transition: transform .45s var(--reveal-ease);
+  }
+  .cs-pill:hover, .cs-pill:focus-visible {
+    border-color: var(--cyan); box-shadow: 0 10px 32px rgba(0, 174, 239, 0.45); letter-spacing: 0.08em;
+  }
+  .cs-pill:hover::after, .cs-pill:focus-visible::after { transform: scaleX(1); }
+  .cs-pill:focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; }
+  .js .cs-banner .cs-pill {
+    transition: opacity 1.05s var(--reveal-ease), transform 1.05s var(--reveal-ease),
+                border-color .35s ease, box-shadow .35s ease, letter-spacing .35s ease;
+  }
+
+  /* ---------- CTA band ---------- */
+  .cta-band {
+    position: relative; min-height: 600px; overflow: hidden; background: var(--cyan);
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 80px;
+  }
+  .cta-band::before { content: ""; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.2); }
+  .cta-wave {
+    position: absolute; top: -541px; left: 50%; margin-left: -880px;
+    width: 1760px; height: 1683px; pointer-events: none;
+  }
+  .cta-wave svg { width: 100%; height: 100%; display: block; }
+  .cta-band > h2 {
+    position: relative; font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 42px; line-height: 1; color: var(--white); margin-bottom: 28px;
+  }
+  .cta-band > p {
+    position: relative; font-size: 27px; line-height: 42px; color: var(--white);
+    max-width: 1024px; margin-bottom: 44px;
+  }
+  .cta-band > .lsav-btn { position: relative; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1024px) {
+    .hero { min-height: 560px; padding: 110px 48px; }
+    .team { padding: 76px 48px; }
+    .team-block { margin-bottom: 68px; }
+    .team-grid, .team-grid--lead { gap: 20px; }
+    .team-grid > .member, .team-grid--lead > .member { flex-basis: calc((100% - 40px) / 3); max-width: calc((100% - 40px) / 3); }
+    .team-block-head .eyebrow { font-size: 26px; }
+    .member-name { font-size: 20px; }
+    .bio-modal-card { grid-template-columns: 260px 1fr; }
+    .bio-modal-body { padding: 40px 40px 44px; }
+    .cs-banner { min-height: 540px; padding: 64px 48px; background-attachment: scroll, scroll; }
+    .cs-banner-title { font-size: 36px; line-height: 46px; }
+    .cs-banner .cs-sub { font-size: 18px; line-height: 30px; }
+    .cta-band { min-height: 520px; padding: 64px 48px; }
+    .cta-band > h2 { font-size: 34px; }
+    .site-footer { padding: 64px 48px 40px; }
+    .footer-menus { gap: 80px; }
+  }
+  @media (max-width: 767px) {
+    .hero { min-height: 500px; padding: 96px 24px 56px; }
+    .hero-body--full { display: none; }
+    .hero-body--trim { display: block; }
+    .team { padding: 56px 24px; }
+    .team-block { margin-bottom: 52px; }
+    .team-block-head { margin-bottom: 28px; }
+    .team-grid, .team-grid--lead { gap: 14px; }
+    .team-grid > .member, .team-grid--lead > .member { flex-basis: calc((100% - 14px) / 2); max-width: calc((100% - 14px) / 2); }
+    .team-block-head .eyebrow { font-size: 21px; }
+    .member-photo .monogram { font-size: 38px; }
+    .member--lead .member-photo .monogram { font-size: 44px; }
+    .member-info { padding: 16px 16px 18px; }
+    .member--lead .member-info { padding: 16px 16px 18px; }
+    .member-name, .member--lead .member-name { font-size: 18px; }
+    .member-role, .member--lead .member-role { font-size: 14px; }
+    .bio-cue { left: 12px; bottom: 12px; padding: 7px 12px; font-size: 12px; }
+    .bio-modal { padding: 14px; }
+    .bio-modal-card { grid-template-columns: 1fr; max-height: 92vh; }
+    .bio-modal-photo { display: none; }
+    .bio-modal-body { padding: 30px 24px 34px; }
+    .bio-modal-body .bio-name { font-size: 26px; }
+    .bio-modal-body .bio-text { font-size: 16px; line-height: 27px; }
+    .cs-banner { min-height: 440px; padding: 56px 24px; }
+    .cs-banner-title { font-size: 28px; line-height: 36px; }
+    .cs-banner .cs-sub { font-size: 16px; line-height: 27px; }
+    .cta-band { padding: 56px 24px; }
+    .cta-band > h2 { font-size: 28px; }
+    .cta-band > p { font-size: 19px; line-height: 30px; }
+    .site-footer { padding: 56px 24px 32px; }
+    .footer-brand { text-align: left; }
+    .footer-brand img { margin-left: 0; }
+    .social-row { justify-content: flex-start; }
+    .footer-menus { gap: 40px; }
+  }
+</style>
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body data-lead-opt="g">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <a class="logo" href="https://lsav.tv" aria-label="LSAV Powerhouse home">
+    <img src="assets/logo-white.png" alt="LSAV Powerhouse">
+  </a>
+  <button class="menu-toggle" aria-label="Open menu">
+    <img src="assets/menu-white.png" alt="">
+  </button>
+</header>
+
+<main id="main">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-video" aria-hidden="true">
+      <video poster="assets/LSAV_hero_poster.jpg?v=3" autoplay muted loop playsinline preload="auto">
+        <source src="assets/LSAV_hero_web.webm?v=3" type="video/webm">
+        <source src="assets/LSAV_hero_web.mp4?v=3" type="video/mp4">
+      </video>
+    </div>
+    <div class="hero-copy">
+      <span class="eyebrow">The Dream Team</span>
+      <h1>The people who power the show</h1>
+      <p class="hero-body--full">Behind every keynote, activation, and broadcast the world&rsquo;s biggest brands are judged by is one team &mdash; built for creativity, precision, and the long haul.</p>
+      <p class="hero-body--trim">Behind every keynote, activation, and broadcast is one team &mdash; built for creativity, precision, and the long haul.</p>
+    </div>
+  </section>
+
+  <!-- Intro: culture statement -->
+  <section class="intro">
+    <h2>Happy team, happy clients</h2>
+    <div class="intro-copy">
+      <p>At LSAV, we know that happy employees make happy clients &mdash; so we&rsquo;ve built a culture and a workplace made for creativity, productivity, and long-term partnerships.</p>
+      <p>Meet the leaders and specialists who drive our initiatives, sweat every detail, and turn ambitious ideas into flawless live moments.</p>
+    </div>
+  </section>
+
+  <!-- Roster -->
+  <section class="team" aria-label="Our team">
+
+    <!-- Leadership -->
+    <div class="team-block">
+      <div class="team-block-head">
+        <span class="eyebrow">Leadership</span>
+      </div>
+      <div class="team-grid team-grid--lead">
+        <div class="member member--lead has-bio" data-bio="michael-giglio">
+          <div class="member-photo"><img src="assets/team/michael-giglio.png" alt="Michael Giglio" loading="lazy"><span class="monogram">MG</span><span class="rule"></span><span class="bio-cue">Read Bio</span></div>
+          <div class="member-info"><h3 class="member-name">Michael Giglio</h3><p class="member-role">President</p></div>
+          <button class="member-open" type="button" aria-label="Read bio: Michael Giglio"></button>
+        </div>
+        <div class="member member--lead has-bio" data-bio="kim-adomanis-chomicz">
+          <div class="member-photo"><img src="assets/team/kim-adomanis-chomicz.png" alt="Kim Adomanis-Chomicz" loading="lazy"><span class="monogram">KA</span><span class="rule"></span><span class="bio-cue">Read Bio</span></div>
+          <div class="member-info"><h3 class="member-name">Kim Adomanis-Chomicz</h3><p class="member-role">SVP, Event Production Group</p></div>
+          <button class="member-open" type="button" aria-label="Read bio: Kim Adomanis-Chomicz"></button>
+        </div>
+        <div class="member member--lead has-bio" data-bio="kevin-johnson">
+          <div class="member-photo"><img src="assets/team/kevin-johnson.png" alt="Kevin Johnson" loading="lazy"><span class="monogram">KJ</span><span class="rule"></span><span class="bio-cue">Read Bio</span></div>
+          <div class="member-info"><h3 class="member-name">Kevin Johnson</h3><p class="member-role">SVP, Sales</p></div>
+          <button class="member-open" type="button" aria-label="Read bio: Kevin Johnson"></button>
+        </div>
+        <div class="member member--lead has-bio" data-bio="nicole-giglio">
+          <div class="member-photo"><img src="assets/team/nicole-giglio.png" alt="Nicole Giglio" loading="lazy"><span class="monogram">NG</span><span class="rule"></span><span class="bio-cue">Read Bio</span></div>
+          <div class="member-info"><h3 class="member-name">Nicole Giglio</h3><p class="member-role">VP, Finance</p></div>
+          <button class="member-open" type="button" aria-label="Read bio: Nicole Giglio"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Production & Producing -->
+    <div class="team-block">
+      <div class="team-block-head">
+        <span class="eyebrow">Production &amp; Producing</span>
+      </div>
+      <div class="team-grid">
+        <div class="member has-bio" data-bio="paul-williams">
+          <div class="member-photo"><img src="assets/team/paul-williams.png" alt="Paul Williams" loading="lazy"><span class="monogram">PW</span><span class="rule"></span><span class="bio-cue">Read Bio</span></div>
+          <div class="member-info"><h3 class="member-name">Paul Williams</h3><p class="member-role">Director of Production</p></div>
+          <button class="member-open" type="button" aria-label="Read bio: Paul Williams"></button>
+        </div>
+        <div class="member has-bio" data-bio="christine-williams">
+          <div class="member-photo"><img src="assets/team/christine-williams.png" alt="Christine Williams" loading="lazy"><span class="monogram">CW</span><span class="rule"></span><span class="bio-cue">Read Bio</span></div>
+          <div class="member-info"><h3 class="member-name">Christine Williams</h3><p class="member-role">Senior Producer</p></div>
+          <button class="member-open" type="button" aria-label="Read bio: Christine Williams"></button>
+        </div>
+        <div class="member has-bio" data-bio="emma-yoder">
+          <div class="member-photo"><img src="assets/team/emma-yoder.png" alt="Emma Yoder" loading="lazy"><span class="monogram">EY</span><span class="rule"></span><span class="bio-cue">Read Bio</span></div>
+          <div class="member-info"><h3 class="member-name">Emma Yoder</h3><p class="member-role">Producer</p></div>
+          <button class="member-open" type="button" aria-label="Read bio: Emma Yoder"></button>
+        </div>
+        <div class="member has-bio" data-bio="david-ellis">
+          <div class="member-photo"><img src="assets/team/sophie-kowaleski.png" alt="Sophie Kowaleski" loading="lazy"><span class="monogram">SK</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Sophie Kowaleski</h3><p class="member-role">Producer</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project Management -->
+    <div class="team-block">
+      <div class="team-block-head">
+        <span class="eyebrow">Project Management</span>
+      </div>
+      <div class="team-grid">
+        <div class="member has-bio" data-bio="brian-horvath">
+          <div class="member-photo"><img src="assets/team/david-ellis.png" alt="David Ellis" loading="lazy"><span class="monogram">DE</span><span class="rule"></span><span class="bio-cue">Read Bio</span></div>
+          <div class="member-info"><h3 class="member-name">David Ellis</h3><p class="member-role">Senior Project Manager</p></div>
+          <button class="member-open" type="button" aria-label="Read bio: David Ellis"></button>
+        </div>
+        <div class="member has-bio" data-bio="jason-teasley">
+          <div class="member-photo"><img src="assets/team/brian-horvath.png" alt="Brian Horvath" loading="lazy"><span class="monogram">BH</span><span class="rule"></span><span class="bio-cue">Read Bio</span></div>
+          <div class="member-info"><h3 class="member-name">Brian Horvath</h3><p class="member-role">Senior Project Manager</p></div>
+          <button class="member-open" type="button" aria-label="Read bio: Brian Horvath"></button>
+        </div>
+        <div class="member has-bio" data-bio="laura-giamalva">
+          <div class="member-photo"><img src="assets/team/matt-wellin.png" alt="Matt Wellin" loading="lazy"><span class="monogram">MW</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Matt Wellin</h3><p class="member-role">Senior Project Manager</p></div>
+        </div>
+        <div class="member has-bio" data-bio="chris-lieggi">
+          <div class="member-photo"><img src="assets/team/matt-garikes.png" alt="Matt Garikes" loading="lazy"><span class="monogram">MG</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Matt Garikes</h3><p class="member-role">Project Manager</p></div>
+        </div>
+        <div class="member has-bio" data-bio="chris-huether">
+          <div class="member-photo"><img src="assets/team/scott-reams.png" alt="Scott Reams" loading="lazy"><span class="monogram">SR</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Scott Reams</h3><p class="member-role">Project Manager</p></div>
+        </div>
+        <div class="member has-bio" data-bio="gary-huffman">
+          <div class="member-photo"><img src="assets/team/jay-wisner.png" alt="Jay Wisner" loading="lazy"><span class="monogram">JW</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Jay Wisner</h3><p class="member-role">Project Manager</p></div>
+        </div>
+        <div class="member has-bio" data-bio="brian-gardner">
+          <div class="member-photo"><img src="assets/team/robert-hawkins.png" alt="Robert Hawkins" loading="lazy"><span class="monogram">RH</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Robert Hawkins</h3><p class="member-role">Project Manager</p></div>
+        </div>
+        <div class="member has-bio" data-bio="tim-wais">
+          <div class="member-photo"><img src="assets/team/jason-teasley.png" alt="Jason Teasley" loading="lazy"><span class="monogram">JT</span><span class="rule"></span><span class="bio-cue">Read Bio</span></div>
+          <div class="member-info"><h3 class="member-name">Jason Teasley</h3><p class="member-role">Project Engineer</p></div>
+          <button class="member-open" type="button" aria-label="Read bio: Jason Teasley"></button>
+        </div>
+        <div class="member has-bio" data-bio="milt-linn">
+          <div class="member-photo"><img src="assets/team/laura-giamalva.png" alt="Laura Giamalva" loading="lazy"><span class="monogram">LG</span><span class="rule"></span><span class="bio-cue">Read Bio</span></div>
+          <div class="member-info"><h3 class="member-name">Laura Giamalva</h3><p class="member-role">Project Assistant</p></div>
+          <button class="member-open" type="button" aria-label="Read bio: Laura Giamalva"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Audio, Video & Lighting -->
+    <div class="team-block">
+      <div class="team-block-head">
+        <span class="eyebrow">Audio, Video &amp; Lighting</span>
+      </div>
+      <div class="team-grid">
+        <div class="member has-bio" data-bio="rich-green">
+          <div class="member-photo"><img src="assets/team/chris-lieggi.png" alt="Chris Lieggi" loading="lazy"><span class="monogram">CL</span><span class="rule"></span><span class="bio-cue">Read Bio</span></div>
+          <div class="member-info"><h3 class="member-name">Chris Lieggi</h3><p class="member-role">Senior Video Engineer</p></div>
+          <button class="member-open" type="button" aria-label="Read bio: Chris Lieggi"></button>
+        </div>
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/frank-castro.png" alt="Frank Castro" loading="lazy"><span class="monogram">FC</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Frank Castro</h3><p class="member-role">Senior Video Engineer</p></div>
+        </div>
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/tom-degutis.png" alt="Tom Degutis" loading="lazy"><span class="monogram">TD</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Tom Degutis</h3><p class="member-role">Video Engineer</p></div>
+        </div>
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/andrew-plotke.png" alt="Andrew Plotke" loading="lazy"><span class="monogram">AP</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Andrew Plotke</h3><p class="member-role">Video Engineer / QC Technician</p></div>
+        </div>
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/nick-crofts.png" alt="Nick Crofts" loading="lazy"><span class="monogram">NC</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Nick Crofts</h3><p class="member-role">Senior Audio Engineer</p></div>
+        </div>
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/chris-huether.png" alt="Chris Huether" loading="lazy"><span class="monogram">CH</span><span class="rule"></span><span class="bio-cue">Read Bio</span></div>
+          <div class="member-info"><h3 class="member-name">Chris Huether</h3><p class="member-role">Audio Engineer</p></div>
+          <button class="member-open" type="button" aria-label="Read bio: Chris Huether"></button>
+        </div>
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/dan-cantlin.png" alt="Dan Cantlin" loading="lazy"><span class="monogram">DC</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Dan Cantlin</h3><p class="member-role">Audio Engineer</p></div>
+        </div>
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/diego-caballero.png" alt="Diego Caballero" loading="lazy"><span class="monogram">DC</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Diego Caballero</h3><p class="member-role">Audio Engineer</p></div>
+        </div>
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/bill-martin.png" alt="Bill Martin" loading="lazy"><span class="monogram">BM</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Bill Martin</h3><p class="member-role">Lighting Technician</p></div>
+        </div>
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/jon-schy.png" alt="Jon Schy" loading="lazy"><span class="monogram">JS</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Jon Schy</h3><p class="member-role">Technician</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scenic & Fabrication -->
+    <div class="team-block">
+      <div class="team-block-head">
+        <span class="eyebrow">Scenic &amp; Fabrication</span>
+      </div>
+      <div class="team-grid">
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/marcin-kowalik.png" alt="Marcin Kowalik" loading="lazy"><span class="monogram">MK</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Marcin Kowalik</h3><p class="member-role">Scenic Supervisor</p></div>
+        </div>
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/dawn-przybylski.png" alt="Dawn Przybylski" loading="lazy"><span class="monogram">DP</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Dawn Przybylski</h3><p class="member-role">Scenic Supervisor</p></div>
+        </div>
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/pete-berrios.png" alt="Pete Berrios" loading="lazy"><span class="monogram">PB</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Pete Berrios</h3><p class="member-role">Scenic Technician</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Operations & Logistics -->
+    <div class="team-block">
+      <div class="team-block-head">
+        <span class="eyebrow">Operations &amp; Logistics</span>
+      </div>
+      <div class="team-grid">
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/gary-huffman.png" alt="Gary Huffman" loading="lazy"><span class="monogram">GH</span><span class="rule"></span><span class="bio-cue">Read Bio</span></div>
+          <div class="member-info"><h3 class="member-name">Gary Huffman</h3><p class="member-role">Director of Operations</p></div>
+          <button class="member-open" type="button" aria-label="Read bio: Gary Huffman"></button>
+        </div>
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/brian-gardner.png" alt="Brian Gardner" loading="lazy"><span class="monogram">BG</span><span class="rule"></span><span class="bio-cue">Read Bio</span></div>
+          <div class="member-info"><h3 class="member-name">Brian Gardner</h3><p class="member-role">Operations Director</p></div>
+          <button class="member-open" type="button" aria-label="Read bio: Brian Gardner"></button>
+        </div>
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/bob-sukowlosky.png" alt="Bob Sukowlosky" loading="lazy"><span class="monogram">BS</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Bob Sukowlosky</h3><p class="member-role">Regional Operations Manager</p></div>
+        </div>
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/frank-perez.png" alt="Frank Perez" loading="lazy"><span class="monogram">FP</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Frank Perez</h3><p class="member-role">Regional Operations Manager</p></div>
+        </div>
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/frank-robinson.png" alt="Frank Robinson" loading="lazy"><span class="monogram">FR</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Frank Robinson</h3><p class="member-role">Assistant Warehouse Manager</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Creative & Media -->
+    <div class="team-block">
+      <div class="team-block-head">
+        <span class="eyebrow">Creative &amp; Media</span>
+      </div>
+      <div class="team-grid">
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/tim-wais.png" alt="Tim Wais" loading="lazy"><span class="monogram">TW</span><span class="rule"></span><span class="bio-cue">Read Bio</span></div>
+          <div class="member-info"><h3 class="member-name">Tim Wais</h3><p class="member-role">Director of Creative Services</p></div>
+          <button class="member-open" type="button" aria-label="Read bio: Tim Wais"></button>
+        </div>
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/phil-cooper.png" alt="Phil Cooper" loading="lazy"><span class="monogram">PC</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Phil Cooper</h3><p class="member-role">Creative Producer</p></div>
+        </div>
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/jacob-huss.png" alt="Jacob Huss" loading="lazy"><span class="monogram">JH</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Jacob Huss</h3><p class="member-role">Senior Video Producer</p></div>
+        </div>
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/patricia-scott.png" alt="Patricia Scott" loading="lazy"><span class="monogram">PS</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Patricia Scott</h3><p class="member-role">Graphic Designer</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sales & Accounts -->
+    <div class="team-block">
+      <div class="team-block-head">
+        <span class="eyebrow">Sales &amp; Accounts</span>
+      </div>
+      <div class="team-grid">
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/tom-berberet.png" alt="Tom Berberet" loading="lazy"><span class="monogram">TB</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Tom Berberet</h3><p class="member-role">Vice President of Sales</p></div>
+        </div>
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/hector-vargas.png" alt="Hector Vargas" loading="lazy"><span class="monogram">HV</span><span class="rule"></span></div>
+          <div class="member-info"><h3 class="member-name">Hector Vargas</h3><p class="member-role">National Account Executive</p></div>
+        </div>
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/milt-linn.png" alt="Milt Linn" loading="lazy"><span class="monogram">ML</span><span class="rule"></span><span class="bio-cue">Read Bio</span></div>
+          <div class="member-info"><h3 class="member-name">Milt Linn</h3><p class="member-role">National Account Executive</p></div>
+          <button class="member-open" type="button" aria-label="Read bio: Milt Linn"></button>
+        </div>
+        <div class="member">
+          <div class="member-photo"><img src="assets/team/rich-green.png" alt="Rich Green" loading="lazy"><span class="monogram">RG</span><span class="rule"></span><span class="bio-cue">Read Bio</span></div>
+          <div class="member-info"><h3 class="member-name">Rich Green</h3><p class="member-role">Senior Account Executive</p></div>
+          <button class="member-open" type="button" aria-label="Read bio: Rich Green"></button>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Full-bleed feature banner -->
+  <section class="cs-banner" style="--banner-img: url('assets/backstage.webp');" aria-label="One team, end to end">
+    <h2 class="cs-banner-title">One team behind every show</h2>
+    <p class="cs-sub">From the first site survey to the final blackout, the same people carry your program end to end &mdash; no handoffs, no surprises.</p>
+    <a class="cs-pill" href="what-we-do.html">See what we do</a>
+  </section>
+
+  <!-- CTA band -->
+  <section class="cta-band">
+    <div class="cta-wave" aria-hidden="true">
+      <svg viewBox="0 0 1760 1683" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path id="lsavWavePath" d="M880.178 0C394.317 0 0 392.618 0 876.823C0 1361.38 393.961 1754 879.822 1754C1366.04 1754 1760 1361.38 1760 877.177C1760.36 392.973 1366.4 0 880.178 0ZM810.362 167.555C1168.7 135.251 1496.05 353.924 1584.75 720.272C1502.11 850.198 1397.74 965.215 1269.86 1052.19C1006.63 1231.46 716.325 290.381 483.368 521.834L175.608 827.479C182.732 461.131 473.75 197.729 810.362 167.555ZM876.26 1590C566.719 1588.58 276.77 1383.75 200.542 1077.75L465.558 820.734C500.109 787.01 546.772 773.876 587.379 780.62C622.643 786.655 651.139 818.249 680.704 855.878L1005.56 1268.73C1077.16 1359.61 1192.57 1389.43 1304.06 1307.07C1391.69 1242.11 1436.57 1134.54 1553.4 1098.34C1469.69 1402.92 1173.69 1591.42 876.26 1590.35V1590Z" fill="#FFFFFF" fill-opacity="0.1" fill-rule="evenodd"/>
+      </svg>
+    </div>
+    <h2>Want to build the next one with us?</h2>
+    <p>We&rsquo;re always looking for talented people who love live events. Explore open roles and see where you fit on the team.</p>
+    <a class="lsav-btn lsav-btn--on-blue lsav-btn--submit" href="careers.html">
+      <img src="assets/arrow.svg?v=2" alt=""><p>View Open Roles</p>
+    </a>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-top">
+    <div>
+      <h2>Let&rsquo;s run the show.</h2>
+      <a class="lsav-btn" href="https://lsav.tv/contact/">
+        <img src="assets/arrow.svg?v=2" alt=""><p>Contact Us</p>
+      </a>
+    </div>
+    <div class="footer-brand">
+      <img src="assets/logo-white.png" alt="LSAV Powerhouse">
+      <div class="social-row">
+        <a href="#" aria-label="Facebook">f</a>
+        <a href="#" aria-label="Instagram">ig</a>
+        <a href="#" aria-label="LinkedIn">in</a>
+        <a href="#" aria-label="YouTube">yt</a>
+      </div>
+    </div>
+  </div>
+
+  <hr class="footer-divider">
+
+  <nav class="footer-menus" aria-label="Footer">
+    <div>
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="team.html">Our Team</a></li>
+        <li><a href="https://lsav.tv/case-studies/">Case Studies</a></li>
+        <li><a href="https://lsav.tv/powerhouse-livewire/">Blog</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="https://lsav.tv/contact/">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>What We Do</h3>
+      <ul>
+        <li><a href="what-we-do.html">All Services</a></li>
+        <li><a href="events-and-conferences.html">Events &amp; Conferences</a></li>
+        <li><a href="brand-experiences.html">Brand Experiences</a></li>
+        <li><a href="media-production.html">Media Production</a></li>
+        <li><a href="digital-experiences.html">Digital Experiences</a></li>
+        <li><a href="studio-broadcast.html">Studio Broadcast</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <p class="footer-legal">© 2026 LSAV Powerhouse. All rights reserved.</p>
+</footer>
+
+<script>
+(function () {
+  // LSAV mark wave (shared with careers/index): undulate the center band of the
+  // mark on hover by displacing both inner holes with a radially-damped sine.
+  var band = document.querySelector('.cta-band');
+  var path = document.getElementById('lsavWavePath');
+  if (!band || !path) return;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var CX = 880, CY = 877;
+  var A = 46;
+  var K = 2 * Math.PI / 880;
+  var W = 2 * Math.PI / 2.8;
+
+  var subs = [];
+  var re = /([MLCZz])([^MLCZz]*)/g, m;
+  while ((m = re.exec(path.getAttribute('d')))) {
+    var cmd = m[1].toUpperCase();
+    var nums = (m[2].match(/-?\d*\.?\d+(?:e-?\d+)?/g) || []).map(Number);
+    if (cmd === 'M') subs.push([]);
+    var argc = cmd === 'C' ? 6 : cmd === 'Z' ? 0 : 2;
+    var cur = subs[subs.length - 1];
+    if (!cur) continue;
+    if (argc === 0) { cur.push({ c: 'Z', n: [] }); continue; }
+    for (var i = 0; i + argc <= nums.length; i += argc) {
+      cur.push({ c: cmd === 'M' && i > 0 ? 'L' : cmd, n: nums.slice(i, i + argc) });
+    }
+  }
+  var staticD = seg2d(subs[0]);
+
+  function seg2d(segs, t) {
+    var out = '';
+    for (var i = 0; i < segs.length; i++) {
+      var g = segs[i];
+      if (g.c === 'Z') { out += 'Z'; continue; }
+      out += g.c;
+      for (var j = 0; j < g.n.length; j += 2) {
+        var x = g.n[j], y = g.n[j + 1];
+        if (t !== undefined) {
+          var r = Math.hypot(x - CX, y - CY);
+          var damp = Math.max(0, 1 - Math.pow(r / 700, 4));
+          y = y + A * damp * Math.sin(K * x - W * t);
+        }
+        out += x.toFixed(1) + ' ' + y.toFixed(1) + (j + 2 < g.n.length ? ' ' : '');
+      }
+    }
+    return out;
+  }
+
+  var running = false, raf = 0, t0 = 0, acc = 0;
+  function frame(ts) {
+    if (!running) return;
+    var t = acc + (ts - t0) / 1000;
+    path.setAttribute('d', staticD + seg2d(subs[1], t) + seg2d(subs[2], t));
+    raf = requestAnimationFrame(frame);
+  }
+  function start() {
+    if (running || reduce.matches) return;
+    running = true; t0 = performance.now();
+    raf = requestAnimationFrame(frame);
+  }
+  function stop() {
+    if (!running) return;
+    acc += (performance.now() - t0) / 1000;
+    running = false; cancelAnimationFrame(raf);
+  }
+  band.addEventListener('mouseenter', start);
+  band.addEventListener('mouseleave', stop);
+  band.addEventListener('focusin', start);
+  band.addEventListener('focusout', stop);
+})();
+</script>
+
+<script src="assets/js/lsav-reveal.js" data-targets=".intro, .team-block-head, .member, .cs-banner, .cta-band"></script>
+
+<!-- Bio modal -->
+<div class="bio-modal" id="bioModal" hidden role="dialog" aria-modal="true" aria-labelledby="bioModalName">
+  <div class="bio-modal-backdrop" data-close></div>
+  <div class="bio-modal-card">
+    <div class="bio-modal-photo"><img id="bioModalImg" src="" alt=""></div>
+    <div class="bio-modal-body">
+      <h3 class="bio-name" id="bioModalName"></h3>
+      <p class="bio-role" id="bioModalRole"></p>
+      <p class="bio-text" id="bioModalText"></p>
+    </div>
+    <button class="bio-close" type="button" data-close aria-label="Close bio">×</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var BIOS = {"michael-giglio": "As the founder and leader of LSAV POWERHOUSE, there is nothing that escapes Michael’s input. He is responsible for our strategic direction, assembling our top sales and operations teams, and driving the culture that keeps us wanting to come to work every day. He firmly believes the value of LSAV POWERHOUSE lies in its people and encourages growth for everyone. And he can objectively explain better than anyone why a partnership with LSAV POWERHOUSE can serve a clients’ best interest.", "danny-warner": "Danny joined LSAV POWERHOUSE in 2001 as Vice President of National Accounts, bringing with him more than twenty years in the staging business. As a former production company owner, he brought an in-depth knowledge of how to create and deliver affordable AV solutions for clients like IBM, Tropicana and Honeywell. At LSAV POWERHOUSE for more than fifteen years now, Danny continues to support some of the nation’s largest production, corporate and association clients providing services from show management and full-scale production to lighting, audio and video design projects.", "kim-adomanis-chomicz": "For more than 25 years, Kim has worked with organizations to create unforgettable experiences. Whether it is a Fortune 500 like United Airlines or a government agency like the Department of Defense, a non-profit organization like the Salt Lake Organizing Committee for the Winter Olympics or the world’s largest entertainment company, Walt Disney, she uses her love of the live event and years of production expertise to guide her clients from concept to reality. “Showography,” a term she coined to describe the act of moving people through an environment is how she works with your team on the details to ensure the delivery of these one-of-a-kind experiences. From cocktail napkin to curtains up, Kim is there to work with your team, take the lead on all things production and deliver an exceptional experience…making your event, your brand and you…look like superstars.", "paul-williams": "Paul is the gatekeeper of all things production. From initial budgeting guidance through scenic design and execution, to technical problem-solving, he leads our team. He prides himself on assembling the perfect crew for each of our clients’ events, while always keeping an eye towards maintaining LSAV POWERHOUSE’s high standards.", "christine-williams": "Christine’s first live corporate event was operating speaker support for a meeting at the Chicago Theatre. Midway through the presentation, a floppy disk got stuck in a disk drive (yes, it was that long ago), she used her earring to get it out, and a career was born. Since joining LSAV POWERHOUSE, Christine has successfully navigated through nearly every facet of a live event: whether it is content management, video production, graphic design, project management, meeting planning or strategic messaging – she is a force on any LSAV POWERHOUSE project.", "kevin-johnson": "Kevin has been partnering with corporations and associations for more than three decades. His extensive knowledge of audio-visual solutions coupled with his easygoing nature makes Kevin a favorite choice for high-touch branding experiences. At LSAV POWERHOUSE, Kevin works nationally with clients to create custom environments, effective meeting spaces and interactive tradeshows that enhance customer brands while delivering on-target and on-budget solutions.", "tim-wais": "Tim is one of the driving forces behind the LSAV POWERHOUSE creativity. For almost 30 years, he has helped build brands, support sales and training, introduce new products and services, motivate leadership teams, engage employees, connect communities, and celebrate milestones. His work has impacted people around the world. Clients range from large global Fortune 1000 companies to smaller organizations who have communications projects that need a passionate, collaborative and creative partner to help them get the desired results. At LSAV POWERHOUSE, his focus is always to quickly understand needs and identify solutions of our customers that successfully deliver on their business objectives.", "nicole-giglio": "Nicole has worn many hats since she started with LSAV POWERHOUSE over 25 years ago. Today, she applies those years of experience as the head of the Finance and Human Resources Departments. In these roles, she ensures the employee base and financial health of the company aligns with the organization’s long-term goals.", "jason-teasley": "At LSAV POWERHOUSE, Jason is another employee who capably wears multiple hats. He is equally competent managing our IT infrastructure and network needs, as he is handling technology challenges and scenic for complex events. With a background in furniture design and building, he brings a functional perspective to our scenic and prop engineering and construction.", "emma-yoder": "A Producer at LSAV POWERHOUSE, Emma Yoder has led projects ranging from virtual award shows to large-scale airport activations. Since starting in media production in 2020, she’s evolved from videography to producing high-end events for LSAV’s top clients. Known for her creative problem-solving and team-first approach, Emma thrives on turning complex challenges into seamless, memorable productions.", "david-ellis": "At LSAV POWERHOUSE for more than 20 years, Dave has been developing trusting relationships and delivering flawless experiences for our clients. His consistent success with providing strong, on-the-ground project management and superior service for our corporate and association partners has helped build the foundation for the LSAV POWERHOUSE brand. When Dave is on the job, he covers all the details so you don’t have to worry.", "gary-huffman": "With more than twenty years in the industry, Gary owns the LSAV POWERHOUSE operations and behind the scenes processes. As the keeper of the keys to warehouses, trucks and road cases, he is critical to the success of almost every LSAV POWERHOUSE project. He tracks, monitors and inventories our technology to keep our projects on budget and our clients coming back. If you need something in Chicago, Las Vegas, Washington D.C., or Orlando, Gary is the man to ask.", "brian-horvath": "Brian approaches all events with exceptional organization, technical direction and event management skills. Early in his career, Brian was an audio engineer for The Walt Disney Company primarily working at Epcot and the America Gardens Theater. Since then, he has become a savvy technical director and a seasoned project manager.", "milt-linn": "As a key member of the LSAV POWERHOUSE team, Milt has provided new breadth and depth to our convention and tradeshow expertise. His years of experience supervising conventions, sales meetings and high-profile productions have strengthened the LSAV POWERHOUSE portfolio. Milt is cool under pressure, never misses a detail and exudes confidence even in the trickiest of situations allowing our clients to experience a smooth and successful event.", "laura-giamalva": "Laura Giamalva serves as Project Assistant at Lakeshore Audiovisual, where she oversees accounts receivable processes and coordinates internal company events. Her background in design and client service contributes to her well-rounded approach in supporting both operational efficiency and team engagement.", "rich-green": "At LSAV POWERHOUSE, Rich brings years of hands-on experience to our team. He focuses on building trusting relationships and client partnerships through taking simple ideas and developing them into unforgettable experiences. His clients continue to tap into his knowledge of staging, audio and design to get the right solutions for their projects. This, along with his positive, can-do attitude make him a valued part of the LSAV POWERHOUSE team.", "chris-huether": "For more than fifteen years, Chris has worked in the event industry. His background in audio design along with his B.A. in Audio Engineering from Columbia College make him the perfect candidate to lead our audio teams. Chris concentrates on the design, build and operation of an event and his expertise in concert sound systems has made him an integral part of many high-end productions at LSAV POWERHOUSE. More recently, you might find Chris at the table as a project manager or production engineer but he will probably never be far from that soundboard.", "chris-lieggi": "With more than twenty years in the industry, Chris is the guy to go to for all things video. At LSAV POWERHOUSE, he sets the tone for the rest of the department and with a certificate in video image calibration, he is the one to help make it look just right. On-site, he can turn any surface into a piece of art through video mapping, edgeblend technology and projection design earning him rave reviews from our clients. When he is not behind a switcher, you can have a casual conversation with him about physics, philosophy or microelectronics since those were his undergraduate degrees at DePaul University.", "brian-gardner": "With a degree in Audio Engineering and Music Theory, Brian has over 20 years of technical experience in live events. As an LSAV POWERHOUSE Operations Manager, he stands guard over our Las Vegas warehouse making sure that the inventory stays strong, competitive and is where it needs to be. His direction ensures that the daily operations and logistics of the warehouse are operating efficiently and every event is fully supported."};
+  var modal = document.getElementById('bioModal');
+  if (!modal) return;
+  var imgEl = document.getElementById('bioModalImg');
+  var nameEl = document.getElementById('bioModalName');
+  var roleEl = document.getElementById('bioModalRole');
+  var textEl = document.getElementById('bioModalText');
+  var closeBtn = modal.querySelector('.bio-close');
+  var lastTrigger = null;
+
+  function open(card) {
+    var id = card.getAttribute('data-bio');
+    var bio = BIOS[id];
+    if (!bio) return;
+    var img = card.querySelector('.member-photo img');
+    var name = card.querySelector('.member-name').textContent;
+    var role = card.querySelector('.member-role').textContent;
+    imgEl.src = img ? img.getAttribute('src') : '';
+    imgEl.alt = name;
+    nameEl.textContent = name;
+    roleEl.textContent = role;
+    textEl.textContent = bio;
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    lastTrigger = document.activeElement;
+    closeBtn.focus();
+    document.addEventListener('keydown', onKey);
+  }
+  function close() {
+    modal.hidden = true;
+    document.body.style.overflow = '';
+    document.removeEventListener('keydown', onKey);
+    if (lastTrigger && lastTrigger.focus) lastTrigger.focus();
+  }
+  function onKey(e) {
+    if (e.key === 'Escape') close();
+    // simple focus containment: keep Tab on the close button
+    if (e.key === 'Tab') { e.preventDefault(); closeBtn.focus(); }
+  }
+  document.querySelectorAll('.member.has-bio').forEach(function (card) {
+    card.addEventListener('click', function () { open(card); });
+  });
+  modal.querySelectorAll('[data-close]').forEach(function (el) {
+    el.addEventListener('click', close);
+  });
+})();
+</script>
+
+<!-- TEMP: leadership-distinction option picker (remove after choosing) -->
+<div class="opt-picker" role="group" aria-label="Leadership style preview">
+  <span class="opt-picker-label">Leadership style</span>
+  <button type="button" data-opt="a">Baseline</button>
+  <button type="button" data-opt="b">Scale</button>
+  <button type="button" data-opt="c">Cyan frame</button>
+  <button type="button" data-opt="d">Top bar</button>
+  <button type="button" data-opt="e">Dark plate</button>
+  <button type="button" data-opt="f">Band</button>
+  <button type="button" data-opt="g" class="is-active">Plate 3+2</button>
+</div>
+<script>
+(function () {
+  var pick = document.querySelector('.opt-picker');
+  if (!pick) return;
+  pick.addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-opt]');
+    if (!b) return;
+    document.body.setAttribute('data-lead-opt', b.getAttribute('data-opt'));
+    pick.querySelectorAll('button').forEach(function (x) { x.classList.toggle('is-active', x === b); });
+  });
+})();
+</script>
+
+</body>
+</html>
