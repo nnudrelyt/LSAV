@@ -127,7 +127,11 @@
   /* ---------- Team roster ---------- */
   /* Match the intro's content width (1920 / 87px gutters) so the roster
      columns align edge-to-edge with the copy column above. */
-  .team { max-width: 1920px; margin: 0 auto; padding: 104px 87px 96px; }
+  .team { max-width: 1920px; margin: 0 auto; padding: 104px 87px 48px; position: relative; }
+  .team::after {
+    content: ""; position: absolute; left: 87px; right: 87px; bottom: 0;
+    height: 1px; background: #EAEAEA;
+  }
   .team-block { margin-bottom: 88px; }
   .team-block:last-child { margin-bottom: 0; }
   .team-block-head {
@@ -275,7 +279,7 @@
   /* (.member--lead .member-role is already cyan in the leadership block above) */
 
   /* ---------- Full-bleed feature banner (ported from careers/case-studies) ---------- */
-  .wwd-strip { max-width: 1920px; margin: 0 auto; padding: 0 87px 96px; }
+  .wwd-strip { max-width: 1920px; margin: 0 auto; padding: 48px 87px 96px; }
   .wwd-wrap {
     position: relative; width: calc((100% - 112px) / 5 * 4 + 84px); margin: 0 auto;
     min-height: 370px; overflow: hidden;
@@ -355,7 +359,8 @@
   /* ---------- Responsive ---------- */
   @media (max-width: 1024px) {
     .hero { min-height: 560px; padding: 110px 48px; }
-    .team { padding: 76px 48px; }
+    .team { padding: 76px 48px 38px; }
+    .team::after { left: 48px; right: 48px; }
     .team-block { margin-bottom: 68px; }
     .team-grid, .team-grid--lead { gap: 20px; }
     .team-grid > .member, .team-grid--lead > .member { flex-basis: calc((100% - 40px) / 3); max-width: calc((100% - 40px) / 3); }
@@ -363,7 +368,7 @@
     .member-name { font-size: 20px; }
     .bio-modal-card { grid-template-columns: 260px 1fr; }
     .bio-modal-body { padding: 40px 40px 44px; }
-    .wwd-strip { padding: 0 48px 76px; }
+    .wwd-strip { padding: 38px 48px 76px; }
     .wwd-wrap { width: 100%; min-height: 370px; }
     .wwd-inner { padding: 36px 40px; gap: 28px; }
     .wwd-title { font-size: 27px; }
@@ -376,7 +381,8 @@
     .hero { min-height: 500px; padding: 96px 24px 56px; }
     .hero-body--full { display: none; }
     .hero-body--trim { display: block; }
-    .team { padding: 56px 24px; }
+    .team { padding: 56px 24px 28px; }
+    .team::after { left: 24px; right: 24px; }
     .team-block { margin-bottom: 52px; }
     .team-block-head { margin-bottom: 28px; }
     .team-grid, .team-grid--lead { gap: 14px; }
@@ -395,7 +401,7 @@
     .bio-modal-body { padding: 30px 24px 34px; }
     .bio-modal-body .bio-name { font-size: 26px; }
     .bio-modal-body .bio-text { font-size: 16px; line-height: 27px; }
-    .wwd-strip { padding: 0 24px 56px; }
+    .wwd-strip { padding: 28px 24px 56px; }
     .wwd-wrap { width: 100%; min-height: 460px; align-items: flex-end;
       background-image: linear-gradient(180deg, rgba(35,31,32,.5) 0%, rgba(35,31,32,.9) 100%), url('assets/emirates.jpg'); }
     .wwd-inner { flex-direction: column; align-items: flex-start; gap: 20px; padding: 30px 24px; }
