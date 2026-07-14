@@ -718,6 +718,21 @@
       </a>
     </div>
   </section>
+  <script>
+    /* Dedicated reveal + safety net for the What We Do strip: reveals on scroll
+       independently of the shared reveal util, and can never stay hidden. */
+    (function () {
+      var strip = document.querySelector('.wwd-strip');
+      if (!strip) return;
+      var show = function () { strip.classList.add('in-view'); };
+      if (!('IntersectionObserver' in window)) { show(); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) { show(); io.disconnect(); } });
+      }, { threshold: 0.15 });
+      io.observe(strip);
+      setTimeout(function () { if (!strip.classList.contains('in-view')) show(); }, 4000);
+    })();
+  </script>
 
   <!-- CTA band -->
   <section class="cta-band">
