@@ -15,7 +15,7 @@
   .js .intro h2, .js .intro .intro-copy > p,
   .js .team-block-head, .js .member,
   .js .cs-banner-title, .js .cs-banner .cs-sub, .js .cs-banner .cs-pill,
-  .js .cta-band > h2, .js .cta-band > p, .js .cta-band > .lsav-btn {
+  .js .cta-band > h2, .js .cta-band > p, .js .cta-band > .cta-pill {
     opacity: 0; transform: translateY(24px);
     transition: opacity 1.05s var(--reveal-ease), transform 1.05s var(--reveal-ease);
   }
@@ -30,7 +30,7 @@
   .js .cs-banner .cs-sub { transition-delay: .13s; }
   .js .cs-banner .cs-pill { transition-delay: .26s; }
   .js .cta-band > p { transition-delay: .13s; }
-  .js .cta-band > .lsav-btn { transition-delay: .26s; }
+  .js .cta-band > .cta-pill { transition-delay: .26s; }
   /* member cards ripple in as each row enters (they're observed individually) */
   .js .team-grid .member:nth-child(4n+2) { transition-delay: .07s; }
   .js .team-grid .member:nth-child(4n+3) { transition-delay: .14s; }
@@ -39,14 +39,14 @@
   .js .intro.in-view h2, .js .intro.in-view .intro-copy > p,
   .js .team-block-head.in-view, .js .member.in-view,
   .js .cs-banner.in-view .cs-banner-title, .js .cs-banner.in-view .cs-sub, .js .cs-banner.in-view .cs-pill,
-  .js .cta-band.in-view > h2, .js .cta-band.in-view > p, .js .cta-band.in-view > .lsav-btn {
+  .js .cta-band.in-view > h2, .js .cta-band.in-view > p, .js .cta-band.in-view > .cta-pill {
     opacity: 1; transform: none;
   }
   .js .intro.in-view::after { transform: scaleX(1); }
   @media (prefers-reduced-motion: reduce) {
     .js :is(.intro h2, .intro .intro-copy > p, .team-block-head, .member,
             .cs-banner-title, .cs-banner .cs-sub, .cs-banner .cs-pill,
-            .cta-band > h2, .cta-band > p, .cta-band > .lsav-btn) {
+            .cta-band > h2, .cta-band > p, .cta-band > .cta-pill) {
       opacity: 1 !important; transform: none !important; transition: none !important;
     }
     .js .intro::after { transform: scaleX(1) !important; transition: none !important; }
@@ -78,10 +78,19 @@
   .lsav-btn.lsav-btn--submit:hover::after, .lsav-btn.lsav-btn--submit:focus-visible::after { left: 0; }
   .lsav-btn.lsav-btn--submit:hover, .lsav-btn.lsav-btn--submit:focus-visible { padding-left: 30px; }
   .lsav-btn.lsav-btn--submit:hover img, .lsav-btn.lsav-btn--submit:focus-visible img { left: 250px; }
-  /* Pick up type + proportion cues from the case-studies filter chips (Poppins 600,
-     .02em tracking, 1.5px hairline pill); stays white hollow on the blue band. */
-  .lsav-btn--pill { border-radius: 120px; border-width: 1.5px; }
-  .lsav-btn--pill p { font-weight: 600; letter-spacing: 0.02em; }
+  /* Careers CTA button: the What We Do "Explore our work" pill, reversed to a white
+     hollow stroke (white text + arrow) for the blue band. */
+  .cta-pill {
+    position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 14px;
+    padding: 20px 40px; border: 2px solid #fff; border-radius: 120px;
+    background: transparent; color: #fff; text-decoration: none; white-space: nowrap;
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 16px;
+    letter-spacing: 0.03em; text-transform: uppercase;
+    transition: background .3s ease, color .3s ease, box-shadow .3s ease;
+  }
+  .cta-pill svg { width: 22px; height: 22px; flex: none; }
+  .cta-pill:hover, .cta-pill:focus-visible { background: #fff; color: var(--cyan); box-shadow: 0 12px 30px rgba(0,0,0,.2); }
+  .cta-pill:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
   @media (max-width: 1024px) {
     .lsav-btn { width: 200px; padding: 25px 0 25px 65px; }
     .lsav-btn::after { width: 200px; left: -150px; }
@@ -372,7 +381,7 @@
     position: relative; font-size: 27px; line-height: 42px; color: var(--white);
     max-width: 1024px; margin-bottom: 44px;
   }
-  .cta-band > .lsav-btn { position: relative; }
+  .cta-band > .cta-pill { position: relative; }
 
   /* ---------- Responsive ---------- */
   @media (max-width: 1024px) {
@@ -789,8 +798,8 @@
     </div>
     <h2>Build the next one with us</h2>
     <p>We&rsquo;re always looking for people who thrive on live events at scale. Explore open roles and see where your expertise fits.</p>
-    <a class="lsav-btn lsav-btn--on-blue lsav-btn--submit lsav-btn--pill" href="careers.html">
-      <img src="assets/arrow.svg?v=2" alt=""><p>View Open Roles</p>
+    <a class="cta-pill" href="careers.html">View Open Roles
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
   </section>
 
