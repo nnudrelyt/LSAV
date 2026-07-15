@@ -383,6 +383,12 @@
   }
   .cta-band > .cta-pill { position: relative; }
 
+  /* Wide monitors: progressively bump the What We Do band height so the sub-column
+     (4-card) band keeps its presence instead of reading thin as it widens. */
+  @media (min-width: 1500px) { .wwd-wrap { min-height: 410px; } }
+  @media (min-width: 1728px) { .wwd-wrap { min-height: 460px; } }
+  @media (min-width: 1920px) { .wwd-wrap { min-height: 510px; } }
+
   /* ---------- Responsive ---------- */
   @media (max-width: 1024px) {
     .hero { min-height: 560px; padding: 110px 48px; }
