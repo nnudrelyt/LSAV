@@ -386,6 +386,10 @@
   /* ---------- Responsive ---------- */
   @media (max-width: 1024px) {
     .hero { min-height: 560px; padding: 110px 48px; }
+    .intro { grid-template-columns: 1fr; gap: 40px; padding: 80px 48px; }
+    .intro::after { left: 48px; right: 48px; }
+    .intro h2 { font-size: 40px; line-height: 50px; }
+    .intro .intro-copy p { font-size: 22px; line-height: 36px; }
     .team { padding: 76px 48px 38px; }
     .team::after { left: 48px; right: 48px; }
     .team-block { margin-bottom: 68px; }
@@ -408,6 +412,10 @@
     .hero { min-height: 500px; padding: 96px 24px 56px; }
     .hero-body--full { display: none; }
     .hero-body--trim { display: block; }
+    .intro { padding: 56px 24px; gap: 28px; }
+    .intro::after { left: 24px; right: 24px; }
+    .intro h2 { font-size: 32px; line-height: 40px; }
+    .intro .intro-copy p { font-size: 19px; line-height: 30px; }
     .team { padding: 56px 24px 28px; }
     .team::after { left: 24px; right: 24px; }
     .team-block { margin-bottom: 52px; }
