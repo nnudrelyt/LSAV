@@ -78,7 +78,10 @@
   .lsav-btn.lsav-btn--submit:hover::after, .lsav-btn.lsav-btn--submit:focus-visible::after { left: 0; }
   .lsav-btn.lsav-btn--submit:hover, .lsav-btn.lsav-btn--submit:focus-visible { padding-left: 30px; }
   .lsav-btn.lsav-btn--submit:hover img, .lsav-btn.lsav-btn--submit:focus-visible img { left: 250px; }
-  .lsav-btn--pill { border-radius: 120px; }
+  /* Pick up type + proportion cues from the case-studies filter chips (Poppins 600,
+     .02em tracking, 1.5px hairline pill); stays white hollow on the blue band. */
+  .lsav-btn--pill { border-radius: 120px; border-width: 1.5px; }
+  .lsav-btn--pill p { font-weight: 600; letter-spacing: 0.02em; }
   @media (max-width: 1024px) {
     .lsav-btn { width: 200px; padding: 25px 0 25px 65px; }
     .lsav-btn::after { width: 200px; left: -150px; }
