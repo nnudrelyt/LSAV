@@ -325,13 +325,28 @@
   .wwd-btn svg { width: 20px; height: 20px; }
   .wwd-btn:hover, .wwd-btn:focus-visible { background: var(--btn-hover); box-shadow: 0 10px 30px rgba(0,174,239,.5); }
   .wwd-btn:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+  /* Intro animation: card fades + rises, then eyebrow / title / tags settle in with a slight stagger */
   .js .wwd-strip .wwd-wrap {
-    opacity: 0; transform: translateY(24px);
-    transition: opacity 1.05s var(--reveal-ease), transform 1.05s var(--reveal-ease);
+    opacity: 0; transform: translateY(22px);
+    transition: opacity 1s var(--reveal-ease), transform 1s var(--reveal-ease);
   }
   .js .wwd-strip.in-view .wwd-wrap { opacity: 1; transform: none; }
+  .js .wwd-strip .wwd-eyebrow,
+  .js .wwd-strip .wwd-title,
+  .js .wwd-strip .wwd-svcs {
+    transform: translateY(12px);
+    transition: transform .85s var(--reveal-ease);
+  }
+  .js .wwd-strip .wwd-title { transition-delay: .09s; }
+  .js .wwd-strip .wwd-svcs  { transition-delay: .18s; }
+  .js .wwd-strip.in-view .wwd-eyebrow,
+  .js .wwd-strip.in-view .wwd-title,
+  .js .wwd-strip.in-view .wwd-svcs { transform: none; }
   @media (prefers-reduced-motion: reduce) {
-    .js .wwd-strip .wwd-wrap { opacity: 1; transform: none; transition: none; }
+    .js .wwd-strip .wwd-wrap,
+    .js .wwd-strip .wwd-eyebrow,
+    .js .wwd-strip .wwd-title,
+    .js .wwd-strip .wwd-svcs { opacity: 1; transform: none; transition: none; }
   }
 
   /* ---------- CTA band ---------- */
