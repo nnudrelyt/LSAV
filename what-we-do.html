@@ -18,8 +18,11 @@
   .js .disciplines .disc-flow, .js .disciplines .disc-foot,
   .js .gallery .roles-head, .js .gallery figure,
   .js .related .roles-head, .js .related .rel-card,
+  .js .disc-split .roles-head, .js .disc-split .disc-media, .js .disc-split .disc-list li,
+  .js .why .roles-head, .js .why .why-tile,
+  .js .quote-band .quote-mark, .js .quote-band blockquote,
+  .js .quote-band .quote-attr,
   .js .stat-band .stat, .js .stat-band .stat-note,
-  .js .cs-banner-title, .js .cs-banner .cs-sub, .js .cs-banner .cs-pill,
   .js .cta-band > h2, .js .cta-band > p, .js .cta-band > .lsav-btn {
     opacity: 0; transform: translateY(24px);
     transition: opacity 1.05s var(--reveal-ease), transform 1.05s var(--reveal-ease);
@@ -43,16 +46,23 @@
   .js .gallery figure:nth-child(2) { transition-delay: .14s; }
   .js .gallery figure:nth-child(3) { transition-delay: .1s; }
   .js .gallery figure:nth-child(4) { transition-delay: .24s; }
+  .js .disc-split .disc-list li:nth-child(1) { transition-delay: .16s; }
+  .js .disc-split .disc-list li:nth-child(2) { transition-delay: .26s; }
+  .js .disc-split .disc-list li:nth-child(3) { transition-delay: .36s; }
+  .js .disc-split .disc-list li:nth-child(4) { transition-delay: .46s; }
+  .js .disc-split .disc-list li:nth-child(5) { transition-delay: .56s; }
+  .js .why .why-tile:nth-child(2) { transition-delay: .14s; }
+  .js .why .why-tile:nth-child(3) { transition-delay: .28s; }
+  .js .why .why-tile:nth-child(4) { transition-delay: .42s; }
+  .js .quote-band blockquote { transition-delay: .13s; }
+  .js .quote-band .quote-attr { transition-delay: .26s; }
+  .js .logo-scroll .logo-track { opacity: 0; transition: opacity 1.05s var(--reveal-ease); }
   .js .related .rel-card:nth-child(2) { transition-delay: .14s; }
   .js .related .rel-card:nth-child(3) { transition-delay: .28s; }
-  .js .related .rel-card:nth-child(4) { transition-delay: .2s; }
-  .js .related .rel-card:nth-child(5) { transition-delay: .34s; }
   .js .stat-band .stat:nth-child(2) { transition-delay: .14s; }
   .js .stat-band .stat:nth-child(3) { transition-delay: .28s; }
   .js .stat-band .stat:nth-child(4) { transition-delay: .42s; }
   .js .stat-band .stat-note { transition-delay: .56s; }
-  .js .cs-banner .cs-sub { transition-delay: .13s; }
-  .js .cs-banner .cs-pill { transition-delay: .26s; }
   .js .cta-band > p { transition-delay: .13s; }
   .js .cta-band > .lsav-btn { transition-delay: .26s; }
   /* revealed state */
@@ -61,19 +71,27 @@
   .js .disciplines.in-view .disc-flow, .js .disciplines.in-view .disc-foot,
   .js .gallery.in-view .roles-head, .js .gallery.in-view figure,
   .js .related.in-view .roles-head, .js .related.in-view .rel-card,
+  .js .disc-split.in-view .roles-head, .js .disc-split.in-view .disc-media,
+  .js .disc-split.in-view .disc-list li,
+  .js .why.in-view .roles-head, .js .why.in-view .why-tile,
+  .js .quote-band.in-view .quote-mark, .js .quote-band.in-view blockquote,
+  .js .quote-band.in-view .quote-attr,
   .js .stat-band.in-view .stat, .js .stat-band.in-view .stat-note,
-  .js .cs-banner.in-view .cs-banner-title, .js .cs-banner.in-view .cs-sub, .js .cs-banner.in-view .cs-pill,
   .js .cta-band.in-view > h2, .js .cta-band.in-view > p, .js .cta-band.in-view > .lsav-btn {
     opacity: 1; transform: none;
   }
   .js .intro.in-view::after { transform: scaleX(1); }
+  .js .logo-scroll.in-view .logo-track { opacity: 1; }
   @media (prefers-reduced-motion: reduce) {
     .js :is(.intro h2, .intro .intro-copy > p, .benefit, .benefit-num,
             .disciplines .disc-flow, .disciplines .disc-foot,
             .gallery .roles-head, .gallery figure,
             .related .roles-head, .related .rel-card,
+            .disc-split .roles-head, .disc-split .disc-media, .disc-split .disc-list li,
+            .why .roles-head, .why .why-tile, .logo-track,
+            .quote-band .quote-mark, .quote-band blockquote,
+            .quote-band .quote-attr,
             .stat-band .stat, .stat-band .stat-note,
-            .cs-banner-title, .cs-banner .cs-sub, .cs-banner .cs-pill,
             .cta-band > h2, .cta-band > p, .cta-band > .lsav-btn) {
       opacity: 1 !important; transform: none !important; transition: none !important;
     }
@@ -125,20 +143,119 @@
     font-size: 15px; font-style: italic; color: rgba(255, 255, 255, 0.45);
   }
 
-  /* ---------- Services grid (hub) — 2 lead + 3 supporting ---------- */
-  .services .rel-grid { grid-template-columns: repeat(6, 1fr); }
-  .services .rel-card { grid-column: span 2; }
-  .services .rel-card:nth-child(1), .services .rel-card:nth-child(2) { grid-column: span 3; }
-  .services .rel-sub { font-size: 17px; line-height: 27px; color: #444; margin: -6px 0 14px; }
-
-  /* ---------- Combination tags on case-study cards ---------- */
-  .rel-tags {
-    font-family: Poppins, sans-serif; font-weight: 600;
-    font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase;
-    color: var(--dark); margin: -6px 0 14px;
+  /* ---------- Disciplines split panel (hub) ----------
+     Five equal rows beside a media panel that crossfades to the hovered or
+     focused discipline. All five stay on screen together — no hierarchy, no
+     scrolling through them. Section padding and the header are deliberately
+     tighter than the page's other section heads so the whole block clears a
+     laptop viewport. */
+  .disc-split { background: var(--dark); padding: 64px 87px; }
+  .disc-split-inner { max-width: 1640px; margin: 0 auto; }
+  .disc-split .roles-head { margin-bottom: 32px; }
+  .disc-split .roles-head h2 { color: var(--white); font-size: 42px; line-height: 52px; }
+  .disc-body {
+    display: grid; grid-template-columns: 0.88fr 1fr;
+    gap: 64px; align-items: stretch;
   }
-  .rel-tags .disc-sep { margin: 0 8px; }
-  .combos .rel-grid { grid-template-columns: 1fr 1fr; }
+  .disc-media {
+    position: relative; min-height: 380px;
+    border-radius: 20px; overflow: hidden; background: var(--near-black);
+  }
+  .disc-shot {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    opacity: 0; transition: opacity .55s var(--reveal-ease);
+  }
+  .disc-shot.is-active { opacity: 1; }
+
+  .disc-list { list-style: none; margin: 0; padding: 0; }
+  .disc-list li { border-top: 1px solid rgba(255, 255, 255, 0.16); }
+  .disc-list li:last-child { border-bottom: 1px solid rgba(255, 255, 255, 0.16); }
+  .disc-row {
+    display: grid; grid-template-columns: auto 1fr auto; align-items: center;
+    gap: 32px; padding: 16px 4px; text-decoration: none;
+  }
+  /* nudge on hover rides on transform, not padding — no layout thrash */
+  .disc-num, .disc-text { transition: transform .35s var(--reveal-ease); }
+  .disc-num {
+    font-family: Poppins, sans-serif; font-weight: 700;
+    font-size: 16px; letter-spacing: 0.14em; color: var(--cyan);
+  }
+  .disc-name {
+    display: block;
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: var(--fs-h4); line-height: 1.18; color: var(--white);
+    transition: color .3s ease;
+  }
+  .disc-desc {
+    display: block; margin-top: 4px;
+    font-size: var(--fs-body); line-height: 1.42; color: rgba(255, 255, 255, 0.6);
+  }
+  .disc-arrow {
+    font-family: Poppins, sans-serif; font-weight: 700; font-size: 22px;
+    color: var(--cyan); opacity: 0; transform: translateX(-8px);
+    transition: opacity .35s ease, transform .35s ease;
+  }
+  .disc-row:hover .disc-num, .disc-row:focus-visible .disc-num,
+  .disc-row:hover .disc-text, .disc-row:focus-visible .disc-text { transform: translateX(10px); }
+  .disc-row:hover .disc-name, .disc-row:focus-visible .disc-name { color: var(--cyan); }
+  .disc-row:hover .disc-arrow, .disc-row:focus-visible .disc-arrow { opacity: 1; transform: none; }
+  .disc-row:focus-visible { outline: 3px solid var(--cyan); outline-offset: 2px; border-radius: 6px; }
+  @media (prefers-reduced-motion: reduce) {
+    .disc-shot, .disc-num, .disc-text { transition: none; }
+    .disc-row:hover .disc-num, .disc-row:focus-visible .disc-num,
+    .disc-row:hover .disc-text, .disc-row:focus-visible .disc-text { transform: none; }
+    .disc-arrow { opacity: 1; transform: none; }
+  }
+
+  /* ---------- Client logo scroll (ported from index.html) ---------- */
+  .logo-scroll { overflow: hidden; padding: 72px 0; background: var(--white); position: relative; }
+  .logo-scroll::after {
+    content: ""; position: absolute; left: 87px; right: 87px; bottom: 0;
+    height: 1px; background: #EAEAEA;
+  }
+  .logo-track {
+    display: flex; width: max-content;
+    animation: logoScroll 39.6s linear infinite;
+    will-change: transform;
+  }
+  .logo-scroll:hover .logo-track { animation-play-state: paused; }
+  .logo-set { display: flex; align-items: center; gap: 176px; padding-right: 176px; }
+  .logo-set img { height: 34px; width: auto; }
+  .logo-set img.logo--md { height: 48px; }
+  .logo-set img.logo--tall { height: 72px; }
+  .logo-set img.logo--dnc { height: 65px; }
+  .logo-set img.logo--lockup { height: 52px; }
+  .logo-set img.logo--wide { height: 27px; }
+  @keyframes logoScroll { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .logo-track { animation: none; } }
+
+  /* ---------- Why LSAV — owned-capability tiles ---------- */
+  .why { max-width: 1640px; margin: 0 auto; padding: 100px 87px; }
+  .why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+  .why-tile { border-top: 3px solid var(--cyan); padding-top: 24px; }
+  .why-tile h3 {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 22px; line-height: 1.3; color: #000; margin-bottom: 12px;
+  }
+  .why-tile p { font-size: 17px; line-height: 28px; color: #444; }
+
+  /* ---------- Client quote ---------- */
+  .quote-band { background: var(--near-black); padding: 110px 87px; }
+  .quote-inner { max-width: 1240px; margin: 0 auto; text-align: center; }
+  .quote-mark {
+    display: block; font-family: Poppins, sans-serif; font-weight: 800;
+    font-size: 64px; line-height: 1; color: var(--cyan); margin-bottom: 20px;
+  }
+  .quote-band blockquote {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 38px; line-height: 1.45; color: var(--white); margin: 0 0 34px;
+  }
+  .quote-attr {
+    font-family: Poppins, sans-serif; font-weight: 600;
+    font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
   .hero-copy { position: relative; z-index: 1; max-width: 1320px; }
   .hero h1 {
     font-family: Poppins, sans-serif; font-weight: 800;
@@ -243,66 +360,6 @@
   }
   .hubs-strip .hub-sep { color: var(--cyan); font-weight: 700; margin: 0 12px; }
 
-  /* ---------- Full-bleed feature banner (ported from the case-studies page) ---------- */
-  .cs-banner {
-    position: relative; min-height: 720px;
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    text-align: center; gap: 34px; padding: 80px;
-    overflow: hidden;
-    /* Photo is fixed to the viewport so the section scrolls over it (parallax).
-       The scrim layers on top and stays element-bound. Fixed-attachment is
-       swapped for scroll on touch/mobile below (it janks on iOS/Android). */
-    background-color: #000;
-    background-image: linear-gradient(rgba(0,0,0,0.44), rgba(0,0,0,0.44)), var(--banner-img);
-    background-position: center center, center center;
-    background-size: cover, cover;
-    background-repeat: no-repeat, no-repeat;
-    background-attachment: scroll, fixed;
-  }
-  .cs-banner::after {
-    content: ""; position: absolute; inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.7), rgba(0,0,0,0));
-  }
-  .cs-banner > * { position: relative; z-index: 1; }
-  .cs-banner-title {
-    font-family: Poppins, sans-serif; font-weight: 600;
-    font-size: 48px; line-height: 60px; text-transform: uppercase; color: #fff;
-    max-width: 1100px;
-  }
-  .cs-banner .cs-sub {
-    font-family: Poppins, sans-serif; font-weight: 400;
-    font-size: 22px; line-height: 36px; color: #fff; max-width: 760px;
-  }
-  .cs-pill {
-    position: relative; overflow: hidden;
-    display: inline-flex; align-items: center; justify-content: center;
-    padding: 16px 30px; border: 2px solid var(--cyan-deep); border-radius: 120px;
-    font-family: Poppins, sans-serif; font-weight: 700; font-size: 16px;
-    letter-spacing: 0.02em; text-transform: uppercase; color: #fff; white-space: nowrap;
-    transition: border-color .35s ease, box-shadow .35s ease, letter-spacing .35s ease;
-  }
-  /* cyan fill wipes in left->right behind the label (matches the site's
-     L->R button motion); pill also gains a cyan glow + slight tracking */
-  .cs-pill::after {
-    content: ""; position: absolute; inset: 0; z-index: -1;
-    background: var(--cyan); transform: scaleX(0); transform-origin: left;
-    transition: transform .45s var(--reveal-ease);
-  }
-  .cs-pill:hover, .cs-pill:focus-visible {
-    border-color: var(--cyan);
-    box-shadow: 0 10px 32px rgba(0, 174, 239, 0.45);
-    letter-spacing: 0.08em;
-  }
-  .cs-pill:hover::after, .cs-pill:focus-visible::after { transform: scaleX(1); }
-  .cs-pill:focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; }
-  /* Match the reveal selector's specificity (0,3,0) so this transition list —
-     which adds the hover props to the fade-up transition — wins by source order
-     and the hover changes animate instead of snapping. */
-  .js .cs-banner .cs-pill {
-    transition: opacity 1.05s var(--reveal-ease), transform 1.05s var(--reveal-ease),
-                border-color .35s ease, box-shadow .35s ease, letter-spacing .35s ease;
-  }
-
   /* ---------- Responsive ---------- */
   @media (max-width: 1440px) {
     .intro { gap: 120px; }
@@ -327,14 +384,22 @@
     .related { padding: 72px 48px; }
     .rel-grid { grid-template-columns: 1fr; gap: 18px; }
     .rel-img { aspect-ratio: 16 / 8; }
-    .services .rel-grid, .combos .rel-grid { grid-template-columns: 1fr; }
-    .services .rel-card, .services .rel-card:nth-child(1), .services .rel-card:nth-child(2) { grid-column: auto; }
+    /* The media panel exists to serve the hover crossfade, and there is no
+       hover on touch — stacking it just pushes the five rows off screen, which
+       is the one thing this layout is meant to prevent. Drop it and let the
+       five rows own the viewport. */
+    .disc-split { padding: 72px 48px; }
+    .disc-body { grid-template-columns: 1fr; gap: 0; }
+    .disc-media { display: none; }
+    .disc-split .roles-head h2 { font-size: 40px; line-height: 50px; }
+    .why { padding: 72px 48px; }
+    .why-grid { grid-template-columns: 1fr 1fr; gap: 40px 32px; }
+    .quote-band { padding: 80px 48px; }
+    .quote-band blockquote { font-size: 30px; }
+    .logo-scroll::after { left: 48px; right: 48px; }
     .stat-band { padding: 72px 48px; }
     .stat-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
     /* fixed-attachment janks on touch devices — let the photo scroll normally */
-    .cs-banner { min-height: 560px; padding: 64px 48px; background-attachment: scroll, scroll; }
-    .cs-banner-title { font-size: 36px; line-height: 46px; }
-    .cs-banner .cs-sub { font-size: 18px; line-height: 30px; }
     .cta-band { min-height: 520px; padding: 64px 48px; }
     .cta-band > h2 { font-size: 34px; }
     .site-footer { padding: 64px 48px 40px; }
@@ -361,13 +426,26 @@
     .rel-cta { opacity: 1; transform: none; }
     .hubs-strip { padding: 22px 24px; }
     .hubs-strip .hub-sep { margin: 0 8px; }
+    .disc-split { padding: 48px 24px; }
+    .disc-split .roles-head { margin-bottom: 28px; }
+    .disc-split .roles-head h2 { font-size: 28px; line-height: 36px; }
+    /* number aligns to the title, not to the middle of a two-line block */
+    .disc-row { gap: 16px; padding: 14px 2px; align-items: start; }
+    .disc-num { padding-top: 7px; }
+    .disc-name { font-size: 24px; }
+    .disc-desc { font-size: 16px; line-height: 1.42; }
+    .why { padding: 56px 24px; }
+    .why-grid { grid-template-columns: 1fr; gap: 32px; }
+    .quote-band { padding: 64px 24px; }
+    .quote-mark { font-size: 48px; }
+    .quote-band blockquote { font-size: 23px; line-height: 1.5; }
+    .logo-scroll { padding: 48px 0; }
+    .logo-scroll::after { left: 24px; right: 24px; }
+    .logo-set { gap: 96px; padding-right: 96px; }
     .gallery-grid { grid-template-columns: 1fr; gap: 14px; }
     .gallery figure { border-radius: 14px; }
     /* panoramic strip reads as a sliver at phone widths — crop to 16:9 */
     .gallery figure.gallery-wide { aspect-ratio: 16 / 9; }
-    .cs-banner { min-height: 460px; padding: 56px 24px; }
-    .cs-banner-title { font-size: 28px; line-height: 36px; }
-    .cs-banner .cs-sub { font-size: 16px; line-height: 27px; }
     .cta-band { padding: 56px 24px; }
     .cta-band > h2 { font-size: 28px; }
     .cta-band > p { font-size: 19px; line-height: 30px; }
@@ -418,7 +496,138 @@
     </div>
   </section>
 
-  <!-- Stat band -->
+  <!-- Client logos — sits directly under the intro copy as social proof -->
+  <section class="logo-scroll" aria-label="Selected clients">
+    <div class="logo-track">
+      <div class="logo-set">
+        <img src="assets/logos/united.svg" alt="United Airlines">
+        <img class="logo--md" src="assets/logos/emirates.svg" alt="Emirates">
+        <img src="assets/logos/morningstar.svg" alt="Morningstar">
+        <img src="assets/logos/colgate.svg" alt="Colgate-Palmolive">
+        <img class="logo--tall" src="assets/logos/sundance.svg" alt="Sundance Film Festival">
+        <img class="logo--dnc" src="assets/logos/dnc.svg" alt="2024 Democratic National Convention">
+        <img src="assets/logos/zurich.svg" alt="Zurich">
+        <img class="logo--lockup" src="assets/logos/americanfamily.png" alt="American Family Insurance">
+        <img src="assets/logos/gallagher.png" alt="Gallagher">
+        <img class="logo--wide" src="assets/logos/kirkland.png" alt="Kirkland &amp; Ellis">
+        <img class="logo--lockup" src="assets/logos/usw.png" alt="United Steelworkers">
+        <img src="assets/logos/promat.png" alt="ProMat 2023">
+      </div>
+      <div class="logo-set" aria-hidden="true">
+        <img src="assets/logos/united.svg" alt="">
+        <img class="logo--md" src="assets/logos/emirates.svg" alt="">
+        <img src="assets/logos/morningstar.svg" alt="">
+        <img src="assets/logos/colgate.svg" alt="">
+        <img class="logo--tall" src="assets/logos/sundance.svg" alt="">
+        <img class="logo--dnc" src="assets/logos/dnc.svg" alt="">
+        <img src="assets/logos/zurich.svg" alt="">
+        <img class="logo--lockup" src="assets/logos/americanfamily.png" alt="">
+        <img src="assets/logos/gallagher.png" alt="">
+        <img class="logo--wide" src="assets/logos/kirkland.png" alt="">
+        <img class="logo--lockup" src="assets/logos/usw.png" alt="">
+        <img src="assets/logos/promat.png" alt="">
+      </div>
+    </div>
+  </section>
+
+  <!-- The five disciplines — split panel, all five in view, no hierarchy -->
+  <section class="disc-split" aria-label="Our disciplines">
+    <div class="disc-split-inner">
+      <div class="roles-head">
+        <span class="eyebrow">The Disciplines</span>
+        <h2>Five ways in. One team behind all of them.</h2>
+      </div>
+      <div class="disc-body">
+        <div class="disc-media" aria-hidden="true">
+          <img class="disc-shot is-active" data-disc="events" src="assets/events-hero.webp" alt="">
+          <img class="disc-shot" data-disc="brand" src="assets/brand-hero.webp" alt="" loading="lazy">
+          <img class="disc-shot" data-disc="media" src="assets/media-hero.webp" alt="" loading="lazy">
+          <img class="disc-shot" data-disc="digital" src="assets/digital-hero.webp" alt="" loading="lazy">
+          <img class="disc-shot" data-disc="studio" src="assets/studio-hero.webp" alt="" loading="lazy">
+        </div>
+        <ul class="disc-list">
+          <li>
+            <a class="disc-row" href="events-and-conferences.html" data-disc="events">
+              <span class="disc-num">01</span>
+              <span class="disc-text">
+                <span class="disc-name">Events &amp; Conferences</span>
+                <span class="disc-desc">Leadership meetings to 20,000-seat conventions.</span>
+              </span>
+              <span class="disc-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </li>
+          <li>
+            <a class="disc-row" href="brand-experiences.html" data-disc="brand">
+              <span class="disc-num">02</span>
+              <span class="disc-text">
+                <span class="disc-name">Brand Experiences</span>
+                <span class="disc-desc">Activations, custom builds, tours, and launches.</span>
+              </span>
+              <span class="disc-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </li>
+          <li>
+            <a class="disc-row" href="media-production.html" data-disc="media">
+              <span class="disc-num">03</span>
+              <span class="disc-text">
+                <span class="disc-name">Media Production</span>
+                <span class="disc-desc">Filmed, edited, and on screen the same day.</span>
+              </span>
+              <span class="disc-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </li>
+          <li>
+            <a class="disc-row" href="digital-experiences.html" data-disc="digital">
+              <span class="disc-num">04</span>
+              <span class="disc-text">
+                <span class="disc-name">Digital Experiences</span>
+                <span class="disc-desc">Platforms, engagement, and the analytics behind them.</span>
+              </span>
+              <span class="disc-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </li>
+          <li>
+            <a class="disc-row" href="studio-broadcast.html" data-disc="studio">
+              <span class="disc-num">05</span>
+              <span class="disc-text">
+                <span class="disc-name">Studio Broadcast</span>
+                <span class="disc-desc">Live to air from our own Chicago studio.</span>
+              </span>
+              <span class="disc-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why LSAV — the owned-capability argument -->
+  <section class="why" aria-label="Why LSAV">
+    <div class="roles-head">
+      <span class="eyebrow">Why LSAV</span>
+      <h2>Most of what your show needs, we already own.</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-tile">
+        <h3>Our own studio</h3>
+        <p>A production-ready broadcast space in Chicago &mdash; cameras, lighting, control room, and crew under one roof.</p>
+      </div>
+      <div class="why-tile">
+        <h3>Our own shop</h3>
+        <p>Stages, sets, branded installations, and interactive displays designed, built, delivered, and installed by our team.</p>
+      </div>
+      <div class="why-tile">
+        <h3>Our own inventory</h3>
+        <p>Audiovisual and scenic stock in our Chicago and Las Vegas warehouses, maintained by the same crew that deploys it.</p>
+      </div>
+      <div class="why-tile">
+        <h3>One arc, one team</h3>
+        <p>Strategy, design, engineering, fabrication, show. The people who scope your event are the people in the room on show day.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stat band — the numbers behind the ownership claim above -->
   <section class="stat-band" aria-label="LSAV by the numbers">
     <div class="stat-grid">
       <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Events Produced&#8224;</div></div>
@@ -429,87 +638,44 @@
     <p class="stat-note">&#8224; Placeholder figures &mdash; to be confirmed with the LSAV team before launch.</p>
   </section>
 
-  <!-- The five services -->
-  <section class="related services" aria-label="Our services">
+  <!-- Selected work — teases three case studies spanning different disciplines -->
+  <section class="related" aria-label="Selected case studies">
     <div class="roles-head">
-      <span class="eyebrow">The Disciplines</span>
-      <h2>Five ways in. One team behind all of them.</h2>
+      <span class="eyebrow">The Proof</span>
+      <h2>The proof is in the production.</h2>
     </div>
     <div class="rel-grid">
-      <a class="rel-card" href="events-and-conferences.html">
-        <div class="rel-img"><img src="assets/events-hero.webp" alt="" loading="lazy"></div>
+      <a class="rel-card" href="https://lsav.tv/case-studies/morningstar-2024/">
+        <div class="rel-img"><img src="assets/morningstar.webp" alt="" loading="lazy"></div>
         <div class="rel-body">
-          <h3>Events &amp; Conferences</h3>
-          <p class="rel-sub">Spaces that speak &mdash; leadership meetings to 20,000-seat conventions.</p>
-          <span class="rel-cta">Explore &rarr;</span>
+          <h3>Morningstar</h3>
+          <span class="rel-cta">View case study &rarr;</span>
         </div>
       </a>
-      <a class="rel-card" href="brand-experiences.html">
-        <div class="rel-img"><img src="assets/brand-hero.webp" alt="" loading="lazy"></div>
+      <a class="rel-card" href="https://lsav.tv/case-studies/sundance-film-festival/">
+        <div class="rel-img"><img src="assets/sundance.webp" alt="" loading="lazy"></div>
         <div class="rel-body">
-          <h3>Brand Experiences</h3>
-          <p class="rel-sub">Bringing brands to life &mdash; activations, custom builds, tours, and launches.</p>
-          <span class="rel-cta">Explore &rarr;</span>
+          <h3>Sundance Film Festival</h3>
+          <span class="rel-cta">View case study &rarr;</span>
         </div>
       </a>
-      <a class="rel-card" href="media-production.html">
-        <div class="rel-img"><img src="assets/media-hero.webp" alt="" loading="lazy"></div>
+      <a class="rel-card" href="https://lsav.tv/case-studies/united-at-red-rock/">
+        <div class="rel-img"><img src="assets/redrock.webp" alt="" loading="lazy"></div>
         <div class="rel-body">
-          <h3>Media Production</h3>
-          <p class="rel-sub">Stories that stick &mdash; filmed, edited, and on screen in real time.</p>
-          <span class="rel-cta">Explore &rarr;</span>
-        </div>
-      </a>
-      <a class="rel-card" href="digital-experiences.html">
-        <div class="rel-img"><img src="assets/digital-hero.webp" alt="" loading="lazy"></div>
-        <div class="rel-body">
-          <h3>Digital Experiences</h3>
-          <p class="rel-sub">Virtual meets incredible &mdash; platforms, engagement, and analytics.</p>
-          <span class="rel-cta">Explore &rarr;</span>
-        </div>
-      </a>
-      <a class="rel-card" href="studio-broadcast.html">
-        <div class="rel-img"><img src="assets/studio-hero.webp" alt="" loading="lazy"></div>
-        <div class="rel-body">
-          <h3>Studio Broadcast</h3>
-          <p class="rel-sub">Broadcast brilliance &mdash; from our own Chicago studio.</p>
-          <span class="rel-cta">Explore &rarr;</span>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <!-- Combinations: how it comes together -->
-  <section class="related combos" aria-label="How the disciplines combine">
-    <div class="roles-head">
-      <span class="eyebrow">How It Comes Together</span>
-      <h2>Most clients don&rsquo;t buy one service. They buy the team.</h2>
-    </div>
-    <div class="rel-grid">
-      <a class="rel-card" href="united-leadership-conferences.html">
-        <div class="rel-img"><img src="assets/ulc.webp" alt="" loading="lazy"></div>
-        <div class="rel-body">
-          <h3>United Leadership Conferences</h3>
-          <p class="rel-tags">Events<span class="disc-sep">/</span>Media<span class="disc-sep">/</span>Fabrication<span class="disc-sep">/</span>Digital</p>
-          <span class="rel-cta">See the full process &rarr;</span>
-        </div>
-      </a>
-      <a class="rel-card" href="https://lsav.tv/case-studies/democratic-national-convention-2024/">
-        <div class="rel-img"><img src="assets/dnc.webp" alt="" loading="lazy"></div>
-        <div class="rel-body">
-          <h3>2024 Democratic National Convention</h3>
-          <p class="rel-tags">Broadcast<span class="disc-sep">/</span>AV &amp; Engineering<span class="disc-sep">/</span>Media</p>
+          <h3>United at Red Rock</h3>
           <span class="rel-cta">View case study &rarr;</span>
         </div>
       </a>
     </div>
   </section>
 
-  <!-- Full-bleed feature banner -->
-  <section class="cs-banner" style="--banner-img: url('assets/events-wide.webp');" aria-label="See our latest work">
-    <h2 class="cs-banner-title">The proof is in the production</h2>
-    <p class="cs-sub">Ten stories of ambition, engineering, and rooms full of people who felt it.</p>
-    <a class="cs-pill" href="index.html">Check out our latest work</a>
+  <!-- Client quote — copy and attribution still to come from the client -->
+  <section class="quote-band" aria-label="What our clients say">
+    <div class="quote-inner">
+      <span class="quote-mark" aria-hidden="true">&ldquo;</span>
+      <blockquote>They planned it, built it, shot it, and put it on air &mdash; and we only ever had one team to call.</blockquote>
+      <p class="quote-attr">Client Name, Title &mdash; Organization</p>
+    </div>
   </section>
 
   <!-- CTA band -->
@@ -582,6 +748,30 @@
 
 <script>
 (function () {
+  // Disciplines split panel: hovering or focusing a row crossfades the media
+  // panel to that discipline. Pointer and keyboard get the same behaviour.
+  var section = document.querySelector('.disc-split');
+  if (!section) return;
+  var shots = section.querySelectorAll('.disc-shot');
+  var rows = section.querySelectorAll('.disc-row');
+
+  function activate(key) {
+    for (var i = 0; i < shots.length; i++) {
+      shots[i].classList.toggle('is-active', shots[i].getAttribute('data-disc') === key);
+    }
+  }
+
+  for (var i = 0; i < rows.length; i++) {
+    (function (row) {
+      var key = row.getAttribute('data-disc');
+      var show = function () { activate(key); };
+      row.addEventListener('mouseenter', show);
+      row.addEventListener('focus', show);
+    })(rows[i]);
+  }
+})();
+
+(function () {
   // LSAV mark wave (shared with index.html): undulate the center band of the
   // mark on hover by displacing both inner holes with a radially-damped sine.
   var band = document.querySelector('.cta-band');
@@ -652,6 +842,6 @@
 })();
 </script>
 
-<script src="assets/js/lsav-reveal.js" data-targets=".intro, .disciplines, .gallery, .related, .stat-band, .cs-banner, .cta-band"></script>
+<script src="assets/js/lsav-reveal.js" data-targets=".intro, .disciplines, .disc-split, .logo-scroll, .gallery, .related, .why, .stat-band, .quote-band, .cta-band"></script>
 </body>
 </html>
