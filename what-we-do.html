@@ -1,777 +1,112 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>What We Do — LSAV Powerhouse</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/lsav-foundation.css">
-  <link rel="stylesheet" href="assets/css/lsav-service.css">
-<style>
-  /* ---------- Scroll reveals ----------
-     One grammar: easeOutQuint-ish, <=24px travel, one-shot.
-     Gated on html.js (set in <head>) so content is visible without JS.
-     prefers-reduced-motion gets everything instantly. */
-  .js .intro h2, .js .intro .intro-copy > p, .js .benefit,
-  .js .disciplines .disc-flow, .js .disciplines .disc-foot,
-  .js .gallery .roles-head, .js .gallery figure,
-  .js .related .roles-head, .js .related .rel-card,
-  .js .disc-split .roles-head, .js .disc-split .disc-media, .js .disc-split .disc-list li,
-  .js .why .roles-head, .js .why .why-tile,
-  .js .quote-band .quote-mark, .js .quote-band blockquote,
-  .js .quote-band .quote-attr,
-  .js .stat-band .stat, .js .stat-band .stat-note,
-  .js .cta-band > h2, .js .cta-band > p, .js .cta-band > .lsav-btn {
-    opacity: 0; transform: translateY(24px);
-    transition: opacity 1.05s var(--reveal-ease), transform 1.05s var(--reveal-ease);
-  }
-  .js .benefit .benefit-num {
-    opacity: 0; transform: translateX(-16px);
-    transition: opacity 1.05s var(--reveal-ease), transform 1.05s var(--reveal-ease);
-  }
-  .js .intro::after {
-    transform: scaleX(0); transform-origin: left;
-    transition: transform 1.2s var(--reveal-ease) .3s;
-  }
-  /* staggers */
-  .js .intro .intro-copy > p:nth-of-type(1) { transition-delay: .2s; }
-  .js .intro .intro-copy > p:nth-of-type(2) { transition-delay: .34s; }
-  .js .benefit:nth-child(1), .js .benefit:nth-child(1) .benefit-num { transition-delay: .2s; }
-  .js .benefit:nth-child(2), .js .benefit:nth-child(2) .benefit-num { transition-delay: .36s; }
-  .js .benefit:nth-child(3), .js .benefit:nth-child(3) .benefit-num { transition-delay: .5s; }
-  .js .benefit:nth-child(4), .js .benefit:nth-child(4) .benefit-num { transition-delay: .64s; }
-  .js .disciplines .disc-foot { transition-delay: .14s; }
-  .js .gallery figure:nth-child(2) { transition-delay: .14s; }
-  .js .gallery figure:nth-child(3) { transition-delay: .1s; }
-  .js .gallery figure:nth-child(4) { transition-delay: .24s; }
-  .js .disc-split .disc-list li:nth-child(1) { transition-delay: .16s; }
-  .js .disc-split .disc-list li:nth-child(2) { transition-delay: .26s; }
-  .js .disc-split .disc-list li:nth-child(3) { transition-delay: .36s; }
-  .js .disc-split .disc-list li:nth-child(4) { transition-delay: .46s; }
-  .js .disc-split .disc-list li:nth-child(5) { transition-delay: .56s; }
-  .js .why .why-tile:nth-child(2) { transition-delay: .14s; }
-  .js .why .why-tile:nth-child(3) { transition-delay: .28s; }
-  .js .why .why-tile:nth-child(4) { transition-delay: .42s; }
-  .js .quote-band blockquote { transition-delay: .13s; }
-  .js .quote-band .quote-attr { transition-delay: .26s; }
-  .js .logo-scroll .logo-track { opacity: 0; transition: opacity 1.05s var(--reveal-ease); }
-  .js .related .rel-card:nth-child(2) { transition-delay: .14s; }
-  .js .related .rel-card:nth-child(3) { transition-delay: .28s; }
-  .js .stat-band .stat:nth-child(2) { transition-delay: .14s; }
-  .js .stat-band .stat:nth-child(3) { transition-delay: .28s; }
-  .js .stat-band .stat:nth-child(4) { transition-delay: .42s; }
-  .js .stat-band .stat-note { transition-delay: .56s; }
-  .js .cta-band > p { transition-delay: .13s; }
-  .js .cta-band > .lsav-btn { transition-delay: .26s; }
-  /* revealed state */
-  .js .intro.in-view h2, .js .intro.in-view .intro-copy > p, .js .intro.in-view .benefit,
-  .js .intro.in-view .benefit .benefit-num,
-  .js .disciplines.in-view .disc-flow, .js .disciplines.in-view .disc-foot,
-  .js .gallery.in-view .roles-head, .js .gallery.in-view figure,
-  .js .related.in-view .roles-head, .js .related.in-view .rel-card,
-  .js .disc-split.in-view .roles-head, .js .disc-split.in-view .disc-media,
-  .js .disc-split.in-view .disc-list li,
-  .js .why.in-view .roles-head, .js .why.in-view .why-tile,
-  .js .quote-band.in-view .quote-mark, .js .quote-band.in-view blockquote,
-  .js .quote-band.in-view .quote-attr,
-  .js .stat-band.in-view .stat, .js .stat-band.in-view .stat-note,
-  .js .cta-band.in-view > h2, .js .cta-band.in-view > p, .js .cta-band.in-view > .lsav-btn {
-    opacity: 1; transform: none;
-  }
-  .js .intro.in-view::after { transform: scaleX(1); }
-  .js .logo-scroll.in-view .logo-track { opacity: 1; }
-  @media (prefers-reduced-motion: reduce) {
-    .js :is(.intro h2, .intro .intro-copy > p, .benefit, .benefit-num,
-            .disciplines .disc-flow, .disciplines .disc-foot,
-            .gallery .roles-head, .gallery figure,
-            .related .roles-head, .related .rel-card,
-            .disc-split .roles-head, .disc-split .disc-media, .disc-split .disc-list li,
-            .why .roles-head, .why .why-tile, .logo-track,
-            .quote-band .quote-mark, .quote-band blockquote,
-            .quote-band .quote-attr,
-            .stat-band .stat, .stat-band .stat-note,
-            .cta-band > h2, .cta-band > p, .cta-band > .lsav-btn) {
-      opacity: 1 !important; transform: none !important; transition: none !important;
-    }
-    .js .intro::after { transform: scaleX(1) !important; transition: none !important; }
-  }
-
-  /* ---------- Hero (video, shared with careers) ---------- */
-  .hero {
-    position: relative; min-height: 720px;
-    background: var(--dark);
-    display: flex; align-items: center; justify-content: center;
-    text-align: center; padding: 120px 90px;
-    overflow: hidden;
-  }
-  .hero-photo { position: absolute; inset: 0; pointer-events: none; }
-  .hero-photo video {
-    position: absolute; top: 0; left: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    border: 0;
-  }
-  .hero-photo::after {
-    content: ""; position: absolute; inset: 0;
-    background: linear-gradient(rgba(0, 0, 0, 0.34), rgba(0, 0, 0, 0.46));
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .hero-photo video { display: none; }
-  }
-
-  /* ---------- Stat band (placeholder figures pending client confirmation) ---------- */
-  .stat-band { background: var(--dark); padding: 100px 87px; }
-  .stat-grid {
-    max-width: 1640px; margin: 0 auto;
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 48px;
-    text-align: center;
-  }
-  .stat-num {
-    font-family: Poppins, sans-serif; font-weight: 800;
-    font-size: var(--fs-display); line-height: 1;
-    color: var(--cyan); margin-bottom: 16px;
-  }
-  .stat-label {
-    font-family: Poppins, sans-serif; font-weight: 600;
-    font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.82);
-  }
-  .stat-note {
-    max-width: 1640px; margin: 44px auto 0; text-align: center;
-    font-size: 15px; font-style: italic; color: rgba(255, 255, 255, 0.45);
-  }
-
-  /* ---------- Disciplines split panel (hub) ----------
-     Five equal rows beside a media panel that crossfades to the hovered or
-     focused discipline. All five stay on screen together — no hierarchy, no
-     scrolling through them. Section padding and the header are deliberately
-     tighter than the page's other section heads so the whole block clears a
-     laptop viewport. */
-  .disc-split { background: var(--dark); padding: 64px 87px; }
-  .disc-split-inner { max-width: 1640px; margin: 0 auto; }
-  .disc-split .roles-head { margin-bottom: 32px; }
-  .disc-split .roles-head h2 { color: var(--white); font-size: 42px; line-height: 52px; }
-  .disc-body {
-    display: grid; grid-template-columns: 0.88fr 1fr;
-    gap: 64px; align-items: stretch;
-  }
-  .disc-media {
-    position: relative; min-height: 380px;
-    border-radius: 20px; overflow: hidden; background: var(--near-black);
-  }
-  .disc-shot {
-    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-    opacity: 0; transition: opacity .55s var(--reveal-ease);
-  }
-  .disc-shot.is-active { opacity: 1; }
-
-  .disc-list { list-style: none; margin: 0; padding: 0; }
-  .disc-list li { border-top: 1px solid rgba(255, 255, 255, 0.16); }
-  .disc-list li:last-child { border-bottom: 1px solid rgba(255, 255, 255, 0.16); }
-  .disc-row {
-    display: grid; grid-template-columns: auto 1fr auto; align-items: center;
-    gap: 32px; padding: 16px 4px; text-decoration: none;
-  }
-  /* nudge on hover rides on transform, not padding — no layout thrash */
-  .disc-num, .disc-text { transition: transform .35s var(--reveal-ease); }
-  .disc-num {
-    font-family: Poppins, sans-serif; font-weight: 700;
-    font-size: 16px; letter-spacing: 0.14em; color: var(--cyan);
-  }
-  .disc-name {
-    display: block;
-    font-family: Poppins, sans-serif; font-weight: 600;
-    font-size: var(--fs-h4); line-height: 1.18; color: var(--white);
-    transition: color .3s ease;
-  }
-  .disc-desc {
-    display: block; margin-top: 4px;
-    font-size: var(--fs-body); line-height: 1.42; color: rgba(255, 255, 255, 0.6);
-  }
-  .disc-arrow {
-    font-family: Poppins, sans-serif; font-weight: 700; font-size: 22px;
-    color: var(--cyan); opacity: 0; transform: translateX(-8px);
-    transition: opacity .35s ease, transform .35s ease;
-  }
-  .disc-row:hover .disc-num, .disc-row:focus-visible .disc-num,
-  .disc-row:hover .disc-text, .disc-row:focus-visible .disc-text { transform: translateX(10px); }
-  .disc-row:hover .disc-name, .disc-row:focus-visible .disc-name { color: var(--cyan); }
-  .disc-row:hover .disc-arrow, .disc-row:focus-visible .disc-arrow { opacity: 1; transform: none; }
-  .disc-row:focus-visible { outline: 3px solid var(--cyan); outline-offset: 2px; border-radius: 6px; }
-  @media (prefers-reduced-motion: reduce) {
-    .disc-shot, .disc-num, .disc-text { transition: none; }
-    .disc-row:hover .disc-num, .disc-row:focus-visible .disc-num,
-    .disc-row:hover .disc-text, .disc-row:focus-visible .disc-text { transform: none; }
-    .disc-arrow { opacity: 1; transform: none; }
-  }
-
-  /* ---------- Client logo scroll (ported from index.html) ---------- */
-  .logo-scroll { overflow: hidden; padding: 72px 0; background: var(--white); position: relative; }
-  .logo-scroll::after {
-    content: ""; position: absolute; left: 87px; right: 87px; bottom: 0;
-    height: 1px; background: #EAEAEA;
-  }
-  .logo-track {
-    display: flex; width: max-content;
-    animation: logoScroll 39.6s linear infinite;
-    will-change: transform;
-  }
-  .logo-scroll:hover .logo-track { animation-play-state: paused; }
-  .logo-set { display: flex; align-items: center; gap: 176px; padding-right: 176px; }
-  .logo-set img { height: 34px; width: auto; }
-  .logo-set img.logo--md { height: 48px; }
-  .logo-set img.logo--tall { height: 72px; }
-  .logo-set img.logo--dnc { height: 65px; }
-  .logo-set img.logo--lockup { height: 52px; }
-  .logo-set img.logo--wide { height: 27px; }
-  @keyframes logoScroll { to { transform: translateX(-50%); } }
-  @media (prefers-reduced-motion: reduce) { .logo-track { animation: none; } }
-
-  /* ---------- Why LSAV — owned-capability tiles ---------- */
-  .why { max-width: 1640px; margin: 0 auto; padding: 100px 87px; }
-  .why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
-  .why-tile { border-top: 3px solid var(--cyan); padding-top: 24px; }
-  .why-tile h3 {
-    font-family: Poppins, sans-serif; font-weight: 600;
-    font-size: 22px; line-height: 1.3; color: #000; margin-bottom: 12px;
-  }
-  .why-tile p { font-size: 17px; line-height: 28px; color: #444; }
-
-  /* ---------- Client quote ---------- */
-  .quote-band { background: var(--near-black); padding: 110px 87px; }
-  .quote-inner { max-width: 1240px; margin: 0 auto; text-align: center; }
-  .quote-mark {
-    display: block; font-family: Poppins, sans-serif; font-weight: 800;
-    font-size: 64px; line-height: 1; color: var(--cyan); margin-bottom: 20px;
-  }
-  .quote-band blockquote {
-    font-family: Poppins, sans-serif; font-weight: 600;
-    font-size: 38px; line-height: 1.45; color: var(--white); margin: 0 0 34px;
-  }
-  .quote-attr {
-    font-family: Poppins, sans-serif; font-weight: 600;
-    font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  .hero-copy { position: relative; z-index: 1; max-width: 1320px; }
-  .hero h1 {
-    font-family: Poppins, sans-serif; font-weight: 800;
-    font-size: var(--fs-hero); line-height: 1.12;
-    color: var(--white); margin-bottom: 32px;
-  }
-  .hero p {
-    font-size: var(--fs-lead); line-height: 1.56;
-    color: var(--white); max-width: 1100px; margin: 0 auto;
-    text-shadow: 0 1px 18px rgba(0, 0, 0, 0.45);
-  }
-  .hero-body--trim { display: none; }
-
-  /* ---------- What we produce — editorial statement (flowing list, cyan separators) ---------- */
-  .disciplines .intro-copy { display: flex; flex-direction: column; gap: 40px; padding-top: 4px; }
-  .disciplines .intro-copy .disc-flow {
-    font-family: Poppins, sans-serif; font-weight: 600;
-    font-size: 32px; line-height: 1.7; color: var(--dark); margin: 0;
-  }
-  .disc-flow .disc-sep { color: var(--cyan); font-weight: 700; margin: 0 12px; }
-  .disciplines .intro-copy .disc-foot { font-size: 22px; line-height: 36px; margin: 0; color: #444; }
-
-  /* ---------- Gallery — the work in the room ---------- */
-  .gallery {
-    max-width: 1640px; margin: 0 auto; padding: 110px 87px 100px;
-  }
-  .roles-head { margin-bottom: 56px; max-width: 1100px; }
-  .roles-head .eyebrow {
-    display: inline-block;
-    font-family: Poppins, sans-serif; font-weight: 700;
-    font-size: 16px; letter-spacing: 0.16em; text-transform: uppercase;
-    color: var(--cyan); margin-bottom: 18px;
-  }
-  .roles-head h2 {
-    font-family: Poppins, sans-serif; font-weight: 600;
-    font-size: 48px; line-height: 60px; color: #000;
-  }
-  .gallery-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
-  }
-  .gallery figure {
-    position: relative; overflow: hidden; border-radius: 20px;
-    aspect-ratio: 16 / 9; background: var(--dark); margin: 0;
-  }
-  /* ultra-wide convention shot runs full width at (near) native aspect */
-  .gallery figure.gallery-wide { grid-column: 1 / -1; aspect-ratio: 2560 / 617; }
-  .gallery figure img {
-    width: 100%; height: 100%; object-fit: cover;
-    transition: transform .6s var(--reveal-ease);
-  }
-  .gallery figure:hover img { transform: scale(1.05); }
-  @media (prefers-reduced-motion: reduce) {
-    .gallery figure:hover img { transform: none; }
-  }
-
-  /* ---------- Related work — mapped case studies (blog-card rollover) ---------- */
-  .related { max-width: 1640px; margin: 0 auto; padding: 110px 87px 100px; }
-  .rel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .rel-card {
-    display: block; background: #fff;
-    border: 1px solid #E8E8E8; border-radius: 20px; overflow: hidden;
-    transition: transform .4s ease, box-shadow .4s ease, border-color .4s ease;
-  }
-  .rel-card:hover, .rel-card:focus-visible {
-    transform: translateY(-3px);
-    box-shadow: 8px 8px 25px 0 rgba(0, 0, 0, 0.1);
-    border-color: var(--cyan);
-  }
-  .rel-card:focus-visible { outline: 3px solid var(--cyan); outline-offset: 2px; }
-  .rel-img { aspect-ratio: 16 / 10; overflow: hidden; background: var(--dark); }
-  .rel-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--reveal-ease); }
-  .rel-card:hover .rel-img img { transform: scale(1.05); }
-  .rel-body { padding: 26px 28px 30px; }
-  .rel-body h3 {
-    font-family: Poppins, sans-serif; font-weight: 600;
-    font-size: 24px; line-height: 1.25; color: #000;
-    margin-bottom: 14px; transition: color 200ms ease;
-  }
-  .rel-card:hover .rel-body h3 { color: var(--cyan); }
-  .rel-cta {
-    display: inline-block; opacity: 0; transform: translateY(4px);
-    font-family: Poppins, sans-serif; font-weight: 600; font-size: 13px;
-    letter-spacing: 0.04em; text-transform: uppercase; color: var(--cyan);
-    transition: opacity .5s ease, transform .5s ease;
-  }
-  .rel-card:hover .rel-cta, .rel-card:focus-visible .rel-cta { opacity: 1; transform: translateY(-2px); }
-  @media (prefers-reduced-motion: reduce) {
-    .rel-card:hover .rel-img img { transform: none; }
-    .rel-cta { opacity: 1 !important; transform: none !important; }
-  }
-
-  /* ---------- Production hubs strip (footer preamble) ---------- */
-  .hubs-strip {
-    background: var(--near-black);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-    padding: 28px 48px; text-align: center;
-  }
-  .hubs-strip p {
-    font-family: Poppins, sans-serif; font-weight: 600;
-    font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.75); margin: 0;
-  }
-  .hubs-strip .hub-sep { color: var(--cyan); font-weight: 700; margin: 0 12px; }
-
-  /* ---------- Responsive ---------- */
-  @media (max-width: 1440px) {
-    .intro { gap: 120px; }
-    .gallery { padding: 90px 64px 90px; }
-    .related { padding: 90px 64px 90px; }
-    .rel-body h3 { font-size: 21px; }
-  }
-  @media (max-width: 1024px) {
-    .hero { min-height: 600px; padding: 110px 48px; }
-    .intro { grid-template-columns: 1fr; gap: 40px; padding: 80px 48px; }
-    .intro::after { left: 48px; right: 48px; }
-    .intro h2 { font-size: 40px; line-height: 50px; }
-    .intro .intro-copy p { font-size: 22px; line-height: 36px; }
-    .benefit { gap: 28px; padding-right: 0; }
-    .benefit-num { font-size: 40px; line-height: 40px; }
-    .disciplines .intro-copy .disc-flow { font-size: 26px; }
-    .disc-flow .disc-sep { margin: 0 8px; }
-    .gallery { padding: 72px 48px; }
-    .roles-head { margin-bottom: 40px; }
-    .roles-head h2 { font-size: 40px; line-height: 50px; }
-    .gallery-grid { gap: 18px; }
-    .related { padding: 72px 48px; }
-    .rel-grid { grid-template-columns: 1fr; gap: 18px; }
-    .rel-img { aspect-ratio: 16 / 8; }
-    /* The media panel exists to serve the hover crossfade, and there is no
-       hover on touch — stacking it just pushes the five rows off screen, which
-       is the one thing this layout is meant to prevent. Drop it and let the
-       five rows own the viewport. */
-    .disc-split { padding: 72px 48px; }
-    .disc-body { grid-template-columns: 1fr; gap: 0; }
-    .disc-media { display: none; }
-    .disc-split .roles-head h2 { font-size: 40px; line-height: 50px; }
-    .why { padding: 72px 48px; }
-    .why-grid { grid-template-columns: 1fr 1fr; gap: 40px 32px; }
-    .quote-band { padding: 80px 48px; }
-    .quote-band blockquote { font-size: 30px; }
-    .logo-scroll::after { left: 48px; right: 48px; }
-    .stat-band { padding: 72px 48px; }
-    .stat-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
-    /* fixed-attachment janks on touch devices — let the photo scroll normally */
-    .cta-band { min-height: 520px; padding: 64px 48px; }
-    .cta-band > h2 { font-size: 34px; }
-    .site-footer { padding: 64px 48px 40px; }
-    .footer-menus { gap: 80px; }
-  }
-  @media (max-width: 767px) {
-    .hero { min-height: 520px; padding: 96px 24px 56px; }
-    .hero-body--full { display: none; }
-    .hero-body--trim { display: block; }
-    .intro { padding: 56px 24px; gap: 28px; }
-    .intro::after { left: 24px; right: 24px; }
-    .intro h2 { font-size: 32px; line-height: 40px; }
-    .intro .intro-copy p { font-size: 19px; line-height: 30px; }
-    .intro--numbered .intro-copy { gap: 28px; }
-    .benefit { gap: 20px; }
-    .benefit-num { font-size: 32px; line-height: 32px; }
-    .disciplines .intro-copy .disc-flow { font-size: 21px; line-height: 1.65; }
-    .disciplines .intro-copy .disc-foot { font-size: 18px; line-height: 30px; }
-    .gallery { padding: 56px 24px; }
-    .roles-head h2 { font-size: 32px; line-height: 40px; }
-    .related { padding: 56px 24px; }
-    .rel-img { aspect-ratio: 16 / 9; }
-    .rel-body { padding: 20px 22px 24px; }
-    .rel-cta { opacity: 1; transform: none; }
-    .hubs-strip { padding: 22px 24px; }
-    .hubs-strip .hub-sep { margin: 0 8px; }
-    .disc-split { padding: 48px 24px; }
-    .disc-split .roles-head { margin-bottom: 28px; }
-    .disc-split .roles-head h2 { font-size: 28px; line-height: 36px; }
-    /* number aligns to the title, not to the middle of a two-line block */
-    .disc-row { gap: 16px; padding: 14px 2px; align-items: start; }
-    .disc-num { padding-top: 7px; }
-    .disc-name { font-size: 24px; }
-    .disc-desc { font-size: 16px; line-height: 1.42; }
-    .why { padding: 56px 24px; }
-    .why-grid { grid-template-columns: 1fr; gap: 32px; }
-    .quote-band { padding: 64px 24px; }
-    .quote-mark { font-size: 48px; }
-    .quote-band blockquote { font-size: 23px; line-height: 1.5; }
-    .logo-scroll { padding: 48px 0; }
-    .logo-scroll::after { left: 24px; right: 24px; }
-    .logo-set { gap: 96px; padding-right: 96px; }
-    .gallery-grid { grid-template-columns: 1fr; gap: 14px; }
-    .gallery figure { border-radius: 14px; }
-    /* panoramic strip reads as a sliver at phone widths — crop to 16:9 */
-    .gallery figure.gallery-wide { aspect-ratio: 16 / 9; }
-    .cta-band { padding: 56px 24px; }
-    .cta-band > h2 { font-size: 28px; }
-    .cta-band > p { font-size: 19px; line-height: 30px; }
-    .site-footer { padding: 56px 24px 32px; }
-    .footer-brand { text-align: left; }
-    .footer-brand img { margin-left: 0; }
-    .social-row { justify-content: flex-start; }
-    .footer-menus { gap: 40px; }
-  }
+<!DOCTYPE html><html lang="en" class="no-js"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>What We Do — LSAV Powerhouse</title><meta name="description" content="From events and brand experiences to media production and studio broadcast — the full range of what LSAV Powerhouse builds."><!-- set .js before paint so reveal content starts hidden only when JS can reveal it --><script>
+      document.documentElement.classList.remove('no-js');
+      document.documentElement.classList.add('js');
+    </script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Carlito:wght@400;700&display=swap" rel="stylesheet"><style>:root{--dark: #231F20;--near-black: #1A1718;--cyan: #00AEEF;--white: #FFFFFF;--fs-display: clamp(48px, 4.4vw, 84px);--fs-hero: clamp(40px, 3.9vw, 75px);--fs-h2: clamp(36px, 3.3vw, 64px);--fs-h3: clamp(32px, 3.3vw, 48px);--fs-h4: clamp(26px, 2.4vw, 36px);--fs-lead: clamp(18px, 1.4vw, 27px);--fs-body: clamp(18px, 1.5vw, 22px);--fs-small: clamp(16px, 1.4vw, 20px);--btn-hover: #29ABE2;--cyan-deep: #008BBF;--reveal-ease: cubic-bezier(.22, 1, .36, 1)}*{margin:0;padding:0;box-sizing:border-box}body{font-family:Calibri,Carlito,Segoe UI,sans-serif;background:var(--white);color:#000}img{display:block}a{text-decoration:none}.skip-link{position:absolute;left:-9999px;top:0;background:var(--cyan);color:#fff;padding:12px 24px;font-family:Poppins,sans-serif;font-weight:600;z-index:100}.skip-link:focus{left:0}.site-header{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:23px 47px;z-index:10}.site-header .logo img{height:34px;width:auto;max-width:70vw;object-fit:contain;object-position:left}.site-header .menu-toggle{background:none;border:0;cursor:pointer;padding:8px}.site-header .menu-toggle img{height:24px;width:auto}body.shell-light .site-header{position:sticky;background:var(--near-black)}.intro{max-width:1920px;margin:0 auto;padding:110px 87px 90px;display:grid;grid-template-columns:487px 1fr;gap:160px;position:relative}.intro:after{content:"";position:absolute;left:87px;right:87px;bottom:0;height:1px;background:#eaeaea}.intro h2{font-family:Poppins,sans-serif;font-weight:600;font-size:48px;line-height:60px;color:#000}.intro .intro-copy{max-width:1200px}.intro .intro-copy p{font-size:27px;line-height:42px;margin-bottom:36px}.intro .intro-copy p:last-child{margin-bottom:0}.intro .intro-copy p strong{font-family:Poppins,sans-serif;font-weight:600}.intro--numbered .intro-copy{display:flex;flex-direction:column;gap:36px;padding-top:11px}.benefit{display:flex;gap:40px;align-items:flex-start;padding-right:160px}.benefit-num{font-family:Poppins,sans-serif;font-weight:600;font-size:48px;line-height:48px;color:var(--cyan);flex:none}.benefit p{font-size:27px;line-height:42px;margin:0}.site-footer{background:var(--near-black);color:var(--white);padding:80px 87px 48px}.footer-top{display:flex;justify-content:space-between;align-items:flex-start;gap:48px;flex-wrap:wrap}.footer-top h2{font-family:Poppins,sans-serif;font-weight:800;font-size:var(--fs-h2);color:var(--cyan);margin-bottom:32px}.footer-brand{text-align:right}.footer-brand img{height:30px;width:auto;max-width:100%;object-fit:contain;margin-left:auto}.social-row{display:flex;gap:12px;justify-content:flex-end;margin-top:24px}.social-row a{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:var(--white);color:var(--near-black);font-family:Poppins,sans-serif;font-weight:700;font-size:14px}.social-row a:hover{background:var(--cyan);color:var(--white)}.footer-divider{border:0;border-top:1px solid rgba(255,255,255,.15);margin:56px 0 48px}.footer-menus{display:flex;justify-content:center;gap:120px;flex-wrap:wrap}.footer-menus h3{font-family:Poppins,sans-serif;font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:.08em;color:#ffffff80;margin-bottom:18px}.footer-menus ul{list-style:none}.footer-menus li{margin-bottom:12px}.footer-menus a{font-family:Poppins,sans-serif;font-weight:400;font-size:14px;color:var(--white)}.footer-menus a:hover{color:var(--cyan)}.footer-legal{margin-top:64px;text-align:center;font-family:Poppins,sans-serif;font-size:12px;color:#fff6}.nav-overlay[data-astro-cid-3ef6ksr2]{position:fixed;inset:0;z-index:200;background:color-mix(in srgb,var(--near-black) 96%,transparent);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;transition:opacity .3s var(--reveal-ease);overflow-y:auto}.nav-overlay[data-astro-cid-3ef6ksr2].is-open{opacity:1}.nav-overlay__inner[data-astro-cid-3ef6ksr2]{max-width:1320px;margin:0 auto;padding:clamp(24px,6vw,80px) clamp(24px,6vw,96px);transform:translateY(-12px);transition:transform .4s var(--reveal-ease)}.nav-overlay[data-astro-cid-3ef6ksr2].is-open .nav-overlay__inner[data-astro-cid-3ef6ksr2]{transform:none}.nav-close[data-astro-cid-3ef6ksr2]{position:absolute;top:clamp(18px,4vw,40px);right:clamp(18px,4vw,48px);background:none;border:0;color:var(--white);font-size:44px;line-height:1;cursor:pointer;opacity:.7;transition:opacity .2s,color .2s}.nav-close[data-astro-cid-3ef6ksr2]:hover{opacity:1;color:var(--cyan)}.nav-list[data-astro-cid-3ef6ksr2]{list-style:none;margin:0;padding:0;display:grid;gap:clamp(20px,3vw,40px)}.nav-top[data-astro-cid-3ef6ksr2]{font-family:Poppins,sans-serif;font-weight:700;font-size:clamp(30px,5vw,56px);line-height:1.05;color:var(--white);text-decoration:none;transition:color .2s}.nav-top[data-astro-cid-3ef6ksr2]:hover{color:var(--cyan)}.nav-sub[data-astro-cid-3ef6ksr2]{list-style:none;margin:14px 0 0;padding:0 0 0 2px;display:flex;flex-wrap:wrap;gap:8px 28px}.nav-sub[data-astro-cid-3ef6ksr2] a[data-astro-cid-3ef6ksr2]{font-family:Poppins,sans-serif;font-weight:400;font-size:clamp(15px,1.4vw,18px);color:color-mix(in srgb,var(--white) 68%,transparent);text-decoration:none;transition:color .2s}.nav-sub[data-astro-cid-3ef6ksr2] a[data-astro-cid-3ef6ksr2]:hover{color:var(--cyan)}
 </style>
-<script>document.documentElement.classList.add('js');</script>
-</head>
-<body>
-<a class="skip-link" href="#main">Skip to content</a>
+<style>.lsav-btn,.lsav-btn:after,.lsav-btn img,.lsav-btn p{box-sizing:border-box}.lsav-btn{position:relative;display:block;width:230px;padding:25px 0 28px 90px;border:2px solid #fff;border-radius:6px;overflow:hidden;text-decoration:none}.lsav-btn:after{content:"";position:absolute;width:240px;height:100%;left:-180px;top:0;z-index:1;background-color:var(--btn-hover)}.lsav-btn img{width:30px;position:absolute;left:15px;top:15px;z-index:2}.lsav-btn p{position:absolute;margin:0;color:#fff;font-family:Poppins,sans-serif;font-weight:400;font-size:20px;line-height:1px;z-index:3}.lsav-btn:hover,.lsav-btn:focus-visible{padding-left:30px;transition:all .2s ease-in-out}.lsav-btn:hover:after,.lsav-btn:focus-visible:after{left:0;transition:all .2s ease-in-out}.lsav-btn:hover img,.lsav-btn:focus-visible img{left:160px;transition:all .2s ease-in-out}.lsav-btn:focus-visible{outline:3px solid var(--btn-hover);outline-offset:4px}.lsav-btn--on-blue:after{background-color:#ffffff47}.lsav-btn.lsav-btn--talk{width:190px;padding-left:70px}.lsav-btn.lsav-btn--talk:after{left:-204px;width:204px}.lsav-btn.lsav-btn--talk:hover,.lsav-btn.lsav-btn--talk:focus-visible{padding-left:24px}.lsav-btn.lsav-btn--talk:hover:after,.lsav-btn.lsav-btn--talk:focus-visible:after{left:0}.lsav-btn.lsav-btn--talk:hover img,.lsav-btn.lsav-btn--talk:focus-visible img{left:130px}@media (max-width: 1024px){.lsav-btn{width:200px;padding:25px 0 25px 65px}.lsav-btn:after{width:200px;left:-150px}.lsav-btn img{width:25px;left:13px;top:15px}.lsav-btn:hover,.lsav-btn:focus-visible{padding-left:25px}.lsav-btn:hover img,.lsav-btn:focus-visible img{left:150px}}@media (max-width: 767px){.lsav-btn{width:185px;padding:20px 20px 20px 65px}.lsav-btn:after{width:195px;left:-140px}.lsav-btn img{width:25px;left:15px;top:10px}.lsav-btn p{font-size:18px}.lsav-btn:hover,.lsav-btn:focus-visible{padding-left:20px}.lsav-btn:hover img,.lsav-btn:focus-visible img{left:145px}}.hero-backbar{position:absolute;left:0;right:0;bottom:0;z-index:2;display:flex;align-items:center;justify-content:center;gap:10px;padding:24px 90px;border-top:1px solid rgba(255,255,255,.22);font-family:Poppins,sans-serif;font-weight:600;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:#fff;opacity:.92;text-decoration:none;transition:background .25s ease,color .25s ease,opacity .25s ease}.hero-backbar span{transition:transform .25s ease}.hero-backbar:hover,.hero-backbar:focus-visible{background:#ffffff14;color:var(--cyan);opacity:1}.hero-backbar:hover span,.hero-backbar:focus-visible span{transform:translate(-4px)}.hero-backbar:focus-visible{outline:3px solid var(--cyan);outline-offset:-3px}@media (max-width: 1024px){.hero-backbar{padding:22px 48px}}@media (max-width: 767px){.hero-backbar{padding:18px 24px;font-size:13px;letter-spacing:.04em}}@media (prefers-reduced-motion: reduce){.hero-backbar,.hero-backbar span{transition:none}.hero-backbar:hover span,.hero-backbar:focus-visible span{transform:none}}.cta-band{position:relative;min-height:600px;overflow:hidden;background:var(--cyan);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:80px}.cta-band:before{content:"";position:absolute;inset:0;background:#0003}.cta-wave{position:absolute;top:-541px;left:50%;margin-left:-880px;width:1760px;height:1683px;pointer-events:none}.cta-wave svg{width:100%;height:100%;display:block}.cta-band>h2{position:relative;font-family:Poppins,sans-serif;font-weight:600;font-size:42px;line-height:1;color:var(--white);margin-bottom:28px}.cta-band>p{position:relative;font-size:27px;line-height:42px;color:var(--white);max-width:1024px;margin-bottom:44px}.cta-band>.lsav-btn{position:relative}
+</style>
+<style>.js .intro h2,.js .intro .intro-copy>p,.js .benefit,.js .disciplines .disc-flow,.js .disciplines .disc-foot,.js .related .roles-head,.js .related .rel-card,.js .disc-row,.js .disc-media,.js .stat-band .stat,.js .cs-group .roles-head,.js .cs-card .cs-copy,.js .cs-card .cs-img img,.js .cta-band>h2,.js .cta-band>p,.js .cta-band>.lsav-btn{opacity:0;transform:translateY(24px);transition:opacity 1.05s var(--reveal-ease),transform 1.05s var(--reveal-ease)}.js .benefit .benefit-num{opacity:0;transform:translate(-16px);transition:opacity 1.05s var(--reveal-ease),transform 1.05s var(--reveal-ease)}.js .intro:after{transform:scaleX(0);transform-origin:left;transition:transform 1.2s var(--reveal-ease) .3s}.js .intro .intro-copy>p:nth-of-type(1){transition-delay:.2s}.js .intro .intro-copy>p:nth-of-type(2){transition-delay:.34s}.js .benefit:nth-child(1),.js .benefit:nth-child(1) .benefit-num{transition-delay:.2s}.js .benefit:nth-child(2),.js .benefit:nth-child(2) .benefit-num{transition-delay:.36s}.js .benefit:nth-child(3),.js .benefit:nth-child(3) .benefit-num{transition-delay:.5s}.js .benefit:nth-child(4),.js .benefit:nth-child(4) .benefit-num{transition-delay:.64s}.js .disciplines .disc-foot{transition-delay:.14s}.js .related .rel-card:nth-child(2){transition-delay:.14s}.js .related .rel-card:nth-child(3){transition-delay:.28s}.js .related .rel-card:nth-child(4){transition-delay:.2s}.js .related .rel-card:nth-child(5){transition-delay:.34s}.js .disc-row:nth-child(2){transition-delay:.08s}.js .disc-row:nth-child(3){transition-delay:.16s}.js .disc-row:nth-child(4){transition-delay:.24s}.js .disc-row:nth-child(5){transition-delay:.32s}.js .disc-media{transition-delay:.12s}.js .stat-band .stat:nth-child(2){transition-delay:.14s}.js .stat-band .stat:nth-child(3){transition-delay:.28s}.js .stat-band .stat:nth-child(4){transition-delay:.42s}.js .cs-card .cs-copy{transition-delay:.16s}.js .cs-card:nth-of-type(2) .cs-copy,.js .cs-card:nth-of-type(2) .cs-img img{transition-delay:.24s}.js .cta-band>p{transition-delay:.13s}.js .cta-band>.lsav-btn{transition-delay:.26s}.js .intro.in-view h2,.js .intro.in-view .intro-copy>p,.js .intro.in-view .benefit,.js .intro.in-view .benefit .benefit-num,.js .disciplines.in-view .disc-flow,.js .disciplines.in-view .disc-foot,.js .related.in-view .roles-head,.js .related.in-view .rel-card,.js .services.in-view .disc-row,.js .services.in-view .disc-media,.js .stat-band.in-view .stat,.js .cs-group.in-view .roles-head,.js .cs-group.in-view .cs-copy,.js .cs-group.in-view .cs-img img,.js .cta-band.in-view>h2,.js .cta-band.in-view>p,.js .cta-band.in-view>.lsav-btn{opacity:1;transform:none}.js .intro.in-view:after{transform:scaleX(1)}@media (prefers-reduced-motion: reduce){.js :is(.intro h2,.intro .intro-copy>p,.benefit,.benefit-num,.disciplines .disc-flow,.disciplines .disc-foot,.related .roles-head,.related .rel-card,.disc-row,.disc-media,.stat-band .stat,.cs-group .roles-head,.cs-card .cs-copy,.cs-card .cs-img img,.cta-band>h2,.cta-band>p,.cta-band>.lsav-btn){opacity:1!important;transform:none!important;transition:none!important}.js .intro:after{transform:scaleX(1)!important;transition:none!important}}.hero{position:relative;min-height:720px;background:var(--dark);display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 90px;overflow:hidden}.hero-photo{position:absolute;inset:0;pointer-events:none}.hero-photo video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border:0}.hero-photo:after{content:"";position:absolute;inset:0;background:linear-gradient(#00000057,#00000075)}@media (prefers-reduced-motion: reduce){.hero-photo video{display:none}}.stat-band{position:relative;background:var(--white);padding:120px 87px}.stat-band:before,.stat-band:after{content:"";position:absolute;left:87px;right:87px;height:1px;background:#eaeaea}.stat-band:before{top:0}.stat-band:after{bottom:0}.stat-grid{max-width:1640px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:32px;text-align:center}.stat-band .stat-num{font-family:Poppins,sans-serif;font-weight:700;font-size:clamp(48px,5vw,80px);line-height:1;color:var(--cyan);font-variant-numeric:tabular-nums}.stat-band .stat-label{font-family:Poppins,sans-serif;font-weight:600;font-size:15px;letter-spacing:.05em;text-transform:uppercase;color:var(--dark);margin-top:18px}.related.services{max-width:1920px;background:var(--white)}.services-inner{max-width:none;margin:0}.services-eyebrow{display:block;font-family:Poppins,sans-serif;font-weight:700;font-size:16px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:24px}.cs-card .cs-sub{font-family:Poppins,sans-serif;font-weight:400;font-size:18px;line-height:30px;color:var(--dark);max-width:34ch;margin:-14px 0 0}.rel-sub{font-size:16px;line-height:25px;color:#444;margin:-6px 0 12px}.disc-select{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1fr);gap:72px;align-items:stretch}.disc-media{grid-column:1;grid-row:1}.disc-list{grid-column:2;grid-row:1}.disc-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}.disc-row{background:#fff;border:1px solid #E8E8E8;border-radius:20px;transition:transform .55s var(--reveal-ease),box-shadow .55s ease,border-color .55s ease}.disc-row.is-active,.disc-row:hover,.disc-row:focus-within{transform:translateY(-3px);box-shadow:8px 8px 25px #0000001a;border-color:var(--cyan)}.js .services.in-view .disc-row.is-active,.js .services.in-view .disc-row:hover,.js .services.in-view .disc-row:focus-within{transform:translateY(-3px)}.js .disc-row{transition:transform .55s var(--reveal-ease),box-shadow .55s ease,border-color .55s ease,opacity 1.05s var(--reveal-ease)}.disc-row>a{display:flex;align-items:center;gap:26px;padding:28px 32px;border-radius:20px}.disc-row>a:focus-visible{outline:3px solid var(--cyan);outline-offset:-3px;border-radius:20px}.disc-num{font-family:Poppins,sans-serif;font-weight:700;font-size:14px;letter-spacing:.18em;color:var(--cyan);flex:none;font-variant-numeric:tabular-nums}.disc-text{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:2px}.disc-name{font-family:Poppins,sans-serif;font-weight:600;font-size:clamp(22px,1.9vw,30px);line-height:1.18;color:#000;transition:color .2s ease}.disc-row.is-active .disc-name,.disc-row:hover .disc-name,.disc-row:focus-within .disc-name{color:var(--cyan)}.disc-blurb{font-size:20px;line-height:30px;color:#444}.disc-cta{flex:none;opacity:0;transform:translateY(4px);font-family:Poppins,sans-serif;font-weight:600;font-size:14px;letter-spacing:.04em;text-transform:uppercase;color:var(--cyan);white-space:nowrap;transition:opacity .5s ease,transform .5s ease}.disc-row.is-active .disc-cta,.disc-row:hover .disc-cta,.disc-row:focus-within .disc-cta{opacity:1;transform:translateY(-2px)}.related.cs-three{max-width:1920px}.rel-tags{font-family:Poppins,sans-serif;font-weight:600;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--dark);margin:-6px 0 14px}.rel-tags .disc-sep{color:var(--cyan);font-weight:700;margin:0 8px}.disc-media{position:relative;min-height:420px;border-radius:64px;overflow:hidden;background:var(--near-black)}.disc-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s var(--reveal-ease)}.disc-media img.is-active{opacity:1}.disc-media img[data-disc=media]{object-position:26% center}@media (prefers-reduced-motion: reduce){.disc-media img,.disc-row,.disc-name,.disc-cta{transition:none}.disc-row:hover,.disc-row:focus-within{transform:none}.disc-cta{opacity:1;transform:none}}.intro--numbered:before{content:"";position:absolute;left:87px;right:87px;top:0;height:1px;background:#eaeaea}.cs-group{max-width:1640px;margin:0 auto;padding:90px 40px;display:flex;flex-direction:column;gap:60px}.cs-group .roles-head{padding:0 47px}.cs-card{display:flex;align-items:center;gap:200px;min-height:538px}.cs-card .cs-img{width:800px;max-width:48vw;aspect-ratio:800 / 538;flex:none;border-radius:64px;overflow:hidden;position:relative}.cs-card .cs-img picture{display:contents}.cs-card .cs-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.cs-card .cs-copy{display:flex;flex-direction:column;gap:34px;justify-content:center;align-items:flex-start;max-width:640px}.cs-card--img-right{flex-direction:row-reverse;gap:80px}.cs-card--img-right .cs-copy{padding-left:120px}.cs-title{font-family:Poppins,sans-serif;font-weight:600;font-size:40px;line-height:40px;text-transform:uppercase;color:#000}.cs-tags{font-family:Poppins,sans-serif;font-weight:600;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--dark);margin:-18px 0 0}.cs-tags .disc-sep{color:var(--cyan);font-weight:700;margin:0 8px}.cs-link{font-family:Poppins,sans-serif;font-weight:700;font-size:16px;letter-spacing:.02em;text-transform:uppercase;color:var(--cyan);padding-bottom:8px;border-bottom:2px solid rgba(0,174,239,.5);transition:border-color .3s ease}.cs-link:hover,.cs-link:focus-visible{border-bottom-color:var(--cyan)}.cs-link:focus-visible{outline:3px solid var(--cyan);outline-offset:4px}.hero-copy{position:relative;z-index:1;max-width:1320px}.hero h1{font-family:Poppins,sans-serif;font-weight:800;font-size:var(--fs-hero);line-height:1.12;color:var(--white);margin-bottom:32px}.hero p{font-size:var(--fs-lead);line-height:1.56;color:var(--white);max-width:1100px;margin:0 auto;text-shadow:0 1px 18px rgba(0,0,0,.45)}.disciplines .intro-copy{display:flex;flex-direction:column;gap:40px;padding-top:4px}.disciplines .intro-copy .disc-flow{font-family:Poppins,sans-serif;font-weight:600;font-size:32px;line-height:1.7;color:var(--dark);margin:0}.disc-flow .disc-sep{color:var(--cyan);font-weight:700;margin:0 12px}.disciplines .intro-copy .disc-foot{font-size:22px;line-height:36px;margin:0;color:#444}.roles-head{margin-bottom:56px;max-width:1100px}.roles-head .eyebrow{display:inline-block;font-family:Poppins,sans-serif;font-weight:700;font-size:16px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:18px}.roles-head h2{font-family:Poppins,sans-serif;font-weight:600;font-size:48px;line-height:60px;color:#000}.roles-head .roles-intro{font-size:22px;line-height:36px;color:#444;margin-top:20px;max-width:900px}.related{max-width:1640px;margin:0 auto;padding:110px 87px 100px}.rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.rel-card{display:block;background:#fff;border:1px solid #E8E8E8;border-radius:20px;overflow:hidden;transition:transform .4s ease,box-shadow .4s ease,border-color .4s ease}.rel-card:hover,.rel-card:focus-visible{transform:translateY(-3px);box-shadow:8px 8px 25px #0000001a;border-color:var(--cyan)}.rel-card:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}.rel-img{aspect-ratio:16 / 10;overflow:hidden;background:var(--dark)}.rel-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--reveal-ease)}.rel-card:hover .rel-img img{transform:scale(1.05)}.rel-body{padding:26px 28px 30px}.rel-body h3{font-family:Poppins,sans-serif;font-weight:600;font-size:24px;line-height:1.25;color:#000;margin-bottom:14px;transition:color .2s ease}.rel-card:hover .rel-body h3{color:var(--cyan)}.rel-cta{display:inline-block;opacity:0;transform:translateY(4px);font-family:Poppins,sans-serif;font-weight:600;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--cyan);transition:opacity .5s ease,transform .5s ease}.rel-card:hover .rel-cta,.rel-card:focus-visible .rel-cta{opacity:1;transform:translateY(-2px)}@media (prefers-reduced-motion: reduce){.rel-card:hover .rel-img img{transform:none}.rel-cta{opacity:1!important;transform:none!important}}@media (max-width: 1440px){.intro{gap:120px}.related{padding:90px 64px}.related.services,.related.cs-three{padding-left:87px;padding-right:87px}.cs-group{padding:72px 40px}.cs-group .roles-head{padding:0 24px}.cs-card{gap:120px}.cs-card--img-right{gap:64px}.cs-card--img-right .cs-copy{padding-left:80px}.rel-body h3{font-size:21px}.disc-select{gap:48px}.disc-row>a{padding:24px 26px;gap:20px}}@media (max-width: 1024px){.hero{min-height:600px;padding:110px 48px}.intro{grid-template-columns:1fr;gap:40px;padding:80px 48px}.intro:after,.intro--numbered:before{left:48px;right:48px}.intro h2{font-size:40px;line-height:50px}.intro .intro-copy p{font-size:22px;line-height:36px}.benefit{gap:28px;padding-right:0}.benefit-num{font-size:40px;line-height:40px}.disciplines .intro-copy .disc-flow{font-size:26px}.disc-flow .disc-sep{margin:0 8px}.roles-head{margin-bottom:40px}.roles-head h2{font-size:40px;line-height:50px}.related{padding:72px 48px}.related.services,.related.cs-three{padding-left:48px;padding-right:48px}.cs-group{padding:64px 48px;gap:64px}.cs-group .roles-head{padding:0}.cs-card,.cs-card--img-right{flex-direction:column;align-items:flex-start;gap:28px;min-height:0}.cs-card .cs-img{width:100%;max-width:100%;border-radius:32px}.cs-card--img-right .cs-copy{padding-left:0}.cs-title{font-size:32px;line-height:36px}.rel-grid{grid-template-columns:1fr;gap:18px}.rel-img{aspect-ratio:16 / 8}.services .rel-grid,.combos .rel-grid{grid-template-columns:1fr}.disc-select{grid-template-columns:1fr;gap:34px}.disc-media{grid-column:1;grid-row:1;position:static;aspect-ratio:16 / 9;min-height:0;border-radius:32px}.disc-list{grid-column:1;grid-row:2;gap:7px}.disc-row>a{padding:22px 24px;gap:18px}.disc-num{font-size:13px}.services .rel-card,.services .rel-card:nth-child(1),.services .rel-card:nth-child(2){grid-column:auto}.stat-band{padding:84px 48px}.stat-band:before,.stat-band:after{left:48px;right:48px}.stat-grid{grid-template-columns:repeat(2,1fr);gap:48px 24px}.cta-band{min-height:520px;padding:64px 48px}.cta-band>h2{font-size:34px}.site-footer{padding:64px 48px 40px}.footer-menus{gap:80px}}@media (max-width: 767px){.hero{min-height:520px;padding:96px 24px 56px}.intro{padding:56px 24px;gap:28px}.intro:after,.intro--numbered:before{left:24px;right:24px}.intro h2{font-size:32px;line-height:40px}.intro .intro-copy p{font-size:19px;line-height:30px}.intro--numbered .intro-copy{gap:28px}.benefit{gap:20px}.benefit-num{font-size:32px;line-height:32px}.disciplines .intro-copy .disc-flow{font-size:21px;line-height:1.65}.disciplines .intro-copy .disc-foot{font-size:18px;line-height:30px}.roles-head h2{font-size:32px;line-height:40px}.roles-head .roles-intro{font-size:19px;line-height:30px;margin-top:14px}.related{padding:56px 24px}.stat-band{padding:64px 24px}.stat-band:before,.stat-band:after{left:24px;right:24px}.related.services,.related.cs-three{padding-left:24px;padding-right:24px}.cs-group{padding:56px 24px;gap:44px}.cs-card .cs-img{border-radius:20px}.cs-title{font-size:28px;line-height:32px}.cs-card .cs-copy{gap:22px}.rel-img{aspect-ratio:16 / 9}.rel-body{padding:20px 22px 24px}.rel-cta{opacity:1;transform:none}.disc-select{gap:26px}.disc-media{border-radius:20px}.disc-row{border-radius:14px}.disc-row>a{padding:20px;gap:14px;border-radius:14px}.disc-blurb{font-size:17px;line-height:26px}.disc-cta{display:none}.cta-band{padding:56px 24px}.cta-band>h2{font-size:28px}.cta-band>p{font-size:19px;line-height:30px}.site-footer{padding:56px 24px 32px}.footer-brand{text-align:left}.footer-brand img{margin-left:0}.social-row{justify-content:flex-start}.footer-menus{gap:40px}}
+</style><script type="module">const t=document.querySelector(".menu-toggle"),e=document.getElementById("site-nav"),s=e?.querySelector(".nav-close"),d=()=>{!e||!t||(e.hidden=!1,requestAnimationFrame(()=>e.classList.add("is-open")),t.setAttribute("aria-expanded","true"),document.body.style.overflow="hidden",s?.focus())},o=()=>{!e||!t||(e.classList.remove("is-open"),t.setAttribute("aria-expanded","false"),document.body.style.overflow="",setTimeout(()=>{e.hidden=!0},320),t.focus())};t?.addEventListener("click",d);s?.addEventListener("click",o);e?.addEventListener("click",n=>{n.target===e&&o()});document.addEventListener("keydown",n=>{n.key==="Escape"&&e&&!e.hidden&&o()});
+</script></head> <body class="shell-hero"> <a class="skip-link" href="#main">Skip to content</a> <header class="site-header" data-astro-cid-3ef6ksr2> <a class="logo" href="https://lsav.tv/" aria-label="LSAV Powerhouse home" data-astro-cid-3ef6ksr2> <img src="assets/logo-white.png" alt="LSAV Powerhouse" data-astro-cid-3ef6ksr2> </a> <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav" data-astro-cid-3ef6ksr2> <img src="assets/menu-white.png" alt="" data-astro-cid-3ef6ksr2> </button> </header> <nav id="site-nav" class="nav-overlay" aria-label="Primary" hidden data-astro-cid-3ef6ksr2> <div class="nav-overlay__inner" data-astro-cid-3ef6ksr2> <button class="nav-close" aria-label="Close menu" data-astro-cid-3ef6ksr2>&times;</button> <ul class="nav-list" data-astro-cid-3ef6ksr2> <li class="nav-group" data-astro-cid-3ef6ksr2> <a class="nav-top" href="what-we-do.html" data-astro-cid-3ef6ksr2>What We Do</a> <ul class="nav-sub" data-astro-cid-3ef6ksr2> <li data-astro-cid-3ef6ksr2><a href="events-and-conferences.html" data-astro-cid-3ef6ksr2>Events &amp; Conferences</a></li><li data-astro-cid-3ef6ksr2><a href="brand-experiences.html" data-astro-cid-3ef6ksr2>Brand Experiences</a></li><li data-astro-cid-3ef6ksr2><a href="media-production.html" data-astro-cid-3ef6ksr2>Media Production</a></li><li data-astro-cid-3ef6ksr2><a href="digital-experiences.html" data-astro-cid-3ef6ksr2>Digital Experiences</a></li><li data-astro-cid-3ef6ksr2><a href="studio-broadcast.html" data-astro-cid-3ef6ksr2>Studio Broadcast</a></li> </ul> </li><li class="nav-group" data-astro-cid-3ef6ksr2> <a class="nav-top" href="https://lsav.tv/our-secret-sauce/" data-astro-cid-3ef6ksr2>How It&#39;s Done</a> <ul class="nav-sub" data-astro-cid-3ef6ksr2> <li data-astro-cid-3ef6ksr2><a href="https://lsav.tv/our-secret-sauce/strategy-and-planning/" data-astro-cid-3ef6ksr2>Strategy &amp; Planning</a></li><li data-astro-cid-3ef6ksr2><a href="https://lsav.tv/our-secret-sauce/creative-and-ideation/" data-astro-cid-3ef6ksr2>Creative &amp; Ideation</a></li><li data-astro-cid-3ef6ksr2><a href="https://lsav.tv/our-secret-sauce/av-and-engineering/" data-astro-cid-3ef6ksr2>AV &amp; Engineering</a></li><li data-astro-cid-3ef6ksr2><a href="https://lsav.tv/our-secret-sauce/digital-production/" data-astro-cid-3ef6ksr2>Digital Production</a></li><li data-astro-cid-3ef6ksr2><a href="https://lsav.tv/our-secret-sauce/custom-fabrication/" data-astro-cid-3ef6ksr2>Custom Fabrication</a></li> </ul> </li><li class="" data-astro-cid-3ef6ksr2> <a class="nav-top" href="index.html" data-astro-cid-3ef6ksr2>Case Studies</a>  </li><li class="" data-astro-cid-3ef6ksr2> <a class="nav-top" href="team.html" data-astro-cid-3ef6ksr2>Team</a>  </li><li class="" data-astro-cid-3ef6ksr2> <a class="nav-top" href="articles.html" data-astro-cid-3ef6ksr2>Blog</a>  </li><li class="" data-astro-cid-3ef6ksr2> <a class="nav-top" href="careers.html" data-astro-cid-3ef6ksr2>Careers</a>  </li><li class="" data-astro-cid-3ef6ksr2> <a class="nav-top" href="https://lsav.tv/contact/" data-astro-cid-3ef6ksr2>Contact</a>  </li> </ul> </div> </nav>   <main id="main">  <section class="hero"> <div class="hero-photo" aria-hidden="true"> <!-- Cut D "Craft & Crowd" — the five disciplines, alternating build and reaction.
+           Distinct from the Careers/home hero (Cut E), which these used to share.
+           Fades bookend the file (0.4s in / 0.6s out) so the loop doesn't flash. --> <video poster="assets/LSAV_wwd_hero_poster.jpg" autoplay muted loop playsinline preload="auto"> <source src="assets/LSAV_wwd_hero_web.webm" type="video/webm"> <source src="assets/LSAV_wwd_hero_web.mp4" type="video/mp4"> </video> </div> <div class="hero-copy"> <h1>What we do.</h1> <p>The creativity of an agency and the precision of a production powerhouse, delivered by one team.</p> </div> </section>  <section class="intro"> <h2>Five Disciplines, One Team</h2> <div class="intro-copy"> <p>Your audience doesn&rsquo;t separate the stage from the stream or the keynote from the recap video. They have a single experience that informs how they feel about your brand. Our five disciplines work as one team of experts, bringing the same craft and care to every element.</p> <p>The result is a seamless event that looks, sounds, and feels like the best version of your brand.</p> </div> </section>  <section class="related services" aria-label="Our services"> <div class="services-inner"> <span class="eyebrow services-eyebrow">Our Services</span> <!-- Numbered discipline selector. The list is the content; the image panel
+         mirrors whichever row is hovered or focused. Rows are real links, so it
+         works on keyboard and without JS (first image just stays put). --> <div class="disc-select"> <ul class="disc-list"> <li class="disc-row is-active"> <a href="events-and-conferences.html" data-disc="events"> <span class="disc-num">01</span> <span class="disc-text"> <span class="disc-name">Events &amp; Conferences</span> <span class="disc-blurb">Leadership meetings to 20,000-seat conventions.</span> </span> <span class="disc-cta">Explore &rarr;</span> </a> </li> <li class="disc-row"> <a href="brand-experiences.html" data-disc="brand"> <span class="disc-num">02</span> <span class="disc-text"> <span class="disc-name">Brand Experiences</span> <span class="disc-blurb">Activations, custom builds, tours, and launches.</span> </span> <span class="disc-cta">Explore &rarr;</span> </a> </li> <li class="disc-row"> <a href="media-production.html" data-disc="media"> <span class="disc-num">03</span> <span class="disc-text"> <span class="disc-name">Media Production</span> <span class="disc-blurb">Filmed, edited, and on screen the same day.</span> </span> <span class="disc-cta">Explore &rarr;</span> </a> </li> <li class="disc-row"> <a href="digital-experiences.html" data-disc="digital"> <span class="disc-num">04</span> <span class="disc-text"> <span class="disc-name">Digital Experiences</span> <span class="disc-blurb">Platforms, engagement, and the analytics behind them.</span> </span> <span class="disc-cta">Explore &rarr;</span> </a> </li> <li class="disc-row"> <a href="studio-broadcast.html" data-disc="studio"> <span class="disc-num">05</span> <span class="disc-text"> <span class="disc-name">Studio Broadcast</span> <span class="disc-blurb">Live to air from our own Chicago studio.</span> </span> <span class="disc-cta">Explore &rarr;</span> </a> </li> </ul> <div class="disc-media" aria-hidden="true"> <img src="assets/digital-g1.webp" alt="" data-disc="events" class="is-active" loading="lazy" decoding="async"> <img src="assets/brand-g2.webp" alt="" data-disc="brand" loading="lazy" decoding="async"> <img src="assets/media-control-room.webp" alt="" data-disc="media" loading="lazy" decoding="async"> <img src="assets/colgate.webp" alt="" data-disc="digital" loading="lazy" decoding="async"> <img src="assets/studio-g2.webp" alt="" data-disc="studio" loading="lazy" decoding="async"> </div> </div> </div> </section>  <section class="stat-band" aria-label="LSAV by the numbers"> <div class="stat-grid"> <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Events Produced</div></div> <div class="stat"><div class="stat-num">4</div><div class="stat-label">Production Hubs</div></div> <div class="stat"><div class="stat-num">30+</div><div class="stat-label">Years Behind the Show</div></div> <div class="stat"><div class="stat-num">1</div><div class="stat-label">Owned Broadcast Studio</div></div> </div> </section>  <section class="cs-group combos" aria-label="How the disciplines combine"> <div class="roles-head"> <span class="eyebrow">Start to Finish</span> <h2>Your event, handled end to end</h2> <p class="roles-intro">From leadership conferences to live national broadcasts, our clients bring us their most important events and trust us with every piece.</p> </div> <article class="cs-card"> <div class="cs-img"><picture><source type="image/webp" srcset="assets/ulc.webp"><img src="assets/ulc.jpg" alt="United Leadership Conference carnival-themed activation" loading="lazy" decoding="async"></picture></div> <div class="cs-copy"> <h3 class="cs-title">United Leadership Conferences</h3> <p class="cs-sub">2,200 of United&rsquo;s top leaders, 20 breakouts, and two days that had to deliver.</p> <p class="cs-tags">Events<span class="disc-sep">/</span>Media<span class="disc-sep">/</span>Fabrication<span class="disc-sep">/</span>Digital</p> <a class="cs-link" href="united-leadership-conferences.html">See the full process</a> </div> </article> <article class="cs-card cs-card--img-right"> <div class="cs-img"><picture><source type="image/webp" srcset="assets/dnc.webp"><img src="assets/dnc.jpg" alt="2024 Democratic National Convention broadcast production" loading="lazy" decoding="async"></picture></div> <div class="cs-copy"> <h3 class="cs-title">2024 Democratic National Convention</h3> <p class="cs-sub">Four nights of live convention coverage out of the United Center.</p> <p class="cs-tags">Broadcast<span class="disc-sep">/</span>AV &amp; Engineering<span class="disc-sep">/</span>Media</p> <a class="cs-link" href="https://lsav.tv/case-studies/democratic-national-convention-2024/">View case study</a> </div> </article> </section>  <section class="intro intro--numbered"> <h2>Our process</h2> <div class="intro-copy"> <div class="benefit"><span class="benefit-num">01</span><p><strong>Listen first.</strong> Every engagement begins with understanding your objectives and what success looks like.</p></div> <div class="benefit"><span class="benefit-num">02</span><p><strong>Plan with precision.</strong> Our strategy and project management teams connect scenic, AV, media, digital, and broadcast to map the full run of show.</p></div> <div class="benefit"><span class="benefit-num">03</span><p><strong>Execute flawlessly.</strong> Experienced professionals bring it to life, with the same care in every element.</p></div> </div> </section>  <section class="related cs-three" aria-label="More case studies"> <div class="roles-head"> <span class="eyebrow">Selected Work</span> <h2>Trusted when it matters most</h2> </div> <div class="rel-grid"> <a class="rel-card" href="https://lsav.tv/case-studies/morningstar-2024/"> <div class="rel-img"><img src="assets/morningstar.webp" alt="" loading="lazy" decoding="async"></div> <div class="rel-body"> <h3>Morningstar</h3> <p class="rel-sub">Financial thought leadership conference in Chicago.</p> <p class="rel-tags">Events<span class="disc-sep">/</span>AV &amp; Engineering</p> <span class="rel-cta">View case study &rarr;</span> </div> </a> <a class="rel-card" href="https://lsav.tv/case-studies/sundance-film-festival/"> <div class="rel-img"><img src="assets/sundance.webp" alt="" loading="lazy" decoding="async"></div> <div class="rel-body"> <h3>Sundance Film Festival</h3> <p class="rel-sub">Immersive brand storytelling in Park City.</p> <p class="rel-tags">Brand<span class="disc-sep">/</span>Fabrication<span class="disc-sep">/</span>Media</p> <span class="rel-cta">View case study &rarr;</span> </div> </a> <a class="rel-card" href="https://lsav.tv/case-studies/zurich-golf-classic/"> <div class="rel-img"><img src="assets/zurich.webp" alt="" loading="lazy" decoding="async"></div> <div class="rel-body"> <h3>Zurich Golf Classic</h3> <p class="rel-sub">Tournament hospitality and broadcast in New Orleans.</p> <p class="rel-tags">Broadcast<span class="disc-sep">/</span>Digital</p> <span class="rel-cta">View case study &rarr;</span> </div> </a> </div> </section>  <section class="cta-band"> <div class="cta-wave" aria-hidden="true"> <svg viewBox="0 0 1760 1683" fill="none" xmlns="http://www.w3.org/2000/svg"> <path id="lsavWavePath" d="M880.178 0C394.317 0 0 392.618 0 876.823C0 1361.38 393.961 1754 879.822 1754C1366.04 1754 1760 1361.38 1760 877.177C1760.36 392.973 1366.4 0 880.178 0ZM810.362 167.555C1168.7 135.251 1496.05 353.924 1584.75 720.272C1502.11 850.198 1397.74 965.215 1269.86 1052.19C1006.63 1231.46 716.325 290.381 483.368 521.834L175.608 827.479C182.732 461.131 473.75 197.729 810.362 167.555ZM876.26 1590C566.719 1588.58 276.77 1383.75 200.542 1077.75L465.558 820.734C500.109 787.01 546.772 773.876 587.379 780.62C622.643 786.655 651.139 818.249 680.704 855.878L1005.56 1268.73C1077.16 1359.61 1192.57 1389.43 1304.06 1307.07C1391.69 1242.11 1436.57 1134.54 1553.4 1098.34C1469.69 1402.92 1173.69 1591.42 876.26 1590.35V1590Z" fill="#FFFFFF" fill-opacity="0.1" fill-rule="evenodd"></path> </svg> </div> <h2>Ready to elevate your next event?</h2> <p>From leadership meetings to 20,000-seat conventions, our team brings the expertise, technology, and care to make every moment reflect the best of your brand.</p> <a class="lsav-btn lsav-btn--on-blue lsav-btn--talk" href="https://lsav.tv/contact/"> <img src="assets/arrow.svg" alt=""><p>Let&rsquo;s Talk</p> </a> </section> <script>(function () {
+  // Stat count-up. Each .stat-num holds its final value in the markup ("500+", "30+"),
+  // so the real number is what ships if JS never runs. Reduced-motion skips straight
+  // to the end. Fires once, when the band scrolls in.
+  var band = document.querySelector('.stat-band');
+  if (!band) return;
+  var nums = [].slice.call(band.querySelectorAll('.stat-num'));
+  if (!nums.length) return;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) return;
 
-<header class="site-header">
-  <a class="logo" href="https://lsav.tv" aria-label="LSAV Powerhouse home">
-    <img src="assets/logo-white.png" alt="LSAV Powerhouse">
-  </a>
-  <button class="menu-toggle" aria-label="Open menu">
-    <img src="assets/menu-white.png" alt="">
-  </button>
-</header>
+  nums.forEach(function (el) {
+    var m = el.textContent.trim().match(/^([\d,]+)(.*)$/);
+    if (!m) return;
+    el.dataset.target = m[1].replace(/,/g, '');
+    el.dataset.suffix = m[2] || '';
+  });
 
-<main id="main">
-
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-photo" aria-hidden="true">
-      <video poster="assets/LSAV_hero_poster.jpg?v=3" autoplay muted loop playsinline preload="auto">
-        <source src="assets/LSAV_hero_web.webm?v=3" type="video/webm">
-        <source src="assets/LSAV_hero_web.mp4?v=3" type="video/mp4">
-      </video>
-    </div>
-    <div class="hero-copy">
-      <h1>What we do.</h1>
-      <p class="hero-body--full">Events, brand experiences, media, digital, and broadcast &mdash; the creativity of an agency and the precision of a production powerhouse, delivered by one team.</p>
-      <p class="hero-body--trim">Events, brand experiences, media, digital, and broadcast &mdash; one team, every discipline.</p>
-    </div>
-  </section>
-
-  <!-- Intro: the combination narrative -->
-  <section class="intro">
-    <h2>One Team, Every Discipline</h2>
-    <div class="intro-copy">
-      <p>The best events don&rsquo;t fit in one box. A leadership conference needs a stage, a story, a broadcast feed, and an app. A product launch needs a custom build, a highlight reel, and a virtual audience. That&rsquo;s why our disciplines aren&rsquo;t departments you hire separately &mdash; they&rsquo;re one team that plans, designs, builds, films, and streams together.</p>
-      <p>Bring us the ambition. We&rsquo;ll bring everything else.</p>
-    </div>
-  </section>
-
-  <!-- Client logos — sits directly under the intro copy as social proof -->
-  <section class="logo-scroll" aria-label="Selected clients">
-    <div class="logo-track">
-      <div class="logo-set">
-        <img src="assets/logos/united.svg" alt="United Airlines">
-        <img class="logo--md" src="assets/logos/emirates.svg" alt="Emirates">
-        <img src="assets/logos/morningstar.svg" alt="Morningstar">
-        <img src="assets/logos/colgate.svg" alt="Colgate-Palmolive">
-        <img class="logo--tall" src="assets/logos/sundance.svg" alt="Sundance Film Festival">
-        <img class="logo--dnc" src="assets/logos/dnc.svg" alt="2024 Democratic National Convention">
-        <img src="assets/logos/zurich.svg" alt="Zurich">
-        <img class="logo--lockup" src="assets/logos/americanfamily.png" alt="American Family Insurance">
-        <img src="assets/logos/gallagher.png" alt="Gallagher">
-        <img class="logo--wide" src="assets/logos/kirkland.png" alt="Kirkland &amp; Ellis">
-        <img class="logo--lockup" src="assets/logos/usw.png" alt="United Steelworkers">
-        <img src="assets/logos/promat.png" alt="ProMat 2023">
-      </div>
-      <div class="logo-set" aria-hidden="true">
-        <img src="assets/logos/united.svg" alt="">
-        <img class="logo--md" src="assets/logos/emirates.svg" alt="">
-        <img src="assets/logos/morningstar.svg" alt="">
-        <img src="assets/logos/colgate.svg" alt="">
-        <img class="logo--tall" src="assets/logos/sundance.svg" alt="">
-        <img class="logo--dnc" src="assets/logos/dnc.svg" alt="">
-        <img src="assets/logos/zurich.svg" alt="">
-        <img class="logo--lockup" src="assets/logos/americanfamily.png" alt="">
-        <img src="assets/logos/gallagher.png" alt="">
-        <img class="logo--wide" src="assets/logos/kirkland.png" alt="">
-        <img class="logo--lockup" src="assets/logos/usw.png" alt="">
-        <img src="assets/logos/promat.png" alt="">
-      </div>
-    </div>
-  </section>
-
-  <!-- The five disciplines — split panel, all five in view, no hierarchy -->
-  <section class="disc-split" aria-label="Our disciplines">
-    <div class="disc-split-inner">
-      <div class="roles-head">
-        <span class="eyebrow">The Disciplines</span>
-        <h2>Five ways in. One team behind all of them.</h2>
-      </div>
-      <div class="disc-body">
-        <div class="disc-media" aria-hidden="true">
-          <img class="disc-shot is-active" data-disc="events" src="assets/events-hero.webp" alt="">
-          <img class="disc-shot" data-disc="brand" src="assets/brand-hero.webp" alt="" loading="lazy">
-          <img class="disc-shot" data-disc="media" src="assets/media-hero.webp" alt="" loading="lazy">
-          <img class="disc-shot" data-disc="digital" src="assets/digital-hero.webp" alt="" loading="lazy">
-          <img class="disc-shot" data-disc="studio" src="assets/studio-hero.webp" alt="" loading="lazy">
-        </div>
-        <ul class="disc-list">
-          <li>
-            <a class="disc-row" href="events-and-conferences.html" data-disc="events">
-              <span class="disc-num">01</span>
-              <span class="disc-text">
-                <span class="disc-name">Events &amp; Conferences</span>
-                <span class="disc-desc">Leadership meetings to 20,000-seat conventions.</span>
-              </span>
-              <span class="disc-arrow" aria-hidden="true">&rarr;</span>
-            </a>
-          </li>
-          <li>
-            <a class="disc-row" href="brand-experiences.html" data-disc="brand">
-              <span class="disc-num">02</span>
-              <span class="disc-text">
-                <span class="disc-name">Brand Experiences</span>
-                <span class="disc-desc">Activations, custom builds, tours, and launches.</span>
-              </span>
-              <span class="disc-arrow" aria-hidden="true">&rarr;</span>
-            </a>
-          </li>
-          <li>
-            <a class="disc-row" href="media-production.html" data-disc="media">
-              <span class="disc-num">03</span>
-              <span class="disc-text">
-                <span class="disc-name">Media Production</span>
-                <span class="disc-desc">Filmed, edited, and on screen the same day.</span>
-              </span>
-              <span class="disc-arrow" aria-hidden="true">&rarr;</span>
-            </a>
-          </li>
-          <li>
-            <a class="disc-row" href="digital-experiences.html" data-disc="digital">
-              <span class="disc-num">04</span>
-              <span class="disc-text">
-                <span class="disc-name">Digital Experiences</span>
-                <span class="disc-desc">Platforms, engagement, and the analytics behind them.</span>
-              </span>
-              <span class="disc-arrow" aria-hidden="true">&rarr;</span>
-            </a>
-          </li>
-          <li>
-            <a class="disc-row" href="studio-broadcast.html" data-disc="studio">
-              <span class="disc-num">05</span>
-              <span class="disc-text">
-                <span class="disc-name">Studio Broadcast</span>
-                <span class="disc-desc">Live to air from our own Chicago studio.</span>
-              </span>
-              <span class="disc-arrow" aria-hidden="true">&rarr;</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- Why LSAV — the owned-capability argument -->
-  <section class="why" aria-label="Why LSAV">
-    <div class="roles-head">
-      <span class="eyebrow">Why LSAV</span>
-      <h2>Most of what your show needs, we already own.</h2>
-    </div>
-    <div class="why-grid">
-      <div class="why-tile">
-        <h3>Our own studio</h3>
-        <p>A production-ready broadcast space in Chicago &mdash; cameras, lighting, control room, and crew under one roof.</p>
-      </div>
-      <div class="why-tile">
-        <h3>Our own shop</h3>
-        <p>Stages, sets, branded installations, and interactive displays designed, built, delivered, and installed by our team.</p>
-      </div>
-      <div class="why-tile">
-        <h3>Our own inventory</h3>
-        <p>Audiovisual and scenic stock in our Chicago and Las Vegas warehouses, maintained by the same crew that deploys it.</p>
-      </div>
-      <div class="why-tile">
-        <h3>One arc, one team</h3>
-        <p>Strategy, design, engineering, fabrication, show. The people who scope your event are the people in the room on show day.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Stat band — the numbers behind the ownership claim above -->
-  <section class="stat-band" aria-label="LSAV by the numbers">
-    <div class="stat-grid">
-      <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Events Produced&#8224;</div></div>
-      <div class="stat"><div class="stat-num">4</div><div class="stat-label">Production Hubs</div></div>
-      <div class="stat"><div class="stat-num">30+</div><div class="stat-label">Years Behind the Show&#8224;</div></div>
-      <div class="stat"><div class="stat-num">1</div><div class="stat-label">Owned Broadcast Studio</div></div>
-    </div>
-    <p class="stat-note">&#8224; Placeholder figures &mdash; to be confirmed with the LSAV team before launch.</p>
-  </section>
-
-  <!-- Selected work — teases three case studies spanning different disciplines -->
-  <section class="related" aria-label="Selected case studies">
-    <div class="roles-head">
-      <span class="eyebrow">The Proof</span>
-      <h2>The proof is in the production.</h2>
-    </div>
-    <div class="rel-grid">
-      <a class="rel-card" href="https://lsav.tv/case-studies/morningstar-2024/">
-        <div class="rel-img"><img src="assets/morningstar.webp" alt="" loading="lazy"></div>
-        <div class="rel-body">
-          <h3>Morningstar</h3>
-          <span class="rel-cta">View case study &rarr;</span>
-        </div>
-      </a>
-      <a class="rel-card" href="https://lsav.tv/case-studies/sundance-film-festival/">
-        <div class="rel-img"><img src="assets/sundance.webp" alt="" loading="lazy"></div>
-        <div class="rel-body">
-          <h3>Sundance Film Festival</h3>
-          <span class="rel-cta">View case study &rarr;</span>
-        </div>
-      </a>
-      <a class="rel-card" href="https://lsav.tv/case-studies/united-at-red-rock/">
-        <div class="rel-img"><img src="assets/redrock.webp" alt="" loading="lazy"></div>
-        <div class="rel-body">
-          <h3>United at Red Rock</h3>
-          <span class="rel-cta">View case study &rarr;</span>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <!-- Client quote — copy and attribution still to come from the client -->
-  <section class="quote-band" aria-label="What our clients say">
-    <div class="quote-inner">
-      <span class="quote-mark" aria-hidden="true">&ldquo;</span>
-      <blockquote>They planned it, built it, shot it, and put it on air &mdash; and we only ever had one team to call.</blockquote>
-      <p class="quote-attr">Client Name, Title &mdash; Organization</p>
-    </div>
-  </section>
-
-  <!-- CTA band -->
-  <section class="cta-band">
-    <div class="cta-wave" aria-hidden="true">
-      <svg viewBox="0 0 1760 1683" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path id="lsavWavePath" d="M880.178 0C394.317 0 0 392.618 0 876.823C0 1361.38 393.961 1754 879.822 1754C1366.04 1754 1760 1361.38 1760 877.177C1760.36 392.973 1366.4 0 880.178 0ZM810.362 167.555C1168.7 135.251 1496.05 353.924 1584.75 720.272C1502.11 850.198 1397.74 965.215 1269.86 1052.19C1006.63 1231.46 716.325 290.381 483.368 521.834L175.608 827.479C182.732 461.131 473.75 197.729 810.362 167.555ZM876.26 1590C566.719 1588.58 276.77 1383.75 200.542 1077.75L465.558 820.734C500.109 787.01 546.772 773.876 587.379 780.62C622.643 786.655 651.139 818.249 680.704 855.878L1005.56 1268.73C1077.16 1359.61 1192.57 1389.43 1304.06 1307.07C1391.69 1242.11 1436.57 1134.54 1553.4 1098.34C1469.69 1402.92 1173.69 1591.42 876.26 1590.35V1590Z" fill="#FFFFFF" fill-opacity="0.1" fill-rule="evenodd"/>
-      </svg>
-    </div>
-    <h2>Ready to run the show?</h2>
-    <p>Tell us what you&rsquo;re planning &mdash; a leadership meeting, a trade show, a 20,000-seat convention &mdash; and we&rsquo;ll bring the vision, the technology, and the crew to make it unforgettable.</p>
-    <a class="lsav-btn lsav-btn--on-blue lsav-btn--talk" href="https://lsav.tv/contact/">
-      <img src="assets/arrow.svg?v=2" alt=""><p>Let&rsquo;s Talk</p>
-    </a>
-  </section>
-
-</main>
-
-<!-- Production hubs -->
-<div class="hubs-strip" role="note">
-  <p>Produced coast to coast &mdash; Chicago<span class="hub-sep">/</span>Las Vegas<span class="hub-sep">/</span>Orlando<span class="hub-sep">/</span>Washington, D.C.</p>
-</div>
-
-<!-- Footer -->
-<footer class="site-footer">
-  <div class="footer-top">
-    <div>
-      <h2>Let&rsquo;s run the show.</h2>
-      <a class="lsav-btn" href="https://lsav.tv/contact/">
-        <img src="assets/arrow.svg?v=2" alt=""><p>Contact Us</p>
-      </a>
-    </div>
-    <div class="footer-brand">
-      <img src="assets/logo-white.png" alt="LSAV Powerhouse">
-      <div class="social-row">
-        <a href="#" aria-label="Facebook">f</a>
-        <a href="#" aria-label="Instagram">ig</a>
-        <a href="#" aria-label="LinkedIn">in</a>
-        <a href="#" aria-label="YouTube">yt</a>
-      </div>
-    </div>
-  </div>
-
-  <hr class="footer-divider">
-
-  <nav class="footer-menus" aria-label="Footer">
-    <div>
-      <h3>Explore</h3>
-      <ul>
-        <li><a href="https://lsav.tv/case-studies/">Case Studies</a></li>
-        <li><a href="https://lsav.tv/powerhouse-livewire/">Blog</a></li>
-        <li><a href="https://lsav.tv/contact/">Contact</a></li>
-      </ul>
-    </div>
-    <div>
-      <h3>What We Do</h3>
-      <ul>
-        <li><a href="what-we-do.html">All Services</a></li>
-        <li><a href="events-and-conferences.html">Events &amp; Conferences</a></li>
-        <li><a href="brand-experiences.html">Brand Experiences</a></li>
-        <li><a href="media-production.html">Media Production</a></li>
-        <li><a href="digital-experiences.html">Digital Experiences</a></li>
-        <li><a href="studio-broadcast.html">Studio Broadcast</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <p class="footer-legal">© 2026 LSAV Powerhouse. All rights reserved.</p>
-</footer>
-
-<script>
-(function () {
-  // Disciplines split panel: hovering or focusing a row crossfades the media
-  // panel to that discipline. Pointer and keyboard get the same behaviour.
-  var section = document.querySelector('.disc-split');
-  if (!section) return;
-  var shots = section.querySelectorAll('.disc-shot');
-  var rows = section.querySelectorAll('.disc-row');
-
-  function activate(key) {
-    for (var i = 0; i < shots.length; i++) {
-      shots[i].classList.toggle('is-active', shots[i].getAttribute('data-disc') === key);
-    }
+  function run() {
+    var DUR = 1400, t0 = performance.now();
+    (function tick(now) {
+      var p = Math.min((now - t0) / DUR, 1);
+      var e = 1 - Math.pow(1 - p, 3);            // easeOutCubic
+      nums.forEach(function (el) {
+        if (!el.dataset.target) return;
+        var target = +el.dataset.target;
+        var v = Math.round(target * e);
+        el.textContent = v.toLocaleString() + el.dataset.suffix;
+      });
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
   }
 
-  for (var i = 0; i < rows.length; i++) {
-    (function (row) {
-      var key = row.getAttribute('data-disc');
-      var show = function () { activate(key); };
-      row.addEventListener('mouseenter', show);
-      row.addEventListener('focus', show);
-    })(rows[i]);
-  }
-})();
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      io.disconnect();
+      nums.forEach(function (el) { if (el.dataset.target) el.textContent = '0' + el.dataset.suffix; });
+      requestAnimationFrame(run);
+    });
+  }, { threshold: 0.35 });
+  io.observe(band);
+})();</script> <script>(function () {
+  // Discipline selector. The active row is mirrored in the image panel and steps
+  // top-to-bottom on a timer. Real interaction always wins: hovering or focusing a
+  // row takes it over and pauses the cycle, which resumes from wherever you left it.
+  // The timer only runs while the section is on screen and the tab is visible, and
+  // reduced-motion sits it out entirely (hover and focus still work).
+  var sel = document.querySelector('.disc-select');
+  if (!sel) return;
+  var rows = [].slice.call(sel.querySelectorAll('.disc-row'));
+  var imgs = [].slice.call(sel.querySelectorAll('.disc-media img'));
+  if (!rows.length) return;
 
-(function () {
+  var canHover = window.matchMedia('(hover: hover)').matches;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var DWELL = 2000;
+  var i = 0, timer = null, onScreen = false, held = false;
+
+  function activate(n) {
+    i = (n + rows.length) % rows.length;
+    rows.forEach(function (r, k) { r.classList.toggle('is-active', k === i); });
+    var key = rows[i].querySelector('a').getAttribute('data-disc');
+    imgs.forEach(function (im) { im.classList.toggle('is-active', im.getAttribute('data-disc') === key); });
+  }
+
+  function tick() { activate(i + 1); }
+  function play() {
+    if (timer || reduce.matches || !onScreen || held || document.hidden) return;
+    timer = setInterval(tick, DWELL);
+  }
+  function pause() { clearInterval(timer); timer = null; }
+  function hold(on) { held = on; on ? pause() : play(); }
+
+  rows.forEach(function (row, k) {
+    if (canHover) row.addEventListener('mouseenter', function () { activate(k); });
+    row.querySelector('a').addEventListener('focus', function () { activate(k); });
+  });
+  if (canHover) {
+    sel.addEventListener('mouseenter', function () { hold(true); });
+    sel.addEventListener('mouseleave', function () { hold(false); });
+  }
+  sel.addEventListener('focusin', function () { hold(true); });
+  sel.addEventListener('focusout', function (e) {
+    if (!sel.contains(e.relatedTarget)) hold(false);
+  });
+
+  document.addEventListener('visibilitychange', function () { document.hidden ? pause() : play(); });
+  reduce.addEventListener('change', function () { reduce.matches ? pause() : play(); });
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { onScreen = en.isIntersecting; onScreen ? play() : pause(); });
+    }, { threshold: 0.3 }).observe(sel);
+  } else { onScreen = true; play(); }
+})();</script> <script>(function () {
   // LSAV mark wave (shared with index.html): undulate the center band of the
   // mark on hover by displacing both inner holes with a radially-damped sine.
   var band = document.querySelector('.cta-band');
@@ -839,9 +174,4 @@
   band.addEventListener('mouseleave', stop);
   band.addEventListener('focusin', start);
   band.addEventListener('focusout', stop);
-})();
-</script>
-
-<script src="assets/js/lsav-reveal.js" data-targets=".intro, .disciplines, .disc-split, .logo-scroll, .gallery, .related, .why, .stat-band, .quote-band, .cta-band"></script>
-</body>
-</html>
+})();</script> </main> <footer class="site-footer"> <div class="footer-top"> <div> <h2>Let&rsquo;s run the show.</h2> <a class="lsav-btn" href="https://lsav.tv/contact/"> <img src="assets/arrow.svg" alt=""><p>Contact Us</p> </a> </div> <div class="footer-brand"> <img src="assets/logo-white.png" alt="LSAV Powerhouse"> <div class="social-row"> <a href="#" aria-label="Facebook">f</a> <a href="#" aria-label="Instagram">ig</a> <a href="#" aria-label="LinkedIn">in</a> <a href="#" aria-label="YouTube">yt</a> </div> </div> </div> <hr class="footer-divider"> <nav class="footer-menus" aria-label="Footer"> <div> <h3>Explore</h3> <ul> <li><a href="https://lsav.tv/">Home</a></li> <li><a href="index.html">Case Studies</a></li> <li><a href="team.html">Team</a></li> <li><a href="articles.html">Blog</a></li> <li><a href="careers.html">Careers</a></li> <li><a href="https://lsav.tv/contact/">Contact</a></li> </ul> </div> <div> <h3>What We Do</h3> <ul> <li><a href="what-we-do.html">All Services</a></li> <li><a href="events-and-conferences.html">Events &amp; Conferences</a></li><li><a href="brand-experiences.html">Brand Experiences</a></li><li><a href="media-production.html">Media Production</a></li><li><a href="digital-experiences.html">Digital Experiences</a></li><li><a href="studio-broadcast.html">Studio Broadcast</a></li> </ul> </div> <div> <h3>How It&rsquo;s Done</h3> <ul> <li><a href="https://lsav.tv/our-secret-sauce/">Overview</a></li> <li><a href="https://lsav.tv/our-secret-sauce/strategy-and-planning/">Strategy &amp; Planning</a></li><li><a href="https://lsav.tv/our-secret-sauce/creative-and-ideation/">Creative &amp; Ideation</a></li><li><a href="https://lsav.tv/our-secret-sauce/av-and-engineering/">AV &amp; Engineering</a></li><li><a href="https://lsav.tv/our-secret-sauce/digital-production/">Digital Production</a></li><li><a href="https://lsav.tv/our-secret-sauce/custom-fabrication/">Custom Fabrication</a></li> </ul> </div> </nav> <p class="footer-legal">© 2026 LSAV Powerhouse. All rights reserved.</p> </footer> <script src="assets/js/lsav-reveal.js" data-targets=".intro, .disciplines, .gallery, .related, .stat-band, .cs-group, .cs-banner, .cta-band"></script> </body> </html> 
